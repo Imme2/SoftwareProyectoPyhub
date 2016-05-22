@@ -1,5 +1,6 @@
 from django import forms
 from django.core.validators import RegexValidator
+from Registro.models import usuario
 import datetime
 
 class NameForm(forms.Form):
@@ -13,6 +14,5 @@ class NameForm(forms.Form):
     correo = forms.EmailField(label = "Correo")
     tlf = forms.CharField(validators=[phone_regex])
     clave = forms.CharField(widget=forms.PasswordInput())
-   # sexo = forms.CharField(widget=forms.Textarea, required = False)
+    sexo = forms.ChoiceField(choices = usuario.Sexos, required = True)
     ci = forms.CharField(validators=[ci_regex])
-     

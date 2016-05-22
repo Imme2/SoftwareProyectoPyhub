@@ -1,4 +1,10 @@
 <p> Bienvenido a mi sitio </p>
+
+{% if error %}
+	{% for e in error %}
+		<h2> {{ e }} </h2>
+	{% endfor %}
+{% endif %}
 	<form method = "post">
 		{% csrf_token %}
 		{{ form.as_p }}	
