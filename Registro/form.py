@@ -3,7 +3,7 @@ from django.core.validators import RegexValidator
 from Registro.models import usuario
 import datetime
 
-class NameForm(forms.Form):
+class formRegistroUsuario(forms.Form):
     phone_regex = RegexValidator(regex=r'^\+?(58)?\d{11}$', message="El numero de telefono debe tener el formato: '+5899999999999'.")
     ci_regex = RegexValidator(regex=r'^[VP]\d{8,10}$', message="El numero de telefono debe tener el formato: '+5899999999999'.")
     

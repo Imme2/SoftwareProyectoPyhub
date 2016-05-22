@@ -1,12 +1,12 @@
 from django.shortcuts import render
-from Registro.form import NameForm
+from Registro.form import formRegistroUsuario
 from django.http.response import HttpResponseRedirect
 from Registro.models import usuario
 
 # Create your views here.
 def registroUsuario(request):
     if request.method == "POST":
-        form = NameForm(request.POST)
+        form = formRegistroUsuario(request.POST)
         if form.is_valid():
             ### Verficacion de repetidos
             error = []
@@ -45,5 +45,5 @@ def registroUsuario(request):
         else:
             return render(request,'registro/usuario.html', {'form': form})
     else:
-        form = NameForm()
+        form = formRegistroUsuario()
         return render(request,'registro/usuario.html', {'form': form})
