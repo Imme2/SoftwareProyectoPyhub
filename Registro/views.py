@@ -20,7 +20,7 @@ def registroUsuario(request):
             if ci_c > 0:
                 error.append("Esta CI ya esta registrada")
             if len(error) > 0:    
-                return render(request,'registro/usuario.html', {'form': form, 'error' : error})
+                return render(request,'registro/home.html', {'form': form, 'error' : error})
             ### Validacion finalizada
             username = form.cleaned_data['username']
             nombre = form.cleaned_data['nombre']
@@ -43,7 +43,7 @@ def registroUsuario(request):
             entrada.save()
             return HttpResponseRedirect('/registro')
         else:
-            return render(request,'registro/usuario.html', {'form': form})
+            return render(request,'registro/home.html', {'form': form})
     else:
         form = formRegistroUsuario()
-        return render(request,'registro/usuario.html', {'form': form})
+        return render(request,'registro/home.html', {'form': form})
