@@ -1,7 +1,9 @@
 from django.shortcuts import render
-from Registro.form import formRegistroUsuario
 from django.http.response import HttpResponseRedirect
+from django.contrib.auth import authenticate, login
 from Registro.models import usuario
+from Registro.form import formRegistroUsuario, loginUsuario
+
 
 # Create your views here.
 def registroUsuario(request):
@@ -47,3 +49,22 @@ def registroUsuario(request):
     else:
         form = formRegistroUsuario()
         return render(request,'registro/home.html', {'form': form})
+
+
+# Formulario de logeo para usuarios
+def logearUsuario(request):
+    if request.method == "POST":
+        form = loginUsuario(request.POST)
+        if form.is_valid():
+            user = authenticate(username = form.cleaned_data['username'],password = form.cleaned_data['clave'])
+            if user is not None:
+                login(request, user)
+                return HttpResponseRedirect('registro/editar.html')
+            else:
+                error = ['No se pudo autenticar al usuario']
+                return render(request,'registro/login.html', {'form': form,'error': error})
+        else:
+            return render(request,'registro/login.html', {'form': form})
+    else:
+        form = loginUsuario()
+        return render(request,'registro/login.html', {'form': form})

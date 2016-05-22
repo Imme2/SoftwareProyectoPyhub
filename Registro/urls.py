@@ -17,5 +17,6 @@ from django.conf.urls import url
 from Registro import views
 
 urlpatterns = [
-    url(r'^usuario/', views.registroUsuario)
+    url(r'^usuario/', views.registroUsuario),
+    url(r'^login/', views.logearUsuario)
 ]
