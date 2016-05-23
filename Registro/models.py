@@ -1,26 +1,31 @@
 from django.db import models
-import datetime
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
 
-class usuario(models.Model):
+class perfil(models.Model):
     Sexos = (
              ('M','Masculino'),
              ('F','Femenino'),
              )
     
-    username = models.CharField(max_length = 20, primary_key = True)
-    nombre = models.CharField(max_length = 20)
-    apellido = models.CharField(max_length = 20)
-    ci = models.CharField(max_length = 10)
-    clave = models.CharField(max_length = 20)
-    sexo = models.CharField(max_length = 1, choices = Sexos)
-    correo = models.EmailField()
-    fechaNac = models.DateField()
-    foto = models.CharField(max_length = 300)
-    tlf = models.CharField(max_length = 11)
+    user = models.ForeignKey(User, unique=True)
+    ci = models.CharField(max_length = 10, blank=True, null=True)
+    sexo = models.CharField(max_length = 1, choices = Sexos, blank=True, null=True)
+    fechaNac = models.DateField(blank=True, null=True)
+    foto = models.CharField(max_length = 300,blank=True, null=True)
+    tlf = models.CharField(max_length = 11,blank=True, null=True)
 
     def __str__(self):
-        return self.nombre + " " + self.apellido
+        return self.user.first_name + " " + self.user.last_name
     
+    def __unicode__(self):
+        return self.user
+    
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        perfil.objects.create(user=instance)
+post_save.connect(create_user_profile, sender=User)
+
 class parametro(models.Model):
     idParam = models.PositiveIntegerField()
     horarioCierre = models.TimeField()
@@ -28,17 +33,17 @@ class parametro(models.Model):
     cantPuestos = models.PositiveIntegerField()
         
 class proveedor(models.Model):
-    username = models.ForeignKey('USUARIO',primary_key = True)
+    username = models.ForeignKey(User,primary_key = True)
     nombreEmpr = models.CharField(max_length = 20)
     rif = models.CharField(max_length = 10)
     ofreceRel = models.ManyToManyField('INGREDIENTE',through = 'OFRECE')
     
 class cliente(models.Model):
-    username = models.ForeignKey('USUARIO',primary_key = True)
+    username = models.ForeignKey(User,primary_key = True)
     idMenu = models.ForeignKey('MENU')
     
 class administrador(models.Model):
-    username = models.ForeignKey('USUARIO',primary_key = True)
+    username = models.ForeignKey(User,primary_key = True)
     idParam = models.ForeignKey('PARAMETRO')
     usernameP = models.ForeignKey('PROVEEDOR')
       
