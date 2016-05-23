@@ -19,5 +19,6 @@ from Registro import views
 urlpatterns = [
      url(r'^usuario/', views.registroUsuario),
      url(r'^login/', views.logearUsuario),
-     url(r'^logout/', views.logOut)
+     url(r'^logout/', views.logOut),
+     url(r'^editar/(?P<pk>.*?)/',  views.editarUsuario.as_view())
 ]

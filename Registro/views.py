@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http.response import HttpResponseRedirect
 from django.contrib.auth import authenticate, login
+from django.views.generic import UpdateView
 from django.contrib.auth.models import User
 from django.contrib.auth import logout
 from Registro.models import perfil
@@ -13,20 +14,7 @@ def registroUsuario(request):
     if request.method == "POST":
         form = formRegistroUsuario(request.POST)
         if form.is_valid():
-            ### Verficacion de repetidos
-            error = []
-            user_c = User.objects.filter(username = form.cleaned_data['username']).count()
-            correo_c = User.objects.filter(email = form.cleaned_data['correo']).count()
-            ci_c = perfil.objects.filter(ci = form.cleaned_data['ci']).count()
-            if user_c > 0:
-                error.append("El nombre de usuario ya esta utilizado")
-            if correo_c > 0:
-                error.append("El correo ya esta utilizado")
-            if ci_c > 0:
-                error.append("Esta CI ya esta registrada")
-            if len(error) > 0:    
-                return render(request,'registro/home.html', {'form': form, 'error' : error})
-            ### Validacion finalizada
+            
             username = form.cleaned_data['username']
             nombre = form.cleaned_data['nombre']
             apellidos = form.cleaned_data['apellidos']
@@ -79,3 +67,8 @@ def logearUsuario(request):
 def logOut(request):
     logout(request)
     return HttpResponseRedirect('/registro/login')
+
+class editarUsuario(UpdateView):
+    model = perfil
+    fields = ['ci','sexo']
+    template_name = 'cregistro/login.html'
