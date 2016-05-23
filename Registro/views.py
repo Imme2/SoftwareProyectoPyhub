@@ -63,7 +63,7 @@ def logearUsuario(request):
             user = authenticate(username = form.cleaned_data['username'],password = form.cleaned_data['clave'])
             if user is not None:
                 login(request, user)
-                return HttpResponseRedirect('registro/editar.html')
+                return HttpResponseRedirect('registro/editar')
             else:
                 error = ['No se pudo autenticar al usuario']
                 print("error")
@@ -78,4 +78,4 @@ def logearUsuario(request):
     
 def logOut(request):
     logout(request)
-    return HttpResponseRedirect('registro/login.html')
+    return HttpResponseRedirect('/registro/login')
