@@ -15,13 +15,12 @@ def dateValidator(value):
 
 
 class formRegistroUsuario(forms.Form):
-    phone_regex = RegexValidator(regex=r'^\+?(58)?\d{11}$', message="El numero de telefono debe tener el formato: '+5899999999999'.")
+    phone_regex = RegexValidator(regex=r'^\+?(58)?\d{11,14}$', message="El numero de telefono debe tener el formato: '+5899999999999'.")
     ci_regex = RegexValidator(regex=r'^[VP]\d{8,10}$', message="El numero de telefono debe tener el formato: '+5899999999999'.")
-    username_regex = RegexValidator(regex = r'^([A-Za-z]|\d|\.|\_|\-)*$',message = "Tu Username solo puede contener caracteres alphanumericos, puntos (.) o pisos (_). No se aceptan espacios.")
-    nombres_regex = RegexValidator(regex = r'^[A-Za-z]*$', message = "Un Nombre o Apellido solo puede contener letras del alfabeto")
+    username_regex = RegexValidator(regex = r'^([A-Za-z]|\d|\.|\_)*$',message = "Tu Username solo puede contener caracteres alphanumericos, puntos (.) o pisos (_). No se aceptan espacios.")
+    nombres_regex = RegexValidator(regex = r'^[A-Za-z]{4,41}$', message = "Un Nombre o Apellido solo puede contener letras del alfabeto")
 
-
-    username = forms.CharField(valdiators = [username_regex], label='Nombre de usuario', max_length=40)
+    username = forms.CharField(validators = [username_regex], label='Nombre de usuario', max_length=40)
     nombre = forms.CharField(validators = [nombres_regex], label='Nombre', max_length=100)
     apellidos = forms.CharField(validators = [nombres_regex],label='Apellidos', max_length=100)
     f_nac = forms.DateField(validators = [dateValidator],label='Fecha de nacimiento', initial=datetime.date.today)
@@ -61,17 +60,17 @@ class userForm(forms.ModelForm):
     first_name = forms.CharField(disabled = True, label = 'Nombre')
     last_name = forms.CharField(disabled = True, label = 'Apellido')
     password = forms.CharField(widget=forms.PasswordInput(), label = 'Contrasena', required = False)
+    email = forms.EmailField(disabled = True, label = 'Correo')
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'username', 'password']
+        fields = ['first_name', 'last_name', 'username', 'password', 'email']
         
 class perfilForm(forms.ModelForm):
     fechaNac = forms.DateField(disabled = True, label = 'Fecha de nacimiento')
     tlf = forms.CharField(label = 'Numero de telefono')
     ci = forms.CharField(disabled = True, label = 'CI')
-    correo = forms.CharField(disabled = True)
     class Meta:
         model = perfil
-        exclude = ('user',)
+        exclude = ('user',) 
 
 

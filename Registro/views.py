@@ -90,6 +90,8 @@ def editarUsuario(request):
                                                           'formPerfil': profileform})
     else :
         formUser = userForm(instance = request.user)
+        perfils = perfil.objects.get(user = request.user)
+        print(request.user.email)
         formPerfil = perfilForm(instance = perfil.objects.get(user = request.user))
         return render(request,'registro/editar.html', {'formUser': formUser,
                                                       'formPerfil': formPerfil})
