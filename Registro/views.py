@@ -1,11 +1,13 @@
 from django.shortcuts import render
 from django.http.response import HttpResponseRedirect
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 from django.views.generic import UpdateView
 from django.contrib.auth.models import User
 from django.contrib.auth import logout
 from Registro.models import perfil
-from Registro.form import formRegistroUsuario, loginUsuario
+from Registro.form import formRegistroUsuario, loginUsuario, userForm,\
+    perfilForm
 
 # Create your views here.
 def registroUsuario(request):
@@ -51,7 +53,7 @@ def logearUsuario(request):
             user = authenticate(username = form.cleaned_data['username'],password = form.cleaned_data['clave'])
             if user is not None:
                 login(request, user)
-                return HttpResponseRedirect('registro/editar')
+                return HttpResponseRedirect('/registro/editar')
             else:
                 error = ['No se pudo autenticar al usuario']
                 print("error")
@@ -68,7 +70,26 @@ def logOut(request):
     logout(request)
     return HttpResponseRedirect('/registro/login')
 
-class editarUsuario(UpdateView):
-    model = perfil
-    fields = ['ci','sexo']
-    template_name = 'cregistro/login.html'
+@login_required(login_url='/registro/login/')
+def editarUsuario(request):
+    if request.method == "POST":
+        userform = userForm(instance = request.user, data = request.POST)
+        profileform =  perfilForm(instance = perfil.objects.get(user = request.user), data = request.POST)
+        if userform.is_valid() and profileform.is_valid():
+            user = userform.save(commit = False)
+            user.user = request.user
+            if userform.cleaned_data['password']:
+                user.set_password(userform.cleaned_data['password'])
+            user.save()
+            profile = profileform.save(commit = False)
+            profile.user = user
+            profile.save()
+            return HttpResponseRedirect('/registro/editar')
+        else:
+            return render(request,'registro/editar.html', {'formUser': userform,
+                                                          'formPerfil': profileform})
+    else :
+        formUser = userForm(instance = request.user)
+        formPerfil = perfilForm(instance = perfil.objects.get(user = request.user))
+        return render(request,'registro/editar.html', {'formUser': formUser,
+                                                      'formPerfil': formPerfil})
