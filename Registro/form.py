@@ -5,14 +5,26 @@ from Registro.models import perfil
 
 import datetime
  
+
+def dateValidator(value):
+    if value >= datetime.date.today():
+        raise ValidationError(
+            _('¡La fecha de Nacimiento no puede ser en el futuro!'),
+            params={'value': value},
+        )
+
+
 class formRegistroUsuario(forms.Form):
     phone_regex = RegexValidator(regex=r'^\+?(58)?\d{11}$', message="El numero de telefono debe tener el formato: '+5899999999999'.")
     ci_regex = RegexValidator(regex=r'^[VP]\d{8,10}$', message="El numero de telefono debe tener el formato: '+5899999999999'.")
-     
-    username = forms.CharField(label='Nombre de usuario', max_length=40)
-    nombre = forms.CharField(label='Nombre', max_length=100)
-    apellidos = forms.CharField(label='Apellidos', max_length=100)
-    f_nac = forms.DateField(label='Fecha de nacimiento', initial=datetime.date.today)
+    username_regex = RegexValidator(regex = r'^([A-Za-z]|\d|\.|\_|\-)*$',message = "Tu Username solo puede contener caracteres alphanumericos, puntos (.) o pisos (_). No se aceptan espacios.")
+    nombres_regex = RegexValidator(regex = r'^[A-Za-z]*$', message = "Un Nombre o Apellido solo puede contener letras del alfabeto")
+
+
+    username = forms.CharField(valdiators = [username_regex], label='Nombre de usuario', max_length=40)
+    nombre = forms.CharField(validators = [nombres_regex], label='Nombre', max_length=100)
+    apellidos = forms.CharField(validators = [nombres_regex],label='Apellidos', max_length=100)
+    f_nac = forms.DateField(validators = [dateValidator],label='Fecha de nacimiento', initial=datetime.date.today)
     correo = forms.EmailField(label = "Correo")
     tlf = forms.CharField(validators=[phone_regex])
     clave = forms.CharField(widget=forms.PasswordInput())
