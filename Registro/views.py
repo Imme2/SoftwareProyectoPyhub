@@ -5,14 +5,14 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import UpdateView
 from django.contrib.auth.models import User
 from django.contrib.auth import logout
-from Registro.models import perfil
-from Registro.form import formRegistroUsuario, loginUsuario, userForm,\
+from Registro.models import perfil,proveedor
+from Registro.form import formRegistroProveedor, formRegistroUsuario, loginUsuario, userForm,\
     perfilForm
 
 # Create your views here.
 def registroUsuario(request):
     if request.user.is_authenticated():
-        return HttpResponseRedirect('/registro')
+        return HttpResponseRedirect('/registro/login/')
     if request.method == "POST":
         form = formRegistroUsuario(request.POST)
         if form.is_valid():
@@ -36,7 +36,7 @@ def registroUsuario(request):
             p_entry.fechaNac = f_nac
             p_entry.tlf = tlf
             p_entry.save()
-            return HttpResponseRedirect('/registro')
+            return HttpResponseRedirect('/registro/login/')
         else:
             return render(request,'registro/home.html', {'form': form})
         pass
@@ -90,8 +90,55 @@ def editarUsuario(request):
                                                           'formPerfil': profileform})
     else :
         formUser = userForm(instance = request.user)
-        perfils = perfil.objects.get(user = request.user)
-        print(request.user.email)
         formPerfil = perfilForm(instance = perfil.objects.get(user = request.user))
         return render(request,'registro/editar.html', {'formUser': formUser,
                                                       'formPerfil': formPerfil})
+def registroProveedor(request):
+    if request.user.is_authenticated():
+        return HttpResponseRedirect('/registro/login/')
+    if request.method == "POST":
+        formUser = formRegistroUsuario(request.POST)
+        formEmpr = formRegistroProveedor(request.POST)
+        if formUser.is_valid() and formEmpr.is_valid():
+            
+            username = formUser.cleaned_data['username']
+            nombre = formUser.cleaned_data['nombre']
+            apellidos = formUser.cleaned_data['apellidos']
+            f_nac = formUser.cleaned_data['f_nac']
+            correo = formUser.cleaned_data['correo']
+            tlf = formUser.cleaned_data['tlf']
+            clave = formUser.cleaned_data['clave']
+            sexo = formUser.cleaned_data['sexo']
+            ci = formUser.cleaned_data['ci']
+
+            rif = formEmpr.cleaned_data['rif']
+            nombreEmpr = formEmpr.cleaned_data['nombreEmpresa']
+
+            entry = User.objects.create_user(username= username ,email = correo, password = clave)
+            entry.first_name = nombre
+            entry.last_name = apellidos
+            
+            perf_entry = perfil.objects.get(user = entry)
+            perf_entry.ci = ci
+            perf_entry.sexo = sexo
+            perf_entry.fechaNac = f_nac
+            perf_entry.tlf = tlf
+
+            prov_entry = proveedor.objects.create(username = entry)
+            prov_entry.rif = rif
+            prov_entry.nombreEmpr = nombreEmpr
+
+            entry.save()
+            perf_entry.save()
+            prov_entry.save()
+
+            return HttpResponseRedirect('/registro/login/')
+        else:
+            return render(request,'registro/proveedor.html', {'formUser': formUser,
+                                                                'formEmpr': formEmpr})
+        pass
+    else:
+        formUser = formRegistroUsuario()
+        formEmpr = formRegistroProveedor()
+        return render(request,'registro/proveedor.html', {'formUser': formUser,
+                                                                'formEmpr': formEmpr})
