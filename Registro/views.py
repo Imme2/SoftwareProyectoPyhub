@@ -15,8 +15,7 @@ def registroUsuario(request):
         return HttpResponseRedirect('/registro')
     if request.method == "POST":
         form = formRegistroUsuario(request.POST)
-        if form.is_valid():
-            
+        if form.is_valid():   
             username = form.cleaned_data['username']
             nombre = form.cleaned_data['nombre']
             apellidos = form.cleaned_data['apellidos']
@@ -74,7 +73,7 @@ def logOut(request):
 def editarUsuario(request):
     if request.method == "POST":
         userform = userForm(instance = request.user, data = request.POST)
-        profileform =  perfilForm(instance = perfil.objects.get(user = request.user), data = request.POST)
+        profileform =  perfilForm(instance = request.user.perfil, data = request.POST)
         if userform.is_valid() and profileform.is_valid():
             user = userform.save(commit = False)
             user.user = request.user
@@ -90,6 +89,6 @@ def editarUsuario(request):
                                                           'formPerfil': profileform})
     else :
         formUser = userForm(instance = request.user)
-        formPerfil = perfilForm(instance = perfil.objects.get(user = request.user))
+        formPerfil = perfilForm(instance = request.user.perfil)
         return render(request,'registro/editar.html', {'formUser': formUser,
                                                       'formPerfil': formPerfil})
