@@ -117,8 +117,8 @@ class formRegistroProveedor(forms.Form):
 #        return m
     
 class loginUsuario(forms.Form):
-    username = forms.CharField(label='Nombre de usuario', max_length=40)
-    clave = forms.CharField(widget=forms.PasswordInput())
+    username = forms.CharField(widget=forms.TextInput(attrs={'type':'text' ,'class':'form-control' ,'id':'inputNombreUs', 'placeholder':'usuario123',}),label='Nombre de usuario', max_length=40)
+    clave = forms.CharField(widget=forms.PasswordInput(attrs={'type':"password" ,'class':"form-control", 'id':"inputClave", 'placeholder':"Clave",}))
     
     
 class userForm(forms.ModelForm):

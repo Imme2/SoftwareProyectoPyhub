@@ -19,11 +19,11 @@ def registroUsuario(request):
             form.save()
             return HttpResponseRedirect('/registro/login/')
         else:
-            return render(request,'registro/home.html', {'form': form})
+            return render(request,'registro/cliente.html', {'form': form})
         pass
     else:
         form = formRegistroUsuario()
-        return render(request,'registro/home.html', {'form': form})
+        return render(request,'registro/cliente.html', {'form': form})
 
 
 def registroProveedor(request):
