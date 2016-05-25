@@ -1,14 +1,16 @@
+# -*- coding: utf-8 -*-
 from django import forms
 from django.core.validators import RegexValidator
+from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from Registro.models import perfil, proveedor
 import datetime
- 
+
 
 def dateValidator(value):
     if value >= datetime.date.today():
         raise ValidationError(
-            _('¡La fecha de Nacimiento no puede ser en el futuro!'),
+            ('La fecha de Nacimiento no puede ser en el futuro!'),
             params={'value': value},
         )
 
@@ -48,6 +50,27 @@ class formRegistroUsuario(forms.Form):
             self.add_error('correo', msg)
             
         return cleaned_data
+    
+    def save(self):
+        username = self.cleaned_data['username']
+        nombre = self.cleaned_data['nombre']
+        apellidos = self.cleaned_data['apellidos']
+        f_nac = self.cleaned_data['f_nac']
+        correo = self.cleaned_data['correo']
+        tlf = self.cleaned_data['tlf']
+        clave = self.cleaned_data['clave']
+        sexo = self.cleaned_data['sexo']
+        ci = self.cleaned_data['ci']
+        entry = User.objects.create_user(username= username ,email = correo, password = clave)
+        entry.first_name = nombre
+        entry.last_name = apellidos
+        entry.save()
+        p_entry = entry.perfil
+        p_entry.ci = ci
+        p_entry.sexo = sexo
+        p_entry.fechaNac = f_nac
+        p_entry.tlf = tlf
+        p_entry.save()
 
 class formRegistroProveedor(forms.Form):
     nombreEmpresa_regex = RegexValidator(regex = r'^[A-Za-z]{4,41}$', message = "El Nombre de la empresa solo puede contener letras del alfabeto")
@@ -70,6 +93,19 @@ class formRegistroProveedor(forms.Form):
     
         return cleaned_data
 
+    def save(self,request):
+        m = super(formRegistroProveedor, self).save(commit = False)
+#         rif = self.cleaned_data['rif']
+#         nombreEmpr = self.cleaned_data['nombreEmpresa']
+# 
+#         prov_entry = proveedor.objects.create(username = entry)
+#         prov_entry.rif = rif
+#         prov_entry.nombreEmpr = nombreEmpr
+# 
+#         entry.save()
+#         perf_entry.save()
+#         prov_entry.save()
+        return m
     
 class loginUsuario(forms.Form):
     username = forms.CharField(label='Nombre de usuario', max_length=40)
@@ -86,6 +122,14 @@ class userForm(forms.ModelForm):
         model = User
         fields = ['first_name', 'last_name', 'username', 'password', 'email']
         
+    def save(self, request):
+        m = super(userForm, self).save(commit = False)
+        m.user = request.user
+        if self.cleaned_data['password']:
+            m.user.set_password(self.cleaned_data['password'])
+        m.save()
+        return m
+        
 class perfilForm(forms.ModelForm):
     fechaNac = forms.DateField(disabled = True, label = 'Fecha de nacimiento')
     tlf = forms.CharField(label = 'Numero de telefono')
@@ -94,4 +138,8 @@ class perfilForm(forms.ModelForm):
         model = perfil
         exclude = ('user',) 
 
-
+    def save(self,request):
+        m = super(perfilForm, self).save(commit = False)
+        m.user = request.user
+        m.save()
+        return m

@@ -8,7 +8,7 @@ class perfil(models.Model):
              ('F','Femenino'),
              )
     
-    user = models.OneToOneField(User, related_name='profile')
+    user = models.OneToOneField(User, related_name='perfil')
     ci = models.CharField(max_length = 10, blank=True, null=True)
     sexo = models.CharField(max_length = 1, choices = Sexos, blank=True, null=True)
     fechaNac = models.DateField(blank=True, null=True)
