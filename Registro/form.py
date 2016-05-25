@@ -20,7 +20,7 @@ class formRegistroUsuario(forms.Form):
     ci_regex = RegexValidator(regex=r'^[VP]\d{8,10}$', message="La Cedula debe tener el formato 'V50123456'")
     username_regex = RegexValidator(regex = r'^([A-Za-z]|\d|\.|\_)*$',message = "Tu Username solo puede contener caracteres alphanumericos, puntos (.) o pisos (_). No se aceptan espacios.")
     nombres_regex = RegexValidator(regex = r'^[A-Za-z]{4,41}$', message = "Un Nombre solo puede contener letras del alfabeto")
-    apellidos_regex = RegexValidator(regex = r'^([A-Z'a-z]{4,100})( [A-Z'a-z]+)*', message = "Un Apellido solo puede contener nombres del alfabeto y apostrofes (').")
+    apellidos_regex = RegexValidator(regex = r'^([A-Z"'"a-z]+)( [A-Z"'"a-z]+)*', message = "Un Apellido solo puede contener nombres del alfabeto y apostrofes (').")
 
 
 
@@ -78,8 +78,8 @@ class formRegistroUsuario(forms.Form):
 class formRegistroProveedor(forms.Form):
     rif_regex = RegexValidator(regex=r'^[A-Z]-[0-9]*-[0-9]*$', message="El RIF debe ser de la forma A-1231-1231.")
 
-    rif = forms.CharField(validators = [rif_regex], label ='RIF', max_length = 20)
-    nombreEmpresa = forms.CharField(validators = [],label = 'Nombre de la Empresa', max_length = 40)
+    rif = forms.CharField(widget=forms.TextInput(attrs={'type':'text' ,'class':'form-control' ,'id':'inputRif', 'placeholder':'J-12345678-0',}),validators = [rif_regex], label ='RIF', max_length = 20)
+    nombreEmpresa = forms.CharField(widget=forms.TextInput(attrs={'type':'text' ,'class':'form-control' ,'id':'inputNombreEmpresa', 'placeholder':'Platanitos Rosa .Inc',}),validators = [],label = 'Nombre de la Empresa', max_length = 40)
 
     def clean(self):
         cleaned_data = super(formRegistroProveedor, self).clean()
