@@ -27,7 +27,7 @@ def mostrarPerfilUsuario(request):
                                                     'Apellido': user.last_name,
                                                     'CI': perfil.ci,
                                                     'Sexo': perfil.sexo,
-                                                    'Fecha de Nacimiento': perfil.f_nac
+                                                    'Fecha de Nacimiento': perfil.f_nac,
                                                     'Telefono': perfil.tlf})
 
 
@@ -39,7 +39,7 @@ def mostrarPerfilproveedor(request):
 
     user = request.user
     perfil = perfil.objects.get(username = user.username)
-    
+    prov = proveedor.objects.get(username = user.username)
 
     return render(request,'/perfil/mostrar.html',{'Username': user.username,
                                                     'Email': user.email,
@@ -47,6 +47,6 @@ def mostrarPerfilproveedor(request):
                                                     'Apellido': user.last_name,
                                                     'CI': perfil.ci,
                                                     'Sexo': perfil.sexo,
-                                                    'Fecha de Nacimiento': perfil.f_nac
-                                                    'Telefono': perfil.tlf})
+                                                    'Fecha de Nacimiento': perfil.f_nac,
+                                                    'Telefono': perfil.tlf,})
 
