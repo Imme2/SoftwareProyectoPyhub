@@ -70,6 +70,11 @@ def logOut(request):
     logout(request)
     return HttpResponseRedirect('/registro/login')
 
+
+
+
+
+
 @login_required(login_url='/registro/login/')
 def editarUsuario(request):
     if request.method == "POST":
@@ -78,7 +83,7 @@ def editarUsuario(request):
         if userform.is_valid() and profileform.is_valid():
             userform.save(request)
             profileform.save(request)
-            return HttpResponseRedirect('/registro/editar')
+            return HttpResponseRedirect('/registro/editar/')
         else:
             return render(request,'registro/editar.html', {'formUser': userform,
                                                           'formPerfil': profileform})
@@ -89,9 +94,8 @@ def editarUsuario(request):
                                                       'formPerfil': formPerfil})
 
 
-
-#Para el proveedor.
 '''
+#Para el proveedor.
 @login_required(login_url='/registro/login/')
 def editarUsuarioProveedor(request):
     if request.method == "POST":
@@ -109,7 +113,4 @@ def editarUsuarioProveedor(request):
         formUser = userForm(instance = request.user)
         formPerfil = perfilForm(instance = request.user.perfil)
         return render(request,'registro/editar.html', {'formUser': formUser,
-
-
-
 '''

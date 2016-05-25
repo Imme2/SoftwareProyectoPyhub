@@ -2,7 +2,7 @@
 from django import forms
 from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Permission
 from Registro.models import perfil, proveedor
 import datetime
 
@@ -100,11 +100,18 @@ class formRegistroProveedor(forms.Form):
         nombreEmpr = self.cleaned_data['nombreEmpresa']
         
         #   entry cableado para que se salve como el foreign key bien.
+
         prov_entry = proveedor.objects.create(username = entry)
         prov_entry.rif = rif
         prov_entry.nombreEmpr = nombreEmpr
  
         prov_entry.save()
+
+        # Le agregamos un permiso que nos diga que es proveedor.
+        permission = Permission.objects.get(name='proveedor')
+        request.user.user_permissions.add(permission)
+
+
 #        return m
     
 class loginUsuario(forms.Form):
