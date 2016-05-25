@@ -24,16 +24,15 @@ class formRegistroUsuario(forms.Form):
 
 
 
-    username = forms.CharField(validators = [username_regex], label='Nombre de usuario', max_length=40)
-    nombre = forms.CharField(validators = [nombres_regex], label='Nombre', max_length=100)
-    apellidos = forms.CharField(validators = [apellidos_regex],label='Apellidos', max_length=100)
-    f_nac = forms.DateField(validators = [dateValidator],label='Fecha de nacimiento', initial=datetime.date.today)
-    correo = forms.EmailField(label = "Correo")
-    tlf = forms.CharField(validators=[phone_regex])
-    clave = forms.CharField(widget=forms.PasswordInput())
-    sexo = forms.ChoiceField(choices = perfil.Sexos, required = True)
-    ci = forms.CharField(validators=[ci_regex])
-    
+    nombre = forms.CharField(widget=forms.TextInput(attrs={'type':'text' ,'class':'form-control' ,'id':'inputName', 'placeholder':'Fulano',}),validators = [nombres_regex], max_length=100)
+    apellidos = forms.CharField(widget=forms.TextInput(attrs={'type':'text' ,'class':'form-control' ,'id':'inputApellido', 'placeholder':'Detal',}),validators = [apellidos_regex], max_length=100)
+    ci = forms.CharField(widget=forms.TextInput(attrs={'class':"form-control", 'id':"inputCedula", 'placeholder':"V123456789",}),validators=[ci_regex], label='Cédula')
+    f_nac = forms.DateField(widget=forms.DateInput(attrs={'type':"date", 'class':"form-control", 'id':"inputF_Nac",}),label='Fecha de Nacimiento',validators= [dateValidator] ,initial=datetime.date.today)
+    sexo = forms.ChoiceField(widget=forms.Select(attrs={ 'class':"form-control",}),choices = perfil.Sexos, required = True)
+    tlf = forms.CharField(widget=forms.TextInput(attrs={'type':"tel", 'class':"form-control",'id':"inputTelf", 'placeholder':"+0 123-4567891",}),validators=[phone_regex],label='Teléfono')
+    correo = forms.EmailField(widget=forms.EmailInput(attrs={'placeholder': 'ejemplo@ejmpl.com','type':"email", 'class':"form-control", 'id':"inputEmail1", }))
+    username = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','id':'inputName' ,'placeholder':'usuario123',}),validators = [username_regex],max_length=40,label="Nombre de usuario")
+    clave = forms.CharField(widget=forms.PasswordInput(attrs={'type':"password" ,'class':"form-control", 'id':"inputClave", 'placeholder':"Clave",}))
     def clean(self):
         cleaned_data = super(formRegistroUsuario, self).clean()
         username = cleaned_data.get('username')
