@@ -17,13 +17,16 @@ def dateValidator(value):
 
 class formRegistroUsuario(forms.Form):
     phone_regex = RegexValidator(regex=r'^\+?(58)?\d{11,14}$', message="El numero de telefono debe tener el formato: '+5899999999999'.")
-    ci_regex = RegexValidator(regex=r'^[VP]\d{8,10}$', message="El numero de telefono debe tener el formato: '+5899999999999'.")
+    ci_regex = RegexValidator(regex=r'^[VP]\d{8,10}$', message="La Cedula debe tener el formato 'V50123456'")
     username_regex = RegexValidator(regex = r'^([A-Za-z]|\d|\.|\_)*$',message = "Tu Username solo puede contener caracteres alphanumericos, puntos (.) o pisos (_). No se aceptan espacios.")
-    nombres_regex = RegexValidator(regex = r'^[A-Za-z]{4,41}$', message = "Un Nombre o Apellido solo puede contener letras del alfabeto")
+    nombres_regex = RegexValidator(regex = r'^[A-Za-z]{4,41}$', message = "Un Nombre solo puede contener letras del alfabeto")
+    apellidos_regex = RegexValidator(regex = r'^([A-Z'a-z]{4,100})( [A-Z'a-z]+)*', message = "Un Apellido solo puede contener nombres del alfabeto y apostrofes (').")
+
+
 
     username = forms.CharField(validators = [username_regex], label='Nombre de usuario', max_length=40)
     nombre = forms.CharField(validators = [nombres_regex], label='Nombre', max_length=100)
-    apellidos = forms.CharField(validators = [nombres_regex],label='Apellidos', max_length=100)
+    apellidos = forms.CharField(validators = [apellidos_regex],label='Apellidos', max_length=100)
     f_nac = forms.DateField(validators = [dateValidator],label='Fecha de nacimiento', initial=datetime.date.today)
     correo = forms.EmailField(label = "Correo")
     tlf = forms.CharField(validators=[phone_regex])
