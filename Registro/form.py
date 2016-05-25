@@ -20,7 +20,7 @@ class formRegistroUsuario(forms.Form):
     ci_regex = RegexValidator(regex=r'^[VP]\d{8,10}$', message="La Cedula debe tener el formato 'V50123456'")
     username_regex = RegexValidator(regex = r'^([A-Za-z]|\d|\.|\_)*$',message = "Tu Username solo puede contener caracteres alphanumericos, puntos (.) o pisos (_). No se aceptan espacios.")
     nombres_regex = RegexValidator(regex = r'^[A-Za-z]{4,41}$', message = "Un Nombre solo puede contener letras del alfabeto")
-    apellidos_regex = RegexValidator(regex = r'^([A-Z'a-z]{4,100})( [A-Z'a-z]+)*', message = "Un Apellido solo puede contener nombres del alfabeto y apostrofes (').")
+    apellidos_regex = RegexValidator(regex = r"^[A-Z'a-z]+( [A-Z'a-z]+)*$", message = "Un Apellido solo puede contener nombres del alfabeto y apostrofes (').")
 
 
 
@@ -33,6 +33,7 @@ class formRegistroUsuario(forms.Form):
     correo = forms.EmailField(widget=forms.EmailInput(attrs={'placeholder': 'ejemplo@ejmpl.com','type':"email", 'class':"form-control", 'id':"inputEmail1", }))
     username = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','id':'inputName' ,'placeholder':'usuario123',}),validators = [username_regex],max_length=40,label="Nombre de usuario")
     clave = forms.CharField(widget=forms.PasswordInput(attrs={'type':"password" ,'class':"form-control", 'id':"inputClave", 'placeholder':"Clave",}))
+
     def clean(self):
         cleaned_data = super(formRegistroUsuario, self).clean()
         username = cleaned_data.get('username')
