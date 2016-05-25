@@ -24,6 +24,28 @@ def registroUsuario(request):
     else:
         form = formRegistroUsuario()
         return render(request,'registro/home.html', {'form': form})
+
+
+def registroProveedor(request):
+    if request.user.is_authenticated():
+        return HttpResponseRedirect('/registro/login/')
+    if request.method == "POST":
+        formUser = formRegistroUsuario(request.POST)
+        formEmpr = formRegistroProveedor(request.POST)
+        if formUser.is_valid() and formEmpr.is_valid():
+            userEntry = formUser.save(request)
+            formEmpr.save(request,userEntry)
+            return HttpResponseRedirect('/registro/login/')
+        else:
+            return render(request,'registro/proveedor.html', {'formUser': formUser,
+                                                                'formEmpr': formEmpr})
+        pass
+    else:
+        formUser = formRegistroUsuario()
+        formEmpr = formRegistroProveedor()
+        return render(request,'registro/proveedor.html', {'formUser': formUser,
+                                                                'formEmpr': formEmpr})
+
 # 
 # 
 # Formulario de logeo para usuarios
@@ -60,27 +82,34 @@ def editarUsuario(request):
         else:
             return render(request,'registro/editar.html', {'formUser': userform,
                                                           'formPerfil': profileform})
-    else :
+    else:
         formUser = userForm(instance = request.user)
         formPerfil = perfilForm(instance = request.user.perfil)
         return render(request,'registro/editar.html', {'formUser': formUser,
                                                       'formPerfil': formPerfil})
-def registroProveedor(request):
-    if request.user.is_authenticated():
-        return HttpResponseRedirect('/registro/login/')
+
+
+
+#Para el proveedor.
+'''
+@login_required(login_url='/registro/login/')
+def editarUsuarioProveedor(request):
     if request.method == "POST":
-        formUser = formRegistroUsuario(request.POST)
-        formEmpr = formRegistroProveedor(request.POST)
-        if formUser.is_valid() and formEmpr.is_valid():
-            formUser.save()
-            formEmpr.save()
-            return HttpResponseRedirect('/registro/login/')
+        userform = userForm(instance = request.user, data = request.POST)
+        profileform =  perfilForm(instance = request.user.perfil, data = request.POST)
+        provedForm = 
+        if userform.is_valid() and profileform.is_valid():
+            userform.save(request)
+            profileform.save(request)
+            return HttpResponseRedirect('/registro/editar')
         else:
-            return render(request,'registro/proveedor.html', {'formUser': formUser,
-                                                                'formEmpr': formEmpr})
-        pass
-    else:
-        formUser = formRegistroUsuario()
-        formEmpr = formRegistroProveedor()
-        return render(request,'registro/proveedor.html', {'formUser': formUser,
-                                                                'formEmpr': formEmpr})
+            return render(request,'registro/editar.html', {'formUser': userform,
+                                                          'formPerfil': profileform})
+    else :
+        formUser = userForm(instance = request.user)
+        formPerfil = perfilForm(instance = request.user.perfil)
+        return render(request,'registro/editar.html', {'formUser': formUser,
+
+
+
+'''

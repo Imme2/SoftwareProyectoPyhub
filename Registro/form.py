@@ -51,7 +51,7 @@ class formRegistroUsuario(forms.Form):
             
         return cleaned_data
     
-    def save(self):
+    def save(self,request):
         username = self.cleaned_data['username']
         nombre = self.cleaned_data['nombre']
         apellidos = self.cleaned_data['apellidos']
@@ -71,11 +71,12 @@ class formRegistroUsuario(forms.Form):
         p_entry.fechaNac = f_nac
         p_entry.tlf = tlf
         p_entry.save()
+        return entry
 
 class formRegistroProveedor(forms.Form):
-    nombreEmpresa_regex = RegexValidator(regex = r'^[A-Za-z]{4,41}$', message = "El Nombre de la empresa solo puede contener letras del alfabeto")
+    rif_regex = RegexValidator(regex=r'^[A-Z]-[0-9]*-[0-9]*$', message="El RIF debe ser de la forma A-1231-1231.")
 
-    rif = forms.CharField(validators = [], label ='RIF', max_length = 20)
+    rif = forms.CharField(validators = [rif_regex], label ='RIF', max_length = 20)
     nombreEmpresa = forms.CharField(validators = [],label = 'Nombre de la Empresa', max_length = 40)
 
     def clean(self):
@@ -93,19 +94,18 @@ class formRegistroProveedor(forms.Form):
     
         return cleaned_data
 
-    def save(self,request):
-        m = super(formRegistroProveedor, self).save(commit = False)
-#         rif = self.cleaned_data['rif']
-#         nombreEmpr = self.cleaned_data['nombreEmpresa']
-# 
-#         prov_entry = proveedor.objects.create(username = entry)
-#         prov_entry.rif = rif
-#         prov_entry.nombreEmpr = nombreEmpr
-# 
-#         entry.save()
-#         perf_entry.save()
-#         prov_entry.save()
-        return m
+    def save(self,request,entry):
+#        m = super(formRegistroProveedor, self).save(commit = False)
+        rif = self.cleaned_data['rif']
+        nombreEmpr = self.cleaned_data['nombreEmpresa']
+        
+        #   entry cableado para que se salve como el foreign key bien.
+        prov_entry = proveedor.objects.create(username = entry)
+        prov_entry.rif = rif
+        prov_entry.nombreEmpr = nombreEmpr
+ 
+        prov_entry.save()
+#        return m
     
 class loginUsuario(forms.Form):
     username = forms.CharField(label='Nombre de usuario', max_length=40)
@@ -143,3 +143,12 @@ class perfilForm(forms.ModelForm):
         m.user = request.user
         m.save()
         return m
+
+'''
+class proveedForm(forms.ModelForm):
+    nombreEmpr = forms.CharField(disabled = True,label = 'Nombre Empresa')
+    rif = forms.CharField(disabled = True,label = 'RIF')
+    class Meta:
+        model = proveedor
+        fields = ['','','','']
+'''
