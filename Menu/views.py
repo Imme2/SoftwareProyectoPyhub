@@ -2,35 +2,35 @@ from django.shortcuts import render
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.http.response import HttpResponseRedirect
-from Registro.models import perfil,proveedor
+from Registro.models import perfil,proveedor,menu
 from django.contrib.auth.decorators import login_required
-from Menu.form import "FORMS"
+from Menu.form import menuCrear, menuSelector, platoSelector
 # Create your views here.
 
-
+'''
 @login_required(login_url='/registro/login/')
 def crearMenu(request):
-	if (not(request.user.has_perm('admin'))):
-		return HttpResponseRedirect(request,''):
-
-	if request.method == "POST":
-
-
-		
-	else:
-
-
+    if (not(request.user.is_admin())):
+#       return HttpResponseRedirect(request,'/'):
+    if request.method == "POST":
+        pass
+    else:
+        pass
+'''
 
 @login_required(login_url='/registro/login/')
-def cambiarMenu(request):
-	if (not(request.user.has_perm('admin'))):
-		return HttpResponseRedirect(request,''):
+def editarMenu(request, idMenu = None):
+    if (not(request.user.is_staff)):
+        return HttpResponseRedirect('')
+    if (idMenu == None):
+        listaMenus = menu.objects.all()
+        listaMenus = [x.nombre for x in listaMenus]
+        return render(request,'menu/escoger.html', {'listaMenu': formMenus})
+    else:
+        nombreMenu = menu.objects.get(idMenu= idMenu).nombre
+        formPlatos = platoSelector(idMenu)
 
-	if request.method == "POST":
+        return render(request,'menu/editar.html', {'nombreMenu': nombreMenu,
+                                                    'form': formPlatos})
 
-
-
-	else:
-
-
-def cambiarMenuEsp(request):
+#def cambiarMenuEsp(request):

@@ -3,7 +3,7 @@ from django import forms
 from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User, Permission
-from Registro.models import perfil, proveedor, menu
+from Registro.models import perfil, proveedor, menu,item,contiene
 import datetime
 
 class menuCrear(forms.Form):
@@ -41,5 +41,21 @@ class menuSelector(forms.Form):
     listaMenus = menu.objects.all()
     listaMenus = [x.nombre for x in listaMenus]
 
-    menus = forms.choiceField(choices = listaMenus)
+#    menus = forms.choiceField(choices = listaMenus)
     
+class platoSelector(forms.Form):
+
+
+    listaPlatos = item.objects.all()
+    listaPlatos = [(x.idItem,x.nombre) for x in listaPlatos]
+
+    platos = forms.MultipleChoiceField(choices = listaPlatos)
+
+
+
+    def __init__(self, *args, **kwargs):
+        super(platoSelector, self).__init__(*args, **kwargs)
+        print('holis')
+        print(args[0])
+
+        self.fields['platos'].initial = [c.idItem for c in contiene.objects.filter(idMenu = args[0])]

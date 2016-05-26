@@ -15,12 +15,11 @@ def registroUsuario(request):
         return HttpResponseRedirect('/registro/login/')
     if request.method == "POST":
         form = formRegistroUsuario(request.POST)
-        if form.is_valid():   
+        if form.is_valid():
             form.save()
             return HttpResponseRedirect('/registro/login/')
         else:
             return render(request,'registro/cliente.html', {'form': form})
-        pass
     else:
         form = formRegistroUsuario()
         return render(request,'registro/cliente.html', {'form': form})
