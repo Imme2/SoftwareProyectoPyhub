@@ -10,7 +10,7 @@ from Menu.form import menuCrear, menuSelector, platoSelector
 '''
 @login_required(login_url='/registro/login/')
 def crearMenu(request):
-    if (not(request.user.is_admin())):
+    if (not(reque st.user.is_admin())):
 #       return HttpResponseRedirect(request,'/'):
     if request.method == "POST":
         pass
@@ -27,10 +27,19 @@ def editarMenu(request, idMenu = None):
         listaMenus = [x.nombre for x in listaMenus]
         return render(request,'menu/escoger.html', {'listaMenu': formMenus})
     else:
-        nombreMenu = menu.objects.get(idMenu= idMenu).nombre
-        formPlatos = platoSelector(idMenu)
+        if request.method == "POST":
+            formPlatos = platoSelector(idMenu, data = request.POST)
+            if formPlatos.is_valid():
+                formPlatos.save(idMenu)
+                return HttpResponseRedirect('/menu/editar/{}'.format(idMenu))
+            else :
+                print(formPlatos.data)
+                return HttpResponseRedirect('/menu/editar/{}'.format(idMenu))                
+        else:
+            nombreMenu = menu.objects.get(idMenu = idMenu).nombre
+            formPlatos = platoSelector(idMenu)
 
-        return render(request,'menu/editar.html', {'nombreMenu': nombreMenu,
+            return render(request,'menu/editar.html', {'nombreMenu': nombreMenu,
                                                     'form': formPlatos})
 
 #def cambiarMenuEsp(request):

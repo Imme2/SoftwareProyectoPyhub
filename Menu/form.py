@@ -45,17 +45,28 @@ class menuSelector(forms.Form):
     
 class platoSelector(forms.Form):
 
-
     listaPlatos = item.objects.all()
     listaPlatos = [(x.idItem,x.nombre) for x in listaPlatos]
 
-    platos = forms.MultipleChoiceField(choices = listaPlatos)
+    #platos = forms.MultipleChoiceField(choices = listaPlatos)
+    nombrePlato = forms.CharField(label = "Nombre del plato")
+    platos = forms.ModelMultipleChoiceField(item.objects.all(), required=True, widget=forms.CheckboxSelectMultiple(), label='Selecciona los objetos del menu')
+    #platos = forms.ChoiceField(widget=forms.CheckboxSelectMultiple,choices = item.objects.all())
 
-
-
-    def __init__(self, *args, **kwargs):
+    def __init__(self, menuId, *args, **kwargs):
         super(platoSelector, self).__init__(*args, **kwargs)
-        print('holis')
-        print(args[0])
+        self.fields['platos'].initial = [c.idItem.idItem for c in contiene.objects.filter(idMenu = menuId)]
+        self.fields['nombrePlato'].initial = menu.objects.get(idMenu = menuId).nombre
 
-        self.fields['platos'].initial = [c.idItem for c in contiene.objects.filter(idMenu = args[0])]
+    def save(self, menuId):
+        actual = [x.idItem for x in contiene.objects.filter(idMenu = menuId)]
+        remover = [x for x in actual if x not in self.cleaned_data['platos']]
+        agregar = [x for x in self.cleaned_data['platos'] if x not in actual]
+        menuObj = menu.objects.get(idMenu = menuId)
+        menuObj.nombre = self.cleaned_data['nombrePlato']
+        menuObj.save()
+        for x in agregar:
+            contiene.objects.create(idMenu = menuObj, idItem = x)
+        for x in remover:
+            contiene.objects.filter(idMenu = menuObj, idItem = x).delete()
+        return None
