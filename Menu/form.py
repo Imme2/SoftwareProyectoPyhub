@@ -6,13 +6,13 @@ from django.contrib.auth.models import User, Permission
 from Registro.models import perfil, proveedor, menu,item,contiene
 import datetime
 
-class menuCrear(forms.Form):
+class formMenuCrear(forms.Form):
 
     idMenu = forms.DecimalField(min_value = 0, label = "Id del menu")
     nombreMenu = forms.CharField(max_length= 50, label = "Nombre del Menu")
 
     def clean(self):
-        cleaned_data = super(menuCrear, self).clean()
+        cleaned_data = super(formMenuCrear, self).clean()
         idMenu = cleaned_data.get('idMenu')
         nombreMenu = cleaned_data.get('nombreMenu')
 
@@ -43,7 +43,7 @@ class menuSelector(forms.Form):
 
 #    menus = forms.choiceField(choices = listaMenus)
     
-class platoSelector(forms.Form):
+class formPlatoSelector(forms.Form):
 
     listaPlatos = item.objects.all()
     listaPlatos = [(x.idItem,x.nombre) for x in listaPlatos]
