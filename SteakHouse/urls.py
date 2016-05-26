@@ -21,5 +21,5 @@ urlpatterns = [
     url(r'^registro/', include('Registro.urls')),
     url(r'^perfil/',include('Perfil.urls')),
     url(r'^menu/',include('Menu.urls')),
-    url(r'^$',include('inicio.urls'))
+    url(r'^',include('inicio.urls'))
 ]

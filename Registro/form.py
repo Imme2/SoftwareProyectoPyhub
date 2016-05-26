@@ -22,8 +22,6 @@ class formRegistroUsuario(forms.Form):
     nombres_regex = RegexValidator(regex = r'^[A-Za-z]{4,41}$', message = "Un Nombre solo puede contener letras del alfabeto")
     apellidos_regex = RegexValidator(regex = r"^[A-Z'a-z]+( [A-Z'a-z]+)*$", message = "Un Apellido solo puede contener nombres del alfabeto y apostrofes (').")
 
-
-
     nombre = forms.CharField(widget=forms.TextInput(attrs={'type':'text' ,'class':'form-control' ,'id':'inputName', 'placeholder':'Fulano',}),validators = [nombres_regex], max_length=100)
     apellidos = forms.CharField(widget=forms.TextInput(attrs={'type':'text' ,'class':'form-control' ,'id':'inputApellido', 'placeholder':'Detal',}),validators = [apellidos_regex], max_length=100)
     ci = forms.CharField(widget=forms.TextInput(attrs={'class':"form-control", 'id':"inputCedula", 'placeholder':"V123456789",}),validators=[ci_regex], label='Cédula')
