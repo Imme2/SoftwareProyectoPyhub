@@ -41,22 +41,17 @@ class menuSelector(forms.Form):
     listaMenus = menu.objects.all()
     listaMenus = [x.nombre for x in listaMenus]
 
-#    menus = forms.choiceField(choices = listaMenus)
     
 class formPlatoSelector(forms.Form):
 
-    listaPlatos = item.objects.all()
-    listaPlatos = [(x.idItem,x.nombre) for x in listaPlatos]
-
-    #platos = forms.MultipleChoiceField(choices = listaPlatos)
     nombrePlato = forms.CharField(label = "Nombre del plato")
     platos = forms.ModelMultipleChoiceField(item.objects.all(), required=True, widget=forms.CheckboxSelectMultiple(), label='Selecciona los objetos del menu')
-    #platos = forms.ChoiceField(widget=forms.CheckboxSelectMultiple,choices = item.objects.all())
 
-    def __init__(self, menuId, *args, **kwargs):
-        super(platoSelector, self).__init__(*args, **kwargs)
-        self.fields['platos'].initial = [c.idItem.idItem for c in contiene.objects.filter(idMenu = menuId)]
-        self.fields['nombrePlato'].initial = menu.objects.get(idMenu = menuId).nombre
+    def __init__(self, menuId = None, *args, **kwargs):
+        super(formPlatoSelector, self).__init__(*args, **kwargs)
+        if menuId:
+            self.fields['platos'].initial = [c.idItem.idItem for c in contiene.objects.filter(idMenu = menuId)]
+            self.fields['nombrePlato'].initial = menu.objects.get(idMenu = menuId).nombre
 
     def save(self, menuId):
         actual = [x.idItem for x in contiene.objects.filter(idMenu = menuId)]
@@ -70,3 +65,6 @@ class formPlatoSelector(forms.Form):
         for x in remover:
             contiene.objects.filter(idMenu = menuObj, idItem = x).delete()
         return None
+
+    def create(self):
+        return menu.objects.create(nombre = self.cleaned_data['nombrePlato']).idMenu
