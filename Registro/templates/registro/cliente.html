@@ -1,6 +1,6 @@
 {% extends "registro/header.html" %}
 {% block content %}
-<div class>
+<div >
 	<h2 align="center">Registrarse Como Cliente</h2>
 </div>
 <div class="row">
@@ -15,7 +15,7 @@
 		<form method = "post">
 			{% csrf_token %}
 			{% for field in form %}
-			<div class="form-group col-xs-6">
+			<div class="form-group clearfix col-xs-6">
         		{{ field.label_tag }}{{ field }}{{ field.errors }}
 		  	</div>
 		 	{% endfor %}
@@ -25,6 +25,6 @@
             </div>
 		</form>
 	</div>
-	<div class="container-fluid col-md-4"></div>
+	<div class="container-fluid col-md-3"></div>
 </div>
 {% endblock %}
