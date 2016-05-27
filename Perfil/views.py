@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from django.http.response import HttpResponseRedirect
 from Registro.models import perfil,proveedor
 from django.contrib.auth.decorators import login_required
-
 # Create your views here.
 
 
@@ -53,3 +52,12 @@ def mostrarPerfilProveedor(request):
                                                     'RIF': prov.rif,
                                                     'Nombre de Empresa': prov.nombreEmpr})
 
+
+@login_required(login_url='/registro/login/')
+def mostarUsuarios(request):
+    if (not(request.user.is_staff)):
+        return HttpResponseRedirect('')
+
+    listaUsuarios = User.objects.all()
+
+    return render(request,'/perfil/mostrarUsuarios.html',{})
