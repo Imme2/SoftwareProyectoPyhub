@@ -20,7 +20,7 @@ urlpatterns = [
      url(r'^usuario/', views.registroUsuario),
      url(r'^login/', views.logearUsuario),
      url(r'^logout/', views.logOut),
-     url(r'^editar/',  views.editar),
+     url(r'^editar/',  views.editarDatos),
      url(r'^editar/Usuario',  views.editarUsuario),
      url(r'^editar/Proveedor',  views.editarProveedor),
      url(r'^proveedor/', views.registroProveedor)

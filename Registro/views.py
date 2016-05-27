@@ -70,8 +70,12 @@ def logOut(request):
     return HttpResponseRedirect('/registro/login')
 
 
-
-
+@login_required(login_url='/registro/login/')
+def editarDatos(request):
+    if (request.user.has_perm('proveedor')):
+        return HttpResponseRedirect('/registro/editar/proveedor')
+    else:
+        return HttpResponseRedirect('/registro/editar/Usuario')
 
 
 @login_required(login_url='/registro/login/')
