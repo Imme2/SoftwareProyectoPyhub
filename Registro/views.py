@@ -32,7 +32,7 @@ def registroProveedor(request):
         formUser = formRegistroUsuario(request.POST)
         formEmpr = formRegistroProveedor(request.POST)
         if formUser.is_valid() and formEmpr.is_valid():
-            userEntry = formUser.save(request)
+            userEntry = formUser.save()
             formEmpr.save(request,userEntry)
             return HttpResponseRedirect('/registro/login/')
         else:

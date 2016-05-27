@@ -52,7 +52,7 @@ class formRegistroUsuario(forms.Form):
             
         return cleaned_data
     
-    def save(self,request):
+    def save(self):
         username = self.cleaned_data['username']
         nombre = self.cleaned_data['nombre']
         apellidos = self.cleaned_data['apellidos']
@@ -66,7 +66,7 @@ class formRegistroUsuario(forms.Form):
         entry.first_name = nombre
         entry.last_name = apellidos
         entry.save()
-        p_entry = entry.perfil
+        p_entry = perfil.objects.filter(username = username)
         p_entry.ci = ci
         p_entry.sexo = sexo
         p_entry.fechaNac = f_nac

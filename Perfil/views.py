@@ -53,6 +53,9 @@ def mostrarPerfilProveedor(request):
                                                     'Nombre de Empresa': prov.nombreEmpr})
 
 
+
+
+#INCOMPLETA NO USAR TODAIVA.
 @login_required(login_url='/registro/login/')
 def mostarUsuarios(request):
     if (not(request.user.is_staff)):
@@ -60,4 +63,4 @@ def mostarUsuarios(request):
 
     listaUsuarios = User.objects.all()
 
-    return render(request,'/perfil/mostrarUsuarios.html',{})
+    return render(request,'/perfil/mostrarUsuarios.html',{'ListaUsuarios': listaUsuarios})
