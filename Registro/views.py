@@ -113,9 +113,9 @@ def editarProveedor(request):
         if userform.is_valid() and profileform.is_valid() and provedForm.is_valid():
             userform.save(request)
             profileform.save(request)
-            return HttpResponseRedirect('/registro/editarProveedor')
+            return HttpResponseRedirect('/registro/editar/Proveedor')
         else:
-            return render(request,'rperfil/editarProveedor.html', {'formUser': userform,
+            return render(request,'Perfil/editarProveedor.html', {'formUser': userform,
                                                           'formPerfil': profileform})
     else:
         formUser = userForm(instance = request.user)
