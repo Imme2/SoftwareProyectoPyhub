@@ -58,7 +58,6 @@ def registroProveedor(request):
 # 
 # Formulario de logeo para usuarios
 def logearUsuario(request):
-    logOut(request)
     if request.method == "POST":
         form = loginUsuario(request.POST)
         if form.is_valid():
@@ -100,12 +99,12 @@ def editarUsuario(request):
             profileform.save(request)
             return HttpResponseRedirect('/registro/editar/usuario')
         else:
-            return render(request,'Perfil/editarUsuario.html', {'formUser': userform,
+            return render(request,'registro/editarUsuario.html', {'formUser': userform,
                                                           'formPerfil': profileform})
     else:
         formUser = userForm(instance = request.user)
         formPerfil = perfilForm(instance = request.user.perfil)
-        return render(request,'Perfil/editarUsuario.html', {'formUser': formUser,
+        return render(request,'registro/editarUsuario.html', {'formUser': formUser,
                                                       'formPerfil': formPerfil})
 
 
@@ -125,7 +124,7 @@ def editarProveedor(request):
             profileform.save(request)
             return HttpResponseRedirect('/registro/editar/proveedor')
         else:
-            return render(request,'Perfil/editarProveedor.html', {'formUser': userform,
+            return render(request,'registro/editarProveedor.html', {'formUser': userform,
                                                           'formPerfil': profileform,
                                                           'formProveedor': provedForm})
     else:
