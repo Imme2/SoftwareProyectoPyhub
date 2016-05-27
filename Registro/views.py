@@ -57,7 +57,6 @@ def registroProveedor(request):
 # 
 # Formulario de logeo para usuarios
 def logearUsuario(request):
-    logOut(request)
     if request.method == "POST":
         form = loginUsuario(request.POST)
         if form.is_valid():
