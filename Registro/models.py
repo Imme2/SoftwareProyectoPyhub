@@ -48,14 +48,14 @@ class administrador(models.Model):
     usernameP = models.ForeignKey('PROVEEDOR')
       
 class ingrediente(models.Model):
-    idIngr = models.PositiveIntegerField(primary_key = True)
+    idIngr = models.AutoField(primary_key = True)
     cantidad = models.PositiveIntegerField()
     nombre = models.CharField(max_length = 50)
 
     consultaRel = models.ManyToManyField(proveedor,through = 'CONSULTA')
 
 class item(models.Model):
-    idItem = models.PositiveIntegerField(primary_key = True)
+    idItem = models.AutoField(primary_key = True)
     nombre = models.CharField(max_length = 50)
     tipo = models.CharField(max_length = 1)
     precio = models.PositiveIntegerField()
@@ -64,27 +64,30 @@ class item(models.Model):
 
     poseeRel = models.ManyToManyField(ingrediente,through = 'POSEE')
 
+    def __str__(self):
+        return self.nombre
+
 class transaccion(models.Model):
-    idTrans = models.PositiveIntegerField(primary_key = True)
+    idTrans = models.AutoField(primary_key = True)
     username = models.ForeignKey('CLIENTE')
     monto = models.PositiveIntegerField()
     fecha = models.DateField()
     
 class menu(models.Model):
-    idMenu = models.PositiveIntegerField(primary_key = True)
+    idMenu = models.AutoField(primary_key = True)
     nombre = models.CharField(max_length = 50)
 
     contieneRel = models.ManyToManyField(item,through = 'CONTIENE')
 
 class orden(models.Model):
-    nroOrden = models.PositiveIntegerField(primary_key = True)
+    nroOrden = models.AutoField(primary_key = True)
     fecha = models.DateField()
     
     realizaRel = models.ManyToManyField(cliente,through = 'REALIZA')
     tieneRel = models.ManyToManyField(item,through = 'TIENE')
     
 class billetera(models.Model):
-    idBilletera = models.PositiveIntegerField(primary_key = True)
+    idBilletera = models.AutoField(primary_key = True)
     username = models.ForeignKey('CLIENTE')
     nombre = models.CharField(max_length = 20)
 
