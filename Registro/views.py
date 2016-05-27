@@ -91,12 +91,12 @@ def editarUsuario(request):
             profileform.save(request)
             return HttpResponseRedirect('/registro/editar/Usuario')
         else:
-            return render(request,'Perfil/editarUsuario.html', {'formUser': userform,
+            return render(request,'registro/editarUsuario.html', {'formUser': userform,
                                                           'formPerfil': profileform})
     else:
         formUser = userForm(instance = request.user)
         formPerfil = perfilForm(instance = request.user.perfil)
-        return render(request,'Perfil/editarUsuario.html', {'formUser': formUser,
+        return render(request,'registro/editarUsuario.html', {'formUser': formUser,
                                                       'formPerfil': formPerfil})
 
 

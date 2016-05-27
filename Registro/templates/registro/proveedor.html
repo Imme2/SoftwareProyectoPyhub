@@ -1,7 +1,7 @@
 {% extends "registro/header.html" %}
 {% block content %}
 <div class>
-	<h2 align="center">Registrarse como Proveedor</h2>
+	<h2 align="center">Registrarse Como Proveedor</h2>
 </div>
 <div class="row">
 	{% if error %}
@@ -17,15 +17,23 @@
 		<form method = "post">
 			{% csrf_token %}
 			{% for field in formUser %}
-			<div class="form-group col-xs-6">
-				{{ field.errors }}
-        		{{ field.label_tag }} {{ field }}
+			<div class="form-group clearfix col-xs-6">
+        		{{ field.label_tag }}{{ field }}
+        		{% if field.errors %}
+        		<div class="alert alert-warning" role="alert">
+					{{field.errors }}
+				</div>
+				{% endif %}
 		  	</div>
 		 	{% endfor %}
 		 	{% for field in formEmpr %}
-			<div class="form-group col-xs-6">
-				{{ field.errors }}
-        		{{ field.label_tag }} {{ field }}
+			<div class="form-group clearfix col-xs-6">
+        		{{ field.label_tag }}{{ field }}
+        		{% if field.errors %}
+        		<div class="alert alert-warning" role="alert">
+					{{field.errors }}
+				</div>
+				{% endif %}
 		  	</div>
 		 	{% endfor %}
 		  	<div align="center" class="form-group col-md-offset-8">
