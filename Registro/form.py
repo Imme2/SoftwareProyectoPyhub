@@ -3,6 +3,7 @@ from django import forms
 from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User, Permission
+from django.contrib.contenttypes.models import ContentType
 from Registro.models import perfil, proveedor
 import datetime
 
@@ -110,8 +111,19 @@ class formRegistroProveedor(forms.Form):
         prov_entry.save()
 
         # Le agregamos un permiso que nos diga que es proveedor.
-        permission = Permission.objects.get(name='proveedor')
-        request.user.user_permissions.add(permission)
+        #Cambiar a grupos un dia que no sea 3 am.
+        try:
+            permission = Permission.objects.get(codename='proveedor')
+        except:
+            Permission.objects.create(codename='proveedor',
+                                       name='es proveedor',
+                                        content_type = ContentType.objects.get(model = 'User'))
+            permission = Permission.objects.get(codename='proveedor')
+
+
+        a = User.objects.get(username= entry.username)
+        a.user_permissions.add(permission)
+        a.save()
 
 
 #        return m

@@ -3,11 +3,19 @@ from django.http.response import HttpResponseRedirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.views.generic import UpdateView
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Permission
 from django.contrib.auth import logout
 from Registro.models import perfil,proveedor
 from Registro.form import formRegistroProveedor, formRegistroUsuario, loginUsuario, userForm,\
     perfilForm
+
+
+#A ser movido proximamente
+def esProveedor(request):
+    if request.user.has_perm('Registro.proveedor'):
+        return True
+    else:
+        return False
 
 # Create your views here.
 def registroUsuario(request):
@@ -73,7 +81,7 @@ def logOut(request):
 
 @login_required(login_url='/registro/login/')
 def editarDatos(request):
-    if (request.user.has_perm('proveedor')):
+    if (esProveedor(request)):
         return HttpResponseRedirect('/registro/editar/proveedor')
     else:
         return HttpResponseRedirect('/registro/editar/Usuario')
@@ -81,7 +89,7 @@ def editarDatos(request):
 
 @login_required(login_url='/registro/login/')
 def editarUsuario(request):
-    if (request.user.has_perm('proveedor')):
+    if (esProveedor(request)):
         return HttpResponseRedirect('/registro/editar/proveedor')
     if request.method == "POST":
         userform = userForm(instance = request.user, data = request.POST)
@@ -104,7 +112,7 @@ def editarUsuario(request):
 #Para el proveedor.
 @login_required(login_url='/registro/login/')
 def editarProveedor(request):
-    if (not(request.user.has_perm('proveedor'))):
+    if (not(esProveedor(request))):
         return HttpResponseRedirect('/registro/editar/Usuario')
     if request.method == "POST":
         userform = userForm(instance = request.user, data = request.POST)
