@@ -3,19 +3,22 @@ from django.contrib.auth.models import User
 from django.http.response import HttpResponseRedirect
 from Registro.models import perfil,proveedor
 from django.contrib.auth.decorators import login_required
+from Registro.views import esProveedor
 # Create your views here.
+
+
 
 
 @login_required(login_url='/registro/login/')
 def mostrarPerfil(request):
-    if (request.user.has_perm('proveedor')):
+    if (esProveedor(request)):
         return HttpResponseRedirect('/perfil/proveedor')
     else:
         return HttpResponseRedirect('/perfil/usuario')
 
 @login_required(login_url='/registro/login/')
 def mostrarPerfilUsuario(request):
-    if (request.user.has_perm('proveedor')):
+    if (esProveedor(request)):
         return HttpResponseRedirect('/perfil/proveedor')
 
     user = request.user
@@ -34,7 +37,7 @@ def mostrarPerfilUsuario(request):
 
 @login_required(login_url='/registro/login/')
 def mostrarPerfilProveedor(request):
-    if (not(request.user.has_perm('proveedor'))):
+    if (not(esProveedor(request))):
         return HttpResponseRedirect('/perfil/usuario')
 
     user = request.user
