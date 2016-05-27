@@ -90,12 +90,12 @@ def editarUsuario(request):
             profileform.save(request)
             return HttpResponseRedirect('/registro/editar/Usuario')
         else:
-            return render(request,'registro/editarUsuario.html', {'formUser': userform,
+            return render(request,'Perfil/editarUsuario.html', {'formUser': userform,
                                                           'formPerfil': profileform})
     else:
         formUser = userForm(instance = request.user)
         formPerfil = perfilForm(instance = request.user.perfil)
-        return render(request,'registro/editarUsuario.html', {'formUser': formUser,
+        return render(request,'Perfil/editarUsuario.html', {'formUser': formUser,
                                                       'formPerfil': formPerfil})
 
 
@@ -115,7 +115,7 @@ def editarProveedor(request):
             profileform.save(request)
             return HttpResponseRedirect('/registro/editarProveedor')
         else:
-            return render(request,'registro/editar.html', {'formUser': userform,
+            return render(request,'rperfil/editarProveedor.html', {'formUser': userform,
                                                           'formPerfil': profileform})
     else:
         formUser = userForm(instance = request.user)

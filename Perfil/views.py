@@ -55,9 +55,9 @@ def mostrarPerfilProveedor(request):
 
 
 
-#INCOMPLETA NO USAR TODAIVA.
+# Para mostrar todos los usuarios a un admin
 @login_required(login_url='/registro/login/')
-def mostarUsuarios(request):
+def mostrarUsuarios(request):
     if (not(request.user.is_staff)):
         return HttpResponseRedirect('')
 
