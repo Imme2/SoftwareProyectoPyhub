@@ -1,0 +1,32 @@
+{% extends "registro/header.html" %}
+{% block content %}
+<div class>
+	<h2 align="center">{{nombreMenu}}</h2>
+</div>
+<div class="row">
+	{% if error %}
+		{% for e in error %}
+			<div class="alert alert-danger">
+			  {{ e }} 
+			</div>
+		{% endfor %}
+	{% endif %}
+	
+	<div class="container-fluid col-md-3"></div>
+	<div class="container-fluid col-md-6">
+		<form method = "post">
+			{% csrf_token %}
+			{% for field in form %}
+			<div class="form-group col-xs-6">
+				{{ field.errors }} {{ field.label_tag }} {{ field }}
+		  	</div>
+		 	{% endfor %} -->
+		 	
+		  	<div align="center" class="form-group col-md-offset-8">
+            	<button align="center" type="submit" class="btn btn-success btn-lg">{{nombreMenu}}</button>
+            </div>
+		</form>
+	</div>
+	<div class="container-fluid col-md-4"></div>
+</div>
+{% endblock %}
