@@ -1,0 +1,27 @@
+{% extends "registro/header.html" %}
+{% block content %}
+<div >
+	<h2 align="center">Registrarse Como Cliente</h2>
+</div>
+<div class="row">
+	{% if error %}
+		{% for e in error %}
+			  {{ e }} 
+		{% endfor %}
+	{% endif %}
+	
+	<div class="container-fluid col-md-3"></div>
+	<div class="container-fluid col-md-6">
+		<form method = "post">
+			{% csrf_token %}
+			{% for menu in listaMenu %}
+			<div class="form-group clearfix col-xs-6">
+        		{{ menu[0] }}{{menu[1]}}
+		  	</div>
+		 	{% endfor %}
+		 	<div class="form-group col-xs-6"></div>
+		</form>
+	</div>
+	<div class="container-fluid col-md-3"></div>
+</div>
+{% endblock %}
