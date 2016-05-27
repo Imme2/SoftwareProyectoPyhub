@@ -35,7 +35,18 @@ def editarMenu(request, idMenu = None):
 def crearMenu(request, idMenu = None):
     if (not(request.user.is_staff)):
         return HttpResponseRedirect('')
+    if request.method == "POST":
+        formMenu = formMenuCrear(request.POST)
+        if formMenu.is_valid():
+            formMenu.save()
+            return HttpResponseRedirect('menu/editar/')
+        else:
+            return render(request,'menu/crear.html', {'formMenu': formMenu})
+    else:
+        formMenu = formMenuCrear()
+        return render(request,'menu/crear.html', {'formMenu': formMenu})
 
+"""
     if request.method == "POST":
         formPlatos = formPlatoSelector(data = request.POST)
         if formPlatos.is_valid():
@@ -44,10 +55,11 @@ def crearMenu(request, idMenu = None):
             return HttpResponseRedirect('/menu/editar/{}'.format(idMenu))
         else :
             ## Arreglar
-            print(formPlatos.data)
+#            print(formPlatos.data)
             return HttpResponseRedirect('/menu/crear/')                
     else:
         nombreMenu = ""
         formPlatos = formPlatoSelector()
         return render(request,'menu/editar.html', {'nombreMenu': nombreMenu,
-                                                    'form': formPlatos})
+                                                 'form': formPlatos})
+"""
