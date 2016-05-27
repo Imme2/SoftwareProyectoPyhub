@@ -115,12 +115,13 @@ class formRegistroProveedor(forms.Form):
         try:
             permission = Permission.objects.get(codename='proveedor')
         except:
+            content_type = ContentType.objects.get(model='User')
             Permission.objects.create(codename='proveedor',
                                        name='es proveedor',
-                                        content_type = ContentType.objects.get(model = 'User'))
+                                        content_type = content_type)
             permission = Permission.objects.get(codename='proveedor')
 
-
+        print(permission)
         a = User.objects.get(username= entry.username)
         a.user_permissions.add(permission)
         a.save()

@@ -7,12 +7,13 @@ from django.contrib.auth.models import User, Permission
 from django.contrib.auth import logout
 from Registro.models import perfil,proveedor
 from Registro.form import formRegistroProveedor, formRegistroUsuario, loginUsuario, userForm,\
-    perfilForm
+    perfilForm, proveedorForm
 
 
 #A ser movido proximamente
 def esProveedor(request):
-    if request.user.has_perm('Registro.proveedor'):
+    print(request.user.user_permissions)
+    if request.user.has_perm('auth.proveedor'):
         return True
     else:
         return False
@@ -83,7 +84,7 @@ def editarDatos(request):
     if (esProveedor(request)):
         return HttpResponseRedirect('/registro/editar/proveedor')
     else:
-        return HttpResponseRedirect('/registro/editar/Usuario')
+        return HttpResponseRedirect('/registro/editar/usuario')
 
 
 @login_required(login_url='/registro/login/')
@@ -96,14 +97,14 @@ def editarUsuario(request):
         if userform.is_valid() and profileform.is_valid():
             userform.save(request)
             profileform.save(request)
-            return HttpResponseRedirect('/registro/editar/Usuario')
+            return HttpResponseRedirect('/registro/editar/usuario')
         else:
-            return render(request,'registro/editarUsuario.html', {'formUser': userform,
+            return render(request,'Perfil/editarUsuario.html', {'formUser': userform,
                                                           'formPerfil': profileform})
     else:
         formUser = userForm(instance = request.user)
         formPerfil = perfilForm(instance = request.user.perfil)
-        return render(request,'registro/editarUsuario.html', {'formUser': formUser,
+        return render(request,'Perfil/editarUsuario.html', {'formUser': formUser,
                                                       'formPerfil': formPerfil})
 
 
@@ -116,19 +117,20 @@ def editarProveedor(request):
     if request.method == "POST":
         userform = userForm(instance = request.user, data = request.POST)
         profileform = perfilForm(instance = request.user.perfil, data = request.POST)
-        provedForm = formProveedor = proveedorForm(instance = proveedor.objects.get(username = request.user.username), data = request.POST)
+        provedForm = proveedorForm(instance = proveedor.objects.get(username = request.user), data = request.POST)
 
         if userform.is_valid() and profileform.is_valid() and provedForm.is_valid():
             userform.save(request)
             profileform.save(request)
-            return HttpResponseRedirect('/registro/editar/Proveedor')
+            return HttpResponseRedirect('/registro/editar/proveedor')
         else:
-            return render(request,'registro/editarProveedor.html', {'formUser': userform,
-                                                          'formPerfil': profileform})
+            return render(request,'Perfil/editarProveedor.html', {'formUser': userform,
+                                                          'formPerfil': profileform,
+                                                          'formProveedor': provedForm})
     else:
         formUser = userForm(instance = request.user)
         formPerfil = perfilForm(instance = request.user.perfil)
-        formProveedor = proveedorForm(instance = proveedor.objects.get(username = request.user.username))
+        formProveedor = proveedorForm(instance = proveedor.objects.get(username = request.user))
         return render(request,'registro/editarProveedor.html', {'formUser': formUser,
                                                                 'formPerfil':formPerfil,
                                                                 'formProveedor':formProveedor})
