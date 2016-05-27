@@ -16,19 +16,30 @@
 	<div class="container-fluid col-md-6">
 		<form method = "post">
 			{% csrf_token %}
-			{% for field in formUser %}
 			<div class="form-group col-xs-6">
-				{{ field.errors }}
-        		{{ field.label_tag }} {{ field }}
+				{{Nombre}}
 		  	</div>
-		 	{% endfor %}
-		 	{% for field in formPerfil %}
-			<div class="form-group col-xs-6">
-				{{ field.errors }}
-        		{{ field.label_tag }} {{ field }}
+		  	<div class="form-group col-xs-6">
+				{{Apellido}}
 		  	</div>
-		 	{% endfor %}
-		  	<button type="submit" class="btn btn-default">Submit</button>
+		  	<div class="form-group col-xs-6">
+				{{CI}}
+		  	</div>
+		  	<div class="form-group col-xs-6">
+				{{Sexo}}
+		  	</div>
+		  	<div class="form-group col-xs-6">
+				{{FechaDeNacimiento}}
+		  	</div>
+		  	<div class="form-group col-xs-6">
+				{{Telefono}}
+		  	</div>
+		  	<div class="form-group col-xs-6">
+				{{Email}}
+		  	</div>
+		  	<div class="form-group col-xs-6">
+				{{Username}}
+		  	</div>
 		</form>
 	</div>
 	<div class="container-fluid col-md-4"></div>

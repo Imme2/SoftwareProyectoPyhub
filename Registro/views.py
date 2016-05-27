@@ -97,7 +97,7 @@ def editarUsuario(request):
         if userform.is_valid() and profileform.is_valid():
             userform.save(request)
             profileform.save(request)
-            return HttpResponseRedirect('/registro/editar/usuario')
+            return HttpResponseRedirect('/perfil/usuario')
         else:
             return render(request,'registro/editarUsuario.html', {'formUser': userform,
                                                           'formPerfil': profileform})
