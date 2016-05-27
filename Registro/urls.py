@@ -21,7 +21,7 @@ urlpatterns = [
      url(r'^login/$', views.logearUsuario),
      url(r'^logout/$', views.logOut),
      url(r'^editar/$',  views.editarDatos),
-     url(r'^editar/Usuario$',  views.editarUsuario),
-     url(r'^editar/Proveedor$',  views.editarProveedor),
+     url(r'^editar/usuario$',  views.editarUsuario),
+     url(r'^editar/proveedor$',  views.editarProveedor),
      url(r'^proveedor/$', views.registroProveedor)
 ]
