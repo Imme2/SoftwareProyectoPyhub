@@ -143,6 +143,9 @@ class perfilForm(forms.ModelForm):
     fechaNac = forms.DateField(widget=forms.TextInput(attrs={'type':"tel", 'class':"form-control",'id':"inputTelf",}),disabled = True, label = 'Fecha de nacimiento')
     tlf = forms.CharField(widget=forms.TextInput(attrs={'type':"tel", 'class':"form-control",'id':"inputTelf",}),label = 'Numero de telefono')
     ci = forms.CharField(widget=forms.TextInput(attrs={'class':"form-control", 'id':"inputCedula",}),disabled = True, label = 'CI')
+    sexo = forms.ChoiceField(widget=forms.Select(attrs={ 'class':"form-control",}),choices = perfil.Sexos, disabled = True)
+
+
     class Meta:
         model = perfil
         exclude = ('user',) 
