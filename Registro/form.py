@@ -122,11 +122,11 @@ class loginUsuario(forms.Form):
     
     
 class userForm(forms.ModelForm):
-    username = forms.CharField(disabled = True, label = 'Nombre de usuario')
-    first_name = forms.CharField(disabled = True, label = 'Nombre')
-    last_name = forms.CharField(disabled = True, label = 'Apellido')
-    email = forms.EmailField(disabled = True, label = 'Correo')
-    password = forms.CharField(widget=forms.PasswordInput(), label = 'Contrasena', required = False)
+    username = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','id':'inputName',}),disabled = True, label = 'Nombre de usuario')
+    first_name = forms.CharField(widget=forms.TextInput(attrs={'type':'text' ,'class':'form-control' ,'id':'inputName',}),disabled = True, label = 'Nombre')
+    last_name = forms.CharField(widget=forms.TextInput(attrs={'type':'text' ,'class':'form-control' ,'id':'inputApellido',}),disabled = True, label = 'Apellido')
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'placeholder': 'ejemplo@ejmpl.com','type':"email", 'class':"form-control", 'id':"inputEmail1", }),disabled = True, label = 'Correo')
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'type':"password" ,'class':"form-control", 'id':"inputClave", 'placeholder':"Clave",}), label = 'Contrasena', required = False)
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'username', 'password', 'email']
@@ -140,9 +140,9 @@ class userForm(forms.ModelForm):
         return m
         
 class perfilForm(forms.ModelForm):
-    fechaNac = forms.DateField(disabled = True, label = 'Fecha de nacimiento')
-    tlf = forms.CharField(label = 'Numero de telefono')
-    ci = forms.CharField(disabled = True, label = 'CI')
+    fechaNac = forms.DateField(widget=forms.TextInput(attrs={'type':"tel", 'class':"form-control",'id':"inputTelf",}),disabled = True, label = 'Fecha de nacimiento')
+    tlf = forms.CharField(widget=forms.TextInput(attrs={'type':"tel", 'class':"form-control",'id':"inputTelf",}),label = 'Numero de telefono')
+    ci = forms.CharField(widget=forms.TextInput(attrs={'class':"form-control", 'id':"inputCedula",}),disabled = True, label = 'CI')
     class Meta:
         model = perfil
         exclude = ('user',) 
