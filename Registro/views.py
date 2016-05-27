@@ -102,7 +102,7 @@ def editarUsuario(request):
 
 #Para el proveedor.
 @login_required(login_url='/registro/login/')
-def editarUsuarioProveedor(request):
+def editarProveedor(request):
     if (not(request.user.has_perm('proveedor'))):
         return HttpResponseRedirect('/registro/editar/Usuario')
     if request.method == "POST":
