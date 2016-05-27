@@ -13,7 +13,6 @@ def editarMenu(request, idMenu = None):
         return HttpResponseRedirect('')
     if (idMenu == None):
         listaMenus = menu.objects.all()
-        listaMenus = [(x.nombre,x.idMenu) for x in listaMenus]
         return render(request,'menu/escoger.html', {'listaMenu': listaMenus})
     else:
         if request.method == "POST":
@@ -28,25 +27,13 @@ def editarMenu(request, idMenu = None):
             nombreMenu = menu.objects.get(idMenu = idMenu).nombre
             formPlatos = formPlatoSelector(idMenu)
 
-            return render(request,'menu/editar.html', {'nombreMenu': nombreMenu,
+            return render(request,'menu/editar.html', {'nombreMenu': "Editar un menu",
                                                     'form': formPlatos})
 
 @login_required(login_url='/registro/login/')
 def crearMenu(request, idMenu = None):
     if (not(request.user.is_staff)):
-        return HttpResponseRedirect('')
-    if request.method == "POST":
-        formMenu = formMenuCrear(request.POST)
-        if formMenu.is_valid():
-            formMenu.save()
-            return HttpResponseRedirect('menu/editar/')
-        else:
-            return render(request,'menu/crear.html', {'formMenu': formMenu})
-    else:
-        formMenu = formMenuCrear()
-        return render(request,'menu/crear.html', {'formMenu': formMenu})
-
-"""
+        return HttpResponseRedirect('/registro/logout')
     if request.method == "POST":
         formPlatos = formPlatoSelector(data = request.POST)
         if formPlatos.is_valid():
@@ -54,12 +41,10 @@ def crearMenu(request, idMenu = None):
             formPlatos.save(idMenu)
             return HttpResponseRedirect('/menu/editar/{}'.format(idMenu))
         else :
-            ## Arreglar
-#            print(formPlatos.data)
+            print(formPlatos.data)
             return HttpResponseRedirect('/menu/crear/')                
     else:
         nombreMenu = ""
         formPlatos = formPlatoSelector()
-        return render(request,'menu/editar.html', {'nombreMenu': nombreMenu,
+        return render(request,'menu/editar.html', {'nombreMenu': "Crear un menu",
                                                  'form': formPlatos})
-"""

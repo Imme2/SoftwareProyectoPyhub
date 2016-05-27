@@ -16,7 +16,8 @@
 			{% csrf_token %}
 			{% for menu in listaMenu %}
 			<div class="form-group clearfix col-xs-6">
-        		{{ menu[0] }}{{menu[1]}}
+				            <li><a href="/menu/editar/{{menu.idMenu}}">{{menu.nombre}}</a>
+
 		  	</div>
 		 	{% endfor %}
 		 	<div class="form-group col-xs-6"></div>
