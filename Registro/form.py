@@ -48,7 +48,7 @@ class formRegistroUsuario(forms.Form):
     
         if perfil.objects.filter(ci=ci).exists():
             msg = "Esta CI ya esta registrada"
-            self.add_error('correo', msg)
+            self.add_error('ci', msg)
             
         return cleaned_data
     

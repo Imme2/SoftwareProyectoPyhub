@@ -7,7 +7,7 @@
 	{% if error %}
 		{% for e in error %}
 			<div class="alert alert-danger">
-			  {{ e }} 
+			 	<p align="center">{{ e }}</p> 
 			</div>
 		{% endfor %}
 	{% endif %}
@@ -18,8 +18,12 @@
 			{% csrf_token %}
 			{% for field in form %}
 			<div class="form-group col-xs-6">
-				{{ field.errors }}
         		{{ field.label_tag }} {{ field }}
+        		{% if field.errors %}
+        		<div class="alert alert-danger">
+					{{field.errors }}
+				</div>
+				{% endif %}
 		  	</div>
 		 	{% endfor %}
 		 	<div class="form-group" align="center">

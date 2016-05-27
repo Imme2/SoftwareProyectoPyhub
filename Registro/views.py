@@ -57,7 +57,7 @@ def logearUsuario(request):
                 login(request, user)
                 return HttpResponseRedirect('/registro/editar')
             else:
-                error = ['No se pudo autenticar al usuario']
+                error = ['Nombre de usuario o clave incorrectos']
                 return render(request,'registro/login.html', {'form': form,'error': error})
         else:
             return render(request,'registro/login.html', {'form': form})
