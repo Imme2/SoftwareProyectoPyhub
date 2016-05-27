@@ -70,46 +70,57 @@ def logOut(request):
     return HttpResponseRedirect('/registro/login')
 
 
-
-
+@login_required(login_url='/registro/login/')
+def editarDatos(request):
+    if (request.user.has_perm('proveedor')):
+        return HttpResponseRedirect('/registro/editar/proveedor')
+    else:
+        return HttpResponseRedirect('/registro/editar/Usuario')
 
 
 @login_required(login_url='/registro/login/')
 def editarUsuario(request):
+    if (request.user.has_perm('proveedor')):
+        return HttpResponseRedirect('/registro/editar/proveedor')
     if request.method == "POST":
         userform = userForm(instance = request.user, data = request.POST)
         profileform =  perfilForm(instance = request.user.perfil, data = request.POST)
         if userform.is_valid() and profileform.is_valid():
             userform.save(request)
             profileform.save(request)
-            return HttpResponseRedirect('/registro/editar/')
+            return HttpResponseRedirect('/registro/editar/Usuario')
+        else:
+            return render(request,'registro/editarUsuario.html', {'formUser': userform,
+                                                          'formPerfil': profileform})
+    else:
+        formUser = userForm(instance = request.user)
+        formPerfil = perfilForm(instance = request.user.perfil)
+        return render(request,'registro/editarUsuario.html', {'formUser': formUser,
+                                                      'formPerfil': formPerfil})
+
+
+
+#Para el proveedor.
+@login_required(login_url='/registro/login/')
+def editarProveedor(request):
+    if (not(request.user.has_perm('proveedor'))):
+        return HttpResponseRedirect('/registro/editar/Usuario')
+    if request.method == "POST":
+        userform = userForm(instance = request.user, data = request.POST)
+        profileform = perfilForm(instance = request.user.perfil, data = request.POST)
+        provedForm = formProveedor = proveedorForm(instance = proveedor.objects.get(username = request.user.username), data = request.POST)
+
+        if userform.is_valid() and profileform.is_valid() and provedForm.is_valid():
+            userform.save(request)
+            profileform.save(request)
+            return HttpResponseRedirect('/registro/editarProveedor')
         else:
             return render(request,'registro/editar.html', {'formUser': userform,
                                                           'formPerfil': profileform})
     else:
         formUser = userForm(instance = request.user)
         formPerfil = perfilForm(instance = request.user.perfil)
-        return render(request,'registro/editar.html', {'formUser': formUser,
-                                                      'formPerfil': formPerfil})
-
-
-'''
-#Para el proveedor.
-@login_required(login_url='/registro/login/')
-def editarUsuarioProveedor(request):
-    if request.method == "POST":
-        userform = userForm(instance = request.user, data = request.POST)
-        profileform =  perfilForm(instance = request.user.perfil, data = request.POST)
-        provedForm = 
-        if userform.is_valid() and profileform.is_valid():
-            userform.save(request)
-            profileform.save(request)
-            return HttpResponseRedirect('/registro/editar')
-        else:
-            return render(request,'registro/editar.html', {'formUser': userform,
-                                                          'formPerfil': profileform})
-    else :
-        formUser = userForm(instance = request.user)
-        formPerfil = perfilForm(instance = request.user.perfil)
-        return render(request,'registro/editar.html', {'formUser': formUser,
-'''
+        formProveedor = proveedorForm(instance = proveedor.objects.get(username = request.user.username))
+        return render(request,'registro/editarProveedor.html', {'formUser': formUser,
+                                                                'formPerfil':formPerfil,
+                                                                'formProveedor':formProveedor})

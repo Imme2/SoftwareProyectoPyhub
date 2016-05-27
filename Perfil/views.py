@@ -38,7 +38,7 @@ def mostrarPerfilProveedor(request):
         return HttpResponseRedirect('/perfil/usuario')
 
     user = request.user
-    perfil = perfil.objects.get(username = user.username)
+    perfil = perfil.objects.get(user = user.username)
     prov = proveedor.objects.get(username = user.username)
 
     return render(request,'/perfil/mostrar.html',{'Username': user.username,
@@ -61,6 +61,7 @@ def mostarUsuarios(request):
     if (not(request.user.is_staff)):
         return HttpResponseRedirect('')
 
-    listaUsuarios = User.objects.all()
+    listaPerfil = perfil.objects.all()
+    listaPerfil = [[x.user.username, x.user.first_name, x.user.last_name, x.ci]]
 
-    return render(request,'/perfil/mostrarUsuarios.html',{'ListaUsuarios': listaUsuarios})
+    return render(request,'/perfil/mostrarUsuarios.html',{'ListaUsuarios': listaPerfil})
