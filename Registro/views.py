@@ -124,7 +124,7 @@ def editarProveedor(request):
             profileform.save(request)
             return HttpResponseRedirect('/registro/editar/Proveedor')
         else:
-            return render(request,'Perfil/editarProveedor.html', {'formUser': userform,
+            return render(request,'registro/editarProveedor.html', {'formUser': userform,
                                                           'formPerfil': profileform})
     else:
         formUser = userForm(instance = request.user)
