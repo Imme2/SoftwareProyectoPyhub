@@ -153,11 +153,15 @@ class perfilForm(forms.ModelForm):
         m.save()
         return m
 
-'''
-class proveedForm(forms.ModelForm):
-    nombreEmpr = forms.CharField(disabled = True,label = 'Nombre Empresa')
-    rif = forms.CharField(disabled = True,label = 'RIF')
+class proveedorForm(forms.ModelForm):
+    nombreEmpr = forms.CharField(disabled = True, label = 'Nombre de Empresa')
+    rif = forms.CharField(disabled = True, label = 'RIF')
     class Meta:
         model = proveedor
-        fields = ['','','','']
-'''
+        exclude = ('username','ofreceRel')
+
+    def save(self,request):
+        m = super(proveedorForm, self).save(commit = False)
+        m.username = request.user
+        m.save()
+        return m

@@ -62,5 +62,6 @@ def mostarUsuarios(request):
         return HttpResponseRedirect('')
 
     listaUsuarios = User.objects.all()
+    listaPerfil = perfil.objects.all()
 
     return render(request,'/perfil/mostrarUsuarios.html',{'ListaUsuarios': listaUsuarios})
