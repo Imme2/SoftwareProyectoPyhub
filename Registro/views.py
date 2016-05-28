@@ -12,7 +12,6 @@ from Registro.form import formRegistroProveedor, formRegistroUsuario, loginUsuar
 
 #A ser movido proximamente
 def esProveedor(request):
-    print(request.user.user_permissions)
     if request.user.has_perm('auth.proveedor'):
         return True
     else:
@@ -97,7 +96,7 @@ def editarUsuario(request):
         if userform.is_valid() and profileform.is_valid():
             userform.save(request)
             profileform.save(request)
-            return HttpResponseRedirect('/registro/editar/usuario')
+            return HttpResponseRedirect('/perfil/usuario')
         else:
             return render(request,'registro/editarUsuario.html', {'formUser': userform,
                                                           'formPerfil': profileform})
@@ -117,7 +116,10 @@ def editarProveedor(request):
     if request.method == "POST":
         userform = userForm(instance = request.user, data = request.POST)
         profileform = perfilForm(instance = request.user.perfil, data = request.POST)
-        provedForm = proveedorForm(instance = proveedor.objects.get(username = request.user), data = request.POST)
+        try:
+            formProveedor = proveedorForm(instance = proveedor.objects.get(username = request.user))
+        except:
+            formProveedor = proveedorForm()
 
         if userform.is_valid() and profileform.is_valid() and provedForm.is_valid():
             userform.save(request)
@@ -130,7 +132,11 @@ def editarProveedor(request):
     else:
         formUser = userForm(instance = request.user)
         formPerfil = perfilForm(instance = request.user.perfil)
-        formProveedor = proveedorForm(instance = proveedor.objects.get(username = request.user))
+        try:
+            formProveedor = proveedorForm(instance = proveedor.objects.get(username = request.user))
+        except:
+            formProveedor = proveedorForm()
+
         return render(request,'registro/editarProveedor.html', {'formUser': formUser,
                                                                 'formPerfil':formPerfil,
                                                                 'formProveedor':formProveedor})

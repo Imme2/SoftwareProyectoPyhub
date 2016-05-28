@@ -13,7 +13,7 @@ class formMenuCrear(forms.Form):
 
     def clean(self):
         cleaned_data = super(formMenuCrear, self).clean()
-        idMenu = cleaned_data.get('idMenu')
+        # idMenu = cleaned_data.get('idMenu')
         nombreMenu = cleaned_data.get('nombreMenu')
 
         if menu.objects.filter(nombre = nombreMenu).exists():
