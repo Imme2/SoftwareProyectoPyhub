@@ -22,16 +22,16 @@ def mostrarPerfilUsuario(request):
         return HttpResponseRedirect('/perfil/proveedor')
 
     user = request.user
-    perfil = perfil.objects.get(username = user.username)
+    perfill = perfil.objects.get(username = user.username)
 
     return render(request,'/perfil/mostrar.html',{'Username': user.username,
                                                     'Email': user.email,
                                                     'Nombre': user.first_name,
                                                     'Apellido': user.last_name,
-                                                    'CI': perfil.ci,
-                                                    'Sexo': perfil.sexo,
-                                                    'Fecha de Nacimiento': perfil.f_nac,
-                                                    'Telefono': perfil.tlf})
+                                                    'CI': perfill.ci,
+                                                    'Sexo': perfill.sexo,
+                                                    'Fecha de Nacimiento': perfill.f_nac,
+                                                    'Telefono': perfill.tlf})
 
 
 
