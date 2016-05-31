@@ -33,17 +33,17 @@ class parametro(models.Model):
     cantPuestos = models.PositiveIntegerField()
         
 class proveedor(models.Model):
-    username = models.ForeignKey(User,primary_key = True)
+    username = models.OneToOneField(User,related_name = 'proveedor')
     nombreEmpr = models.CharField(max_length = 20)
     rif = models.CharField(max_length = 10)
     ofreceRel = models.ManyToManyField('ingrediente',through = 'ofrece')
     
 class cliente(models.Model):
-    username = models.ForeignKey(User,primary_key = True)
+    username = models.OneToOneField(User,related_name = 'cliente')
     idMenu = models.ForeignKey('menu')
     
 class administrador(models.Model):
-    username = models.ForeignKey(User,primary_key = True)
+    username = models.OneToOneField(User,related_name = 'administrador')
     idParam = models.ForeignKey('parametro')
     usernameP = models.ForeignKey('proveedor')
       
