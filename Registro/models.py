@@ -36,23 +36,23 @@ class proveedor(models.Model):
     username = models.ForeignKey(User,primary_key = True)
     nombreEmpr = models.CharField(max_length = 20)
     rif = models.CharField(max_length = 10)
-    ofreceRel = models.ManyToManyField('INGREDIENTE',through = 'OFRECE')
+    ofreceRel = models.ManyToManyField('ingrediente',through = 'ofrece')
     
 class cliente(models.Model):
     username = models.ForeignKey(User,primary_key = True)
-    idMenu = models.ForeignKey('MENU')
+    idMenu = models.ForeignKey('menu')
     
 class administrador(models.Model):
     username = models.ForeignKey(User,primary_key = True)
-    idParam = models.ForeignKey('PARAMETRO')
-    usernameP = models.ForeignKey('PROVEEDOR')
+    idParam = models.ForeignKey('parametro')
+    usernameP = models.ForeignKey('proveedor')
       
 class ingrediente(models.Model):
     idIngr = models.AutoField(primary_key = True)
     cantidad = models.PositiveIntegerField()
     nombre = models.CharField(max_length = 50)
 
-    consultaRel = models.ManyToManyField(proveedor,through = 'CONSULTA')
+    consultaRel = models.ManyToManyField(proveedor,through = 'consulta')
 
 class item(models.Model):
     idItem = models.AutoField(primary_key = True)
@@ -62,14 +62,14 @@ class item(models.Model):
     foto = models.CharField(max_length = 300)
     descripcion = models.CharField(max_length = 200)
 
-    poseeRel = models.ManyToManyField(ingrediente,through = 'POSEE')
+    poseeRel = models.ManyToManyField(ingrediente,through = 'posee')
 
     def __str__(self):
         return self.nombre
 
 class transaccion(models.Model):
     idTrans = models.AutoField(primary_key = True)
-    username = models.ForeignKey('CLIENTE')
+    username = models.ForeignKey('cliente')
     monto = models.PositiveIntegerField()
     fecha = models.DateField()
     
@@ -77,30 +77,30 @@ class menu(models.Model):
     idMenu = models.AutoField(primary_key = True)
     nombre = models.CharField(max_length = 50)
 
-    contieneRel = models.ManyToManyField(item,through = 'CONTIENE')
+    contieneRel = models.ManyToManyField(item,through = 'contiene')
 
 class orden(models.Model):
     nroOrden = models.AutoField(primary_key = True)
     fecha = models.DateField()
     
-    realizaRel = models.ManyToManyField(cliente,through = 'REALIZA')
-    tieneRel = models.ManyToManyField(item,through = 'TIENE')
+    realizaRel = models.ManyToManyField(cliente,through = 'realiza')
+    tieneRel = models.ManyToManyField(item,through = 'tiene')
     
 class billetera(models.Model):
     idBilletera = models.AutoField(primary_key = True)
-    username = models.ForeignKey('CLIENTE')
+    username = models.ForeignKey('cliente')
     nombre = models.CharField(max_length = 20)
 
 class consulta(models.Model):
-    username = models.ForeignKey('PROVEEDOR')
-    idIngr = models.ForeignKey('INGREDIENTE')
+    username = models.ForeignKey('proveedor')
+    idIngr = models.ForeignKey('ingrediente')
     
     class Meta:
         unique_together = ('username','idIngr')        
         
 class ofrece(models.Model):
-    usernameP = models.ForeignKey('PROVEEDOR')
-    idIngr = models.ForeignKey('INGREDIENTE')
+    usernameP = models.ForeignKey('proveedor')
+    idIngr = models.ForeignKey('ingrediente')
     precio = models.PositiveIntegerField()
     idRest = models.PositiveIntegerField()
     
@@ -109,38 +109,38 @@ class ofrece(models.Model):
         
     
 class pedido(models.Model):
-    usernameP = models.ForeignKey('PROVEEDOR')
-    usernameA = models.ForeignKey('ADMINISTRADOR')
-    idIngr = models.ForeignKey('INGREDIENTE')
+    usernameP = models.ForeignKey('proveedor')
+    usernameA = models.ForeignKey('administrador')
+    idIngr = models.ForeignKey('ingrediente')
     idRest = models.PositiveIntegerField()
     
     class Meta:
         unique_together = ('usernameP','usernameA','idIngr')    
 
 class realiza(models.Model):
-    username = models.ForeignKey('CLIENTE')
-    nroOrden = models.ForeignKey('ORDEN')
+    username = models.ForeignKey('cliente')
+    nroOrden = models.ForeignKey('orden')
     
     class Meta:
         unique_together = ('username','nroOrden')
         
 class tiene(models.Model):
-    nroOrden = models.ForeignKey('ORDEN')
-    idItem = models.ForeignKey('ITEM')
+    nroOrden = models.ForeignKey('orden')
+    idItem = models.ForeignKey('item')
     
     class Meta:
         unique_together = ('nroOrden','idItem')
         
 class contiene(models.Model):
     idMenu = models.ForeignKey('MENU')
-    idItem = models.ForeignKey('ITEM')
+    idItem = models.ForeignKey('item')
     
     class Meta:
         unique_together = ('idMenu','idItem')
         
 class posee(models.Model):
-    idItem = models.ForeignKey('ITEM')
-    idIngr = models.ForeignKey('INGREDIENTE')
+    idItem = models.ForeignKey('item')
+    idIngr = models.ForeignKey('ingrediente')
 
     class Meta:
         unique_together = ('idItem','idIngr')
