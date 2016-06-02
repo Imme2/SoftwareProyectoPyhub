@@ -8,10 +8,12 @@
 /* Header Image Background - Change the URL below to your image path (example: ../images/background.jpg) */
 
 .full {
-    background: url('../img/pancackes.jpg') no-repeat center center fixed;
+    background: url('../img/good-morning-coffee-wallpapers-32.jpeg') no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
     -o-background-size: cover;
-    label{font-color:black;}
 }
+/*label{
+	color:black;
+}*/
