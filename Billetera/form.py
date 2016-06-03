@@ -8,7 +8,5 @@ from Registro.models import perfil, proveedor
 import datetime
 
 
-class billeteraAuth
+class billeteraAuth(forms.Form):
     clave = forms.CharField(widget=forms.PasswordInput(attrs={'type':"password" ,'class':"form-control", 'id':"inputClave", 'placeholder':"Clave",}))
-
-    
