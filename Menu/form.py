@@ -5,11 +5,12 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User, Permission
 from Registro.models import ingrediente, perfil, proveedor, menu, item,contiene
 import datetime
+import pickle
 
 class menuSelector(forms.Form):
     listaMenus = menu.objects.all()
-    # listaMenus = [x.nombre for x in listaMenus]
-    
+    listaMenus = [x.nombre for x in listaMenus]
+
 class formMenu(forms.Form):
 
     nombreMenu = forms.CharField(label = "Nombre de Menu:")
@@ -66,6 +67,6 @@ class formPlato(forms.Form):
 
 
 class ingredienteForm(forms.ModelForm):
-        class Meta:
-            model = ingrediente
-            exclude = ['idIngr']
+    class Meta:
+        model = ingrediente
+        exclude = ['idIngr']

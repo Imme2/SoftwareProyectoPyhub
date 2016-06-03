@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.http.response import HttpResponseRedirect
-from Registro.models import perfil,proveedor,menu
+from Registro.models import perfil,proveedor,menu, ingrediente
 from django.contrib.auth.decorators import login_required
 from Menu.form import menuSelector, formMenu, ingredienteForm
 # Create your views here.
@@ -49,21 +49,25 @@ def crearMenu(request, idMenu = None):
                                                  'form': formPlatos})
 
 @login_required(login_url='/registro/login/')
-def crearIngrediente(request):
+def crearIngrediente(request, idIngrediente = None):
     if (not(request.user.is_staff)):
         return HttpResponseRedirect('/registro/logout')
     if request.method == "POST":
-        formPlatos = formMenu(data = request.POST)
-        if formPlatos.is_valid():
-            idMenu = formPlatos.create()
-            formPlatos.save(idMenu)
-            return HttpResponseRedirect('/menu/editar/{}'.format(idMenu))
+        if idIngrediente:
+            ingr = ingredienteForm(data = request.POST, instance = ingrediente.objects.get(idIngr = idIngrediente))
+        else:
+            ingr = ingredienteForm(data = request.POST)
+        if ingr.is_valid():
+            e = ingr.save()
+            return HttpResponseRedirect('/menu/crearIngrediente/{}'.format(e.idIngr))
         else :
-            print(formPlatos.data)
-            return HttpResponseRedirect('/menu/crear/')                
+            return HttpResponseRedirect('/menu/crearIngrediente/')                
     else:
-        form = ingredienteForm()
-        return render(request,'menu/editar.html', {'nombreMenu': "Crear un menu",
+        if idIngrediente:
+            form = ingredienteForm(instance = ingrediente.objects.get(idIngr = idIngrediente)) 
+        else:   
+            form = ingredienteForm()
+        return render(request,'menu/editar.html', {'nombreMenu': "Crear ingrediente",
                                                  'form': form})
 
 
