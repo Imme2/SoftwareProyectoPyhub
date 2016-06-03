@@ -26,7 +26,6 @@ class perfil(models.Model):
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         perfil.objects.create(user=instance)
-        proveedor.objects.create(username=instance)
 post_save.connect(create_user_profile, sender=User) #Un decorador que implica el trigger (No indentar)
 
         
