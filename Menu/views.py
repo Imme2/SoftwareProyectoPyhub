@@ -1,10 +1,9 @@
 from django.shortcuts import render
-from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.http.response import HttpResponseRedirect
-from Registro.models import perfil,proveedor,menu
+from Registro.models import perfil,proveedor,menu, ingrediente, item, posee
 from django.contrib.auth.decorators import login_required
-from Menu.form import formMenuCrear, menuSelector, formPlatoSelector
+from Menu.form import menuSelector, formMenu, ingredienteForm, formPlato, formPosee
 # Create your views here.
 
 @login_required(login_url='/registro/login/')
@@ -16,7 +15,7 @@ def editarMenu(request, idMenu = None):
         return render(request,'menu/escoger.html', {'listaMenu': listaMenus})
     else:
         if request.method == "POST":
-            formPlatos = formPlatoSelector(idMenu, data = request.POST)
+            formPlatos = formMenu(idMenu, data = request.POST)
             if formPlatos.is_valid():
                 formPlatos.save(idMenu)
                 return HttpResponseRedirect('/menu/editar/{}'.format(idMenu))
@@ -25,7 +24,7 @@ def editarMenu(request, idMenu = None):
                 return HttpResponseRedirect('/menu/editar/{}'.format(idMenu))                
         else:
             nombreMenu = menu.objects.get(idMenu = idMenu).nombre
-            formPlatos = formPlatoSelector(idMenu)
+            formPlatos = formMenu(idMenu)
 
             return render(request,'menu/editar.html', {'nombreMenu': "Editar un menu",
                                                     'form': formPlatos})
@@ -35,7 +34,7 @@ def crearMenu(request, idMenu = None):
     if (not(request.user.is_staff)):
         return HttpResponseRedirect('/registro/logout')
     if request.method == "POST":
-        formPlatos = formPlatoSelector(data = request.POST)
+        formPlatos = formMenu(data = request.POST)
         if formPlatos.is_valid():
             idMenu = formPlatos.create()
             formPlatos.save(idMenu)
@@ -45,6 +44,78 @@ def crearMenu(request, idMenu = None):
             return HttpResponseRedirect('/menu/crear/')                
     else:
         nombreMenu = ""
-        formPlatos = formPlatoSelector()
+        formPlatos = formMenu()
         return render(request,'menu/editar.html', {'nombreMenu': "Crear un menu",
                                                  'form': formPlatos})
+
+@login_required(login_url='/registro/login/')
+def ingredienteView(request, idIngrediente = None):
+    if (not(request.user.is_staff)):
+        return HttpResponseRedirect('/registro/logout')
+    if request.method == "POST":
+        if idIngrediente:
+            ingr = ingredienteForm(data = request.POST, instance = ingrediente.objects.get(idIngr = idIngrediente))
+        else:
+            ingr = ingredienteForm(data = request.POST)
+        if ingr.is_valid():
+            e = ingr.save()
+            return HttpResponseRedirect('/menu/ingrediente/{}'.format(e.idIngr))
+        else :
+            return HttpResponseRedirect('/menu/ingrediente/')                
+    else:
+        if idIngrediente:
+            form = ingredienteForm(instance = ingrediente.objects.get(idIngr = idIngrediente)) 
+        else:   
+            form = ingredienteForm()
+        return render(request,'menu/editar.html', {'nombreMenu': "Crear ingrediente",
+                                                 'form': form})
+
+
+@login_required(login_url='/registro/login/')
+def platoView(request, idPlato = None):
+    if (not(request.user.is_staff)):
+        return HttpResponseRedirect('/registro/logout')
+    if request.method == "POST":
+        if idPlato:
+            formPlat = formPlato(data = request.POST, instance = item.objects.get(idItem = idPlato))
+        else:
+            formPlat = formPlato(data = request.POST)
+        formPose = formPosee(data = request.POST)
+        if formPlat.is_valid() & formPose.is_valid():
+            e = formPlat.save()
+            formPose.save(e)
+            return HttpResponseRedirect('/menu/plato/{}'.format(e.idItem))
+        else :
+            return HttpResponseRedirect('/menu/plato/')                
+    else:
+        if idPlato:
+            platoInstance = item.objects.get(idItem = idPlato)
+            formPlat = formPlato(instance = platoInstance)
+            formPose = formPosee()
+            form = [formPlat, formPose]
+            extra = None
+            extra = posee.objects.all().filter(idItem = platoInstance)
+        else:   
+            formPlat = formPlato()
+            form = [formPlat]
+            extra = None
+        return render(request,'menu/editar2.html', {'nombreMenu': "Crear plato",
+                                                 'form': form,
+                                                 'extra': extra})
+
+@login_required(login_url='/registro/login/')
+def quitarIngrediente(request):
+    if (not(request.user.is_staff)):
+        return HttpResponseRedirect('/registro/logout')
+    if request.method == "GET":
+        plato = request.GET.get("plato")
+        ingr = request.GET.get("ingr")
+        if plato and ingr:
+            plato = item.objects.get(idItem = plato)
+            ingr = ingrediente.objects.get(idIngr = ingr)
+            posee.objects.filter(idItem = plato, idIngr = ingr).delete()
+            return HttpResponseRedirect('/menu/plato/{}'.format(plato.idItem))
+        else :
+            return HttpResponseRedirect('/menu/plato/')                
+    else:
+        return HttpResponseRedirect('/menu/plato/')                

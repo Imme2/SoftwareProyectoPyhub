@@ -70,8 +70,11 @@ def logearUsuario(request):
         else:
             return render(request,'registro/login.html', {'form': form})
     else:
-        form = loginUsuario()
-        return render(request,'registro/login.html', {'form': form})
+        if not request.user.is_authenticated():
+            form = loginUsuario()
+            return render(request,'registro/login.html', {'form': form})
+        else:
+            return HttpResponseRedirect('/registro/editar')
     
 def logOut(request):
     logout(request)
