@@ -87,7 +87,7 @@ class orden(models.Model):
     
 class billetera(models.Model):
     idBilletera = models.AutoField(primary_key = True)
-    user = models.OnetoOneField(User, related_name='billetera')
+    user = models.OneToOneField(User, related_name='billetera')
     nombre = models.CharField(max_length = 20)
 
 class consulta(models.Model):
