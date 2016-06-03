@@ -1,7 +1,7 @@
 {% extends "registro/header.html" %}
 {% block content %}
 <div class>
-	<h2 align="center">Editar Cliente</h2>
+	<h2 align="center">Tu Perfil</h2>
 </div>
 <div class="row">
 	{% if error %}
@@ -13,32 +13,64 @@
 	{% endif %}
 	
 	<div class="container-fluid col-md-3"></div>
-	<div class="container-fluid col-md-6">
+	<div class="container-fluid col-md-6" background-color"lightblue";>
 		<form method = "post">
 			{% csrf_token %}
 			<div class="form-group col-xs-6">
+				<address>
+		  		<strong>Nombre:</strong><br>
 				{{Nombre}}
+				</address>
 		  	</div>
 		  	<div class="form-group col-xs-6">
+		  		<address>
+		  		<strong>Apellido:</strong><br>
 				{{Apellido}}
+				</address>
 		  	</div>
 		  	<div class="form-group col-xs-6">
+		  		<address>
+		  		<strong>Cédula:</strong><br>
 				{{CI}}
+				</address>
 		  	</div>
 		  	<div class="form-group col-xs-6">
-				{{Sexo}}
+		  		<address>
+		  		<strong>Sexo:</strong>
+				{% if Sexo == "M" %}
+					<p>Masculino</p>
+				{% else %}
+					<p>Femenino</p>
+				{% endif %}
+				</address>
 		  	</div>
 		  	<div class="form-group col-xs-6">
+		  		<strong>Fecha De Nacimiento:</strong><br>
 				{{FechaDeNacimiento}}
 		  	</div>
 		  	<div class="form-group col-xs-6">
+				<address>
+				<strong>Teléfono:</strong><br>
+				<span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
+				<span class="sr-only"></span>
 				{{Telefono}}
+				</address>
 		  	</div>
 		  	<div class="form-group col-xs-6">
-				{{Email}}
+				<address>
+  				<strong>Email:</strong><br>
+  				<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+  				<span class="sr-only"></span>
+  				<a href="mailto:#">{{Email}}</a>
+				</address>
 		  	</div>
 		  	<div class="form-group col-xs-6">
+				<address>
+  				<strong>Nombre de Usuario:</strong><br>
+  				<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+				<span class="sr-only"></span>
 				{{Username}}
+				</address>
 		  	</div>
 		</form>
 	</div>
