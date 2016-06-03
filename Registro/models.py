@@ -48,6 +48,8 @@ class ingrediente(models.Model):
     cantidad = models.PositiveIntegerField()
     nombre = models.CharField(max_length = 50)
     # consultaRel = models.ManyToManyField(proveedor,through = 'consulta')
+    def __str__(self):
+        return self.nombre
 
 class item(models.Model):
     idItem = models.AutoField(primary_key = True)
