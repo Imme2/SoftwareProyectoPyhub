@@ -31,6 +31,7 @@ class parametro(models.Model):
     horarioCierre = models.TimeField()
     horarioEntrada = models.TimeField()
     cantPuestos = models.PositiveIntegerField()
+    menuActual = models.OneToOneField('menu', related_name = 'menu')
         
 class proveedor(models.Model):
     username = models.OneToOneField(User,related_name = 'proveedor')
@@ -51,7 +52,6 @@ class ingrediente(models.Model):
     idIngr = models.AutoField(primary_key = True)
     cantidad = models.PositiveIntegerField()
     nombre = models.CharField(max_length = 50)
-
     consultaRel = models.ManyToManyField(proveedor,through = 'consulta')
 
 class item(models.Model):
@@ -61,7 +61,6 @@ class item(models.Model):
     precio = models.PositiveIntegerField()
     foto = models.CharField(max_length = 300)
     descripcion = models.CharField(max_length = 200)
-
     poseeRel = models.ManyToManyField(ingrediente,through = 'posee')
 
     def __str__(self):
