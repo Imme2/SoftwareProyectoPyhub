@@ -57,7 +57,7 @@ class item(models.Model):
     idItem = models.AutoField(primary_key = True)
     nombre = models.CharField(max_length = 50)
     tipo = models.CharField(max_length = 1)
-    precio = models.PositiveIntegerField()
+    precio = models.DecimalField(max_digits = 30, decimal_places = 3)
     foto = models.CharField(max_length = 300)
     descripcion = models.CharField(max_length = 200)
     poseeRel = models.ManyToManyField(ingrediente,through = 'posee')
@@ -68,7 +68,7 @@ class item(models.Model):
 class transaccion(models.Model):
     idTrans = models.AutoField(primary_key = True)
     username = models.ForeignKey('cliente')
-    monto = models.PositiveIntegerField()
+    monto = models.DecimalField(max_digits = 30, decimal_places = 3)
     fecha = models.DateField()
     
 class menu(models.Model):
@@ -87,6 +87,7 @@ class billetera(models.Model):
     user = models.OneToOneField(User, related_name='billetera')
     nombre = models.CharField(max_length = 20)
     password = models.CharField(max_length = 50)
+    balance = models.DecimalField(max_digits = 30, decimal_places = 3)
 
     def setPassword(self, raw_password):
         self.password = make_password(raw_password)
