@@ -22,7 +22,7 @@ def mostrarPerfilUsuario(request):
         return HttpResponseRedirect('/perfil/proveedor')
 
     user = request.user
-    perfill = perfil.objects.get(user = user.username)
+    perfill = user.perfil
 
     return render(request,'/perfil/mostrar.html',{'Username': user.username,
                                                     'Email': user.email,
@@ -41,8 +41,8 @@ def mostrarPerfilProveedor(request):
         return HttpResponseRedirect('/perfil/usuario')
 
     user = request.user
-    perfil = perfil.objects.get(user = user.username)
-    prov = proveedor.objects.get(username = user.username)
+    perfil = user.perfil
+    prov = user.proveedor
 
     return render(request,'/perfil/mostrar.html',{'Username': user.username,
                                                     'Email': user.email,
