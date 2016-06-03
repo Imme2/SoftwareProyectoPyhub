@@ -25,14 +25,9 @@ class perfil(models.Model):
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         perfil.objects.create(user=instance)
+        proveedor.objects.create(username=instance)
 post_save.connect(create_user_profile, sender=User) #Un decorador que implica el trigger (No indentar)
 
-class parametro(models.Model):
-    idParam = models.PositiveIntegerField()
-    horarioCierre = models.TimeField()
-    horarioEntrada = models.TimeField()
-    cantPuestos = models.PositiveIntegerField()
-    menuActual = models.OneToOneField('menu', related_name = 'menu')
         
 class proveedor(models.Model):
     username = models.OneToOneField(User,related_name = 'proveedor')
@@ -53,7 +48,7 @@ class ingrediente(models.Model):
     idIngr = models.AutoField(primary_key = True)
     cantidad = models.PositiveIntegerField()
     nombre = models.CharField(max_length = 50)
-    consultaRel = models.ManyToManyField(proveedor,through = 'consulta')
+    # consultaRel = models.ManyToManyField(proveedor,through = 'consulta')
 
 class item(models.Model):
     idItem = models.AutoField(primary_key = True)
@@ -76,13 +71,11 @@ class transaccion(models.Model):
 class menu(models.Model):
     idMenu = models.AutoField(primary_key = True)
     nombre = models.CharField(max_length = 50)
-
     contieneRel = models.ManyToManyField(item,through = 'contiene')
 
 class orden(models.Model):
     nroOrden = models.AutoField(primary_key = True)
-    fecha = models.DateField()
-    
+    fecha = models.DateField()    
     realizaRel = models.ManyToManyField(cliente,through = 'realiza')
     tieneRel = models.ManyToManyField(item,through = 'tiene')
     
@@ -156,7 +149,13 @@ class contiene(models.Model):
 class posee(models.Model):
     idItem = models.ForeignKey('item')
     idIngr = models.ForeignKey('ingrediente')
-
+    cantidad = models.PositiveIntegerField()
     class Meta:
         unique_together = ('idItem','idIngr')
 
+class parametro(models.Model):
+    idParam = models.PositiveIntegerField()
+    horarioCierre = models.TimeField()
+    horarioEntrada = models.TimeField()
+    cantPuestos = models.PositiveIntegerField()
+    menuActual = models.OneToOneField('menu', related_name = 'menu')
