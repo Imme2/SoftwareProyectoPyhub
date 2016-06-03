@@ -1,7 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
-from django.contrib.auth.models import get_hexdigest
+from django.contrib.auth.hashers import make_password, check_password
+
 
 class perfil(models.Model):
     Sexos = (
@@ -85,19 +86,12 @@ class billetera(models.Model):
     nombre = models.CharField(max_length = 20)
     password = models.CharField()
 
-    def set_password(self, raw_password):
-        from random import random
-        algo = 'sha1'
-        salt = get_hexdigest(algo, str(random()), str(random()))[:5]
-        hsh = get_hexdigest(algo, salt, raw_password)
-        self.password = '%s$%s$%s' % (algo, salt, hsh)
+    def setPassword(self, raw_password):
+        self.password = make_password(raw_password)
 
-    def verify_password(self, rawIntento):
-        datos = self.password.split('$')
-        algo = datos[0]
-        salt = datos[1]
-        hashIntento = get_hexdigest(algo, salt, rawIntento)
-        return (hashIntento == datos[2])
+    def verifyPassword(self, rawIntento):
+        return check_password(rawIntento,self.password)
+
 
 class consulta(models.Model):
     username = models.ForeignKey('proveedor')
