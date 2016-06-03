@@ -86,7 +86,7 @@ class billetera(models.Model):
     idBilletera = models.AutoField(primary_key = True)
     user = models.OneToOneField(User, related_name='billetera')
     nombre = models.CharField(max_length = 20)
-    password = models.CharField()
+    password = models.CharField(max_length = 50)
 
     def setPassword(self, raw_password):
         self.password = make_password(raw_password)
