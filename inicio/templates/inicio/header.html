@@ -51,6 +51,9 @@
             <li><a href="#">Bollo con carne molida</a></li>
           </ul>
         </li>
+        {% if user.is_authenticated %}
+        <li class="active"><a href="http://127.0.0.1:8000/registro/logout/">{{ user.username }} (logout)<span class="sr-only">(current)</span></a></li>
+        {% endif %}
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="/registro/login">Log-In</a></li>
