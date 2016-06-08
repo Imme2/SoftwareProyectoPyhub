@@ -58,7 +58,7 @@ class formRegistroUsuario(forms.Form):
         username = self.cleaned_data['username']
         nombre = self.cleaned_data['nombre']
         apellidos = self.cleaned_data['apellidos']
-        f_nac = self.cleaned_data['f_nac']
+        fechaNac = self.cleaned_data['f_nac']
         correo = self.cleaned_data['correo']
         tlf = self.cleaned_data['tlf']
         clave = self.cleaned_data['clave']
