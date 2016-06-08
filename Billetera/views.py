@@ -5,18 +5,22 @@ from django.shortcuts import render
 
 @login_required(login_url='/registro/login/')
 def crearBilletera(request):
+    #Check de si tiene una billetera ya.
+    try:
+        request.user.billetera
+        return HttpResponseRedirect('Billetera/recargar')
+    except:
+        pass
     if request.method == "POST":
         form = billeteraAuth(request.POST)
         if form.is_valid():
-            user = authenticate(username = form.cleaned_data['username'],password = form.cleaned_data['clave'])
-            if user is not None:
-                login(request, user)
-                return HttpResponseRedirect('/registro/editar')
-            else:
-                error = ['Nombre de usuario o clave incorrectos']
-                return render(request,'billetera/crear.html', {'form': form,'error': error})
+            form.save(request)
+            return HttpResponseRedirect('Billetera/recargar')
         else:
             return render(request,'billetera/crear.html', {'form': form})
     else:
-        form = loginUsuario()
+        form = billeteraAuth()
         return render(request,'billetera/crear.html', {'form': form})
+
+def recargarBilletera(request):
+    pass

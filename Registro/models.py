@@ -84,7 +84,6 @@ class orden(models.Model):
 class billetera(models.Model):
     idBilletera = models.AutoField(primary_key = True)
     user = models.OneToOneField(User, related_name='billetera')
-    nombre = models.CharField(max_length = 20)
     password = models.CharField(max_length = 50)
     balance = models.DecimalField(max_digits = 30, decimal_places = 3)
 
