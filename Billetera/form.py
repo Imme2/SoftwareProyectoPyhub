@@ -7,7 +7,7 @@ from django.contrib.contenttypes.models import ContentType
 from Registro.models import billetera
 
 
-class billeteraAuth(forms.Form):
+class formBilleteraCrear(forms.Form):
     clave = forms.CharField(widget=forms.PasswordInput(attrs={'type':"password" ,'class':"form-control", 'id':"inputClave", 'placeholder':"Clave",}))
     repetirClave = forms.CharField(widget=forms.PasswordInput(attrs={'type':"password" ,'class':"form-control", 'id':"repeatInputClave", 'placeholder':"Repetir Clave",}))
 

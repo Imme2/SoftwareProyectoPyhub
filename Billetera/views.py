@@ -1,4 +1,7 @@
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from django.http.response import HttpResponseRedirect
+from Billetera.form import formBilleteraCrear
 
 # Create your views here.
 
@@ -12,14 +15,14 @@ def crearBilletera(request):
     except:
         pass
     if request.method == "POST":
-        form = billeteraAuth(request.POST)
+        form = formBilleteraCrear(request.POST)
         if form.is_valid():
             form.save(request)
             return HttpResponseRedirect('Billetera/recargar')
         else:
             return render(request,'billetera/crear.html', {'form': form})
     else:
-        form = billeteraAuth()
+        form = formBilleteraCrear()
         return render(request,'billetera/crear.html', {'form': form})
 
 def recargarBilletera(request):
