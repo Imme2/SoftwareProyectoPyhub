@@ -57,13 +57,18 @@ def registroProveedor(request):
 # 
 # Formulario de logeo para usuarios
 def logearUsuario(request):
+    #Se captura el argumento en caso de haber uno (en caso de no haberlo se coloca el string vacio)
+    next = request.GET.get('next','')
     if request.method == "POST":
         form = loginUsuario(request.POST)
         if form.is_valid():
             user = authenticate(username = form.cleaned_data['username'],password = form.cleaned_data['clave'])
             if user is not None:
                 login(request, user)
-                return HttpResponseRedirect('/registro/editar')
+                if (next == ''):
+                    return HttpResponseRedirect('/perfil/')
+                else:
+                    return HttpResponseRedirect(next)
             else:
                 error = ['Nombre de usuario o clave incorrectos']
                 return render(request,'registro/login.html', {'form': form,'error': error})
@@ -73,9 +78,12 @@ def logearUsuario(request):
         if not request.user.is_authenticated():
             form = loginUsuario()
             return render(request,'registro/login.html', {'form': form})
+        if (next == ''):
+            return HttpResponseRedirect('/perfil/')
         else:
-            return HttpResponseRedirect('/registro/editar')
-    
+            return HttpResponseRedirect(next)  
+
+  
 def logOut(request):
     logout(request)
     return HttpResponseRedirect('/')
