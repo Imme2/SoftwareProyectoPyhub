@@ -50,7 +50,7 @@ def mostrarPerfilProveedor(request):
                                                     'Apellido': user.last_name,
                                                     'CI': perfil.ci,
                                                     'Sexo': perfil.sexo,
-                                                    'Fecha de Nacimiento': perfil.f_nac,
+                                                    'Fecha de Nacimiento': perfil.fechaNac,
                                                     'Telefono': perfil.tlf,
                                                     'RIF': prov.rif,
                                                     'Nombre de Empresa': prov.nombreEmpr})

@@ -71,13 +71,13 @@ class formRegistroUsuario(forms.Form):
         p_entry = entry.perfil
         p_entry.ci = ci
         p_entry.sexo = sexo
-        p_entry.fechaNac = f_nac
+        p_entry.fechaNac = fechaNac
         p_entry.tlf = tlf
         p_entry.save()
         return entry
 
 class formRegistroProveedor(forms.Form):
-    rif_regex = RegexValidator(regex=r'^[A-Z][0-9]*[0-9]*$', message="El RIF debe ser de la forma A-1231-1231.")
+    rif_regex = RegexValidator(regex=r'^[A-Z][0-9]*[0-9]*$', message="El RIF debe ser de la forma A12311231.")
 
     rif = forms.CharField(widget=forms.TextInput(attrs={'type':'text' ,'class':'form-control' ,'id':'inputRif', 'placeholder':'J-12345678-0',}),validators = [rif_regex], label ='RIF', max_length = 20)
     nombreEmpresa = forms.CharField(widget=forms.TextInput(attrs={'type':'text' ,'class':'form-control' ,'id':'inputNombreEmpresa', 'placeholder':'Platanitos Rosa .Inc',}),validators = [],label = 'Nombre de la Empresa', max_length = 40)
