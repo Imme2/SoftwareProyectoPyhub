@@ -24,13 +24,13 @@ def mostrarPerfilUsuario(request):
     user = request.user
     perfill = user.perfil
 
-    return render(request,'/perfil/mostrar.html',{'Username': user.username,
+    return render(request,'Perfil/mostrar.html',{'Username': user.username,
                                                     'Email': user.email,
                                                     'Nombre': user.first_name,
                                                     'Apellido': user.last_name,
                                                     'CI': perfill.ci,
                                                     'Sexo': perfill.sexo,
-                                                    'Fecha de Nacimiento': perfill.f_nac,
+                                                    'FechaDeNacimiento': perfill.fechaNac,
                                                     'Telefono': perfill.tlf})
 
 
@@ -44,7 +44,7 @@ def mostrarPerfilProveedor(request):
     perfil = user.perfil
     prov = user.proveedor
 
-    return render(request,'/perfil/mostrar.html',{'Username': user.username,
+    return render(request,'Perfil/mostrar.html',{'Username': user.username,
                                                     'Email': user.email,
                                                     'Nombre': user.first_name,
                                                     'Apellido': user.last_name,
@@ -67,4 +67,4 @@ def mostrarUsuarios(request):
     listaPerfil = perfil.objects.all()
     listaPerfil = [[x.user.username, x.user.first_name, x.user.last_name, x.ci] for x in listaPerfil]
 
-    return render(request,'/perfil/mostrarUsuarios.html',{'ListaUsuarios': listaPerfil})
+    return render(request,'Perfil/mostrarUsuarios.html',{'ListaUsuarios': listaPerfil})

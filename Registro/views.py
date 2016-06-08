@@ -78,7 +78,7 @@ def logearUsuario(request):
     
 def logOut(request):
     logout(request)
-    return HttpResponseRedirect('/registro/login')
+    return HttpResponseRedirect('/')
 
 
 @login_required(login_url='/registro/login/')

@@ -62,7 +62,7 @@ class item(models.Model):
     poseeRel = models.ManyToManyField(ingrediente,through = 'posee')
 
     def __str__(self):
-        return self.nombre
+         return self.nombre
 
 class transaccion(models.Model):
     idTrans = models.AutoField(primary_key = True)
@@ -147,6 +147,9 @@ class posee(models.Model):
     cantidad = models.PositiveIntegerField()
     class Meta:
         unique_together = ('idItem','idIngr')
+
+    def __str__(self):
+        return "{} - {}".format(self.idItem.nombre, self.idIngr.nombre)
 
 class parametro(models.Model):
     idParam = models.PositiveIntegerField()

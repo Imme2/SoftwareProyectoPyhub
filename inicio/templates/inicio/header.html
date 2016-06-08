@@ -38,22 +38,38 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li class="active"><a href="http://127.0.0.1:8000/">Home<span class="sr-only">(current)</span></a></li>
-        <li><a href="#">Menu</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Platillos <span class="caret"></span></a>
+        {% if user.is_staff %}
+          <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Menu <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="/polls">Bebidas</a></li>
-            <li><a href="#">Entradas</a></li>
-            <li><a href="#">Plato principal</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">Postres</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">Bollo con carne molida</a></li>
+            <li><a href="/menu/crear/">Crear</a></li>
+            <li><a href="/menu/editar/">Editar</a></li>
           </ul>
-        </li>
+          </li>
+        {% else%}
+          <li><a href="#">Menu</a></li>
+        {% endif %}
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Platillos <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="/polls">Bebidas</a></li>
+              <li><a href="#">Entradas</a></li>
+              <li><a href="#">Plato principal</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#">Postres</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#">Bollo con carne molida</a></li>
+            </ul>
+          </li>
+        {% if user.is_authenticated %}
+        <li class="active"><a href="http://127.0.0.1:8000/registro/logout/">{{ user.username }} (logout)<span class="sr-only">(current)</span></a></li>
+        {% endif %}
       </ul>
       <ul class="nav navbar-nav navbar-right">
+        {% if user.is_authenticated %}
+        {% else %}
         <li><a href="/registro/login">Log-In</a></li>
+        {% endif %}
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Registro<span class="caret"></span></a>
           <ul class="dropdown-menu">

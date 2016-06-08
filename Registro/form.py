@@ -170,8 +170,8 @@ class perfilForm(forms.ModelForm):
         return m
 
 class proveedorForm(forms.ModelForm):
-    nombreEmpr = forms.CharField(disabled = True, label = 'Nombre de Empresa')
-    rif = forms.CharField(disabled = True, label = 'RIF')
+    nombreEmpr = forms.CharField(widget=forms.TextInput(attrs={'type':'text' ,'class':'form-control' ,'id':'inputNombreEmpresa',}),disabled = True, label = 'Nombre de Empresa')
+    rif = forms.CharField(widget=forms.TextInput(attrs={'type':'text' ,'class':'form-control' ,'id':'inputRif',}),disabled = True, label = 'RIF')
     class Meta:
         model = proveedor
         exclude = ('username','ofreceRel')
