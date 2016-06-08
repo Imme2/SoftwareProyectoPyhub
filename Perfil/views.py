@@ -40,17 +40,17 @@ def mostrarPerfilProveedor(request):
     if (not(esProveedor(request))):
         return HttpResponseRedirect('/perfil/usuario')
 
+
     user = request.user
     perfil = user.perfil
     prov = user.proveedor
-
     return render(request,'Perfil/mostrar.html',{'Username': user.username,
                                                     'Email': user.email,
                                                     'Nombre': user.first_name,
                                                     'Apellido': user.last_name,
                                                     'CI': perfil.ci,
                                                     'Sexo': perfil.sexo,
-                                                    'Fecha de Nacimiento': perfil.fechaNac,
+                                                    'FechaDeNacimiento': perfil.fechaNac,
                                                     'Telefono': perfil.tlf,
                                                     'RIF': prov.rif,
                                                     'Nombre de Empresa': prov.nombreEmpr})
