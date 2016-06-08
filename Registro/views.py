@@ -17,7 +17,7 @@ def esProveedor(request):
     else:
         return False
 
-# Create your views here.
+# Vista de registro de usuario, verifica que el usuario no este autenticado primero.
 def registroUsuario(request):
     if request.user.is_authenticated():
         return HttpResponseRedirect('/registro/login/')

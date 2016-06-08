@@ -25,5 +25,6 @@ def crearBilletera(request):
         form = formBilleteraCrear()
         return render(request,'billetera/crear.html', {'form': form})
 
+@login_required(login_url='/registro/login/')
 def recargarBilletera(request):
     pass
