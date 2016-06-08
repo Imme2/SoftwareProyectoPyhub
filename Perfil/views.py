@@ -44,7 +44,7 @@ def mostrarPerfilProveedor(request):
     user = request.user
     perfil = user.perfil
     prov = user.proveedor
-    return render(request,'Perfil/mostrar.html',{'Username': user.username,
+    return render(request,'Perfil/mostrarProveedor.html',{'Username': user.username,
                                                     'Email': user.email,
                                                     'Nombre': user.first_name,
                                                     'Apellido': user.last_name,
