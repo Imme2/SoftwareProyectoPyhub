@@ -8,9 +8,6 @@ from django.db import IntegrityError
 import datetime
 import pickle
 
-class menuSelector(forms.Form):
-    listaMenus = menu.objects.all()
-    listaMenus = [x.nombre for x in listaMenus]
 
 class formMenu(forms.Form):
 

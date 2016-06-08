@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.http.response import HttpResponseRedirect
 from Registro.models import perfil,proveedor,menu, ingrediente, item, posee
 from django.contrib.auth.decorators import login_required
-from Menu.form import menuSelector, formMenu, ingredienteForm, formPlato, formPosee
+from Menu.form import formMenu, ingredienteForm, formPlato, formPosee
 # Create your views here.
 
 @login_required(login_url='/registro/login/')

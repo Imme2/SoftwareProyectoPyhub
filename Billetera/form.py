@@ -26,4 +26,6 @@ class billeteraAuth(forms.Form):
         password = self.cleaned_data('clave')
 
         b_entry = request.user.billetera
-         
+        b_entry.setPassword(password)
+        b_entry.balance = 0
+        b_entry.save() 
