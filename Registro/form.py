@@ -4,7 +4,7 @@ from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User, Permission
 from django.contrib.contenttypes.models import ContentType
-from Registro.models import perfil, proveedor
+from Registro.models import perfil, proveedor, parametro
 import datetime
 
 
@@ -168,6 +168,11 @@ class perfilForm(forms.ModelForm):
         m.user = request.user
         m.save()
         return m
+
+class parametrosForm(forms.ModelForm):
+    class Meta:
+        model = parametro
+        fields = '__all__'
 
 class proveedorForm(forms.ModelForm):
     nombreEmpr = forms.CharField(widget=forms.TextInput(attrs={'type':'text' ,'class':'form-control' ,'id':'inputNombreEmpresa',}),disabled = True, label = 'Nombre de Empresa')
