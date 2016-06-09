@@ -24,7 +24,7 @@ class formMenu(forms.Form):
         agregar = [x for x in self.cleaned_data['platos'] if x not in actual]
         menuObj = menu.objects.get(idMenu = menuId)
         menuObj.nombre = self.cleaned_data['nombreMenu']
-        menuObj.saves()
+        menuObj.save()
         for x in agregar:
             contiene.objects.create(idMenu = menuObj, idItem = x)
         for x in remover:
