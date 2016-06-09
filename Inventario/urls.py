@@ -3,4 +3,5 @@ from Inventario import views
 
 urlpatterns = [
      url(r'^mostrar/$', views.mostrarInventario),
+     url(r'^modificar/$', views.modificarInventario)
 ]
