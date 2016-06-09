@@ -128,14 +128,14 @@ def editarProveedor(request):
         userform = userForm(instance = request.user, data = request.POST)
         profileform = perfilForm(instance = request.user.perfil, data = request.POST)
         try:
-            formProveedor = proveedorForm(instance = proveedor.objects.get(username = request.user))
+            provedForm = proveedorForm(instance = request.user.proveedor, data=request.POST)
         except:
-            formProveedor = proveedorForm()
+            provedForm = proveedorForm()
 
         if userform.is_valid() and profileform.is_valid() and provedForm.is_valid():
             userform.save(request)
             profileform.save(request)
-            return HttpResponseRedirect('/registro/editar/proveedor')
+            return HttpResponseRedirect('/perfil/')
         else:
             return render(request,'registro/editarProveedor.html', {'formUser': userform,
                                                           'formPerfil': profileform,

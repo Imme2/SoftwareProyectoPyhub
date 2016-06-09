@@ -48,8 +48,7 @@ def crearMenu(request, idMenu = None):
     else:
         nombreMenu = ""
         formPlatos = formMenu()
-        return render(request,'menu/editar.html', {'nombreMenu': "Crear un menu",
-                                                 'form': formPlatos})
+        return render(request,'menu/editar.html', {'form': formPlatos})
 
 @login_required(login_url='/registro/login/')
 def parametrosView(request):

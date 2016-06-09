@@ -79,7 +79,7 @@ class formRegistroUsuario(forms.Form):
 class formRegistroProveedor(forms.Form):
     rif_regex = RegexValidator(regex=r'^[A-Z][0-9]{6,8}$', message="El RIF debe ser de la forma A12311231.")
 
-    rif = forms.CharField(widget=forms.TextInput(attrs={'type':'text' ,'class':'form-control' ,'id':'inputRif', 'placeholder':'J-12345678-0',}),validators = [rif_regex], label ='RIF', max_length = 20)
+    rif = forms.CharField(widget=forms.TextInput(attrs={'type':'text' ,'class':'form-control' ,'id':'inputRif', 'placeholder':'J1234560',}),validators = [rif_regex], label ='RIF', max_length = 20)
     nombreEmpresa = forms.CharField(widget=forms.TextInput(attrs={'type':'text' ,'class':'form-control' ,'id':'inputNombreEmpresa', 'placeholder':'Platanitos Rosa .Inc',}),validators = [],label = 'Nombre de la Empresa', max_length = 40)
 
     def clean(self):

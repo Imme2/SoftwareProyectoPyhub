@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.http.response import HttpResponseRedirect
 from Billetera.form import formBilleteraCrear
+from Registro.models import billetera
 
 # Create your views here.
 
@@ -9,11 +10,8 @@ from Billetera.form import formBilleteraCrear
 @login_required(login_url='/registro/login/')
 def crearBilletera(request):
     #Check de si tiene una billetera ya.
-    try:
-        request.user.billetera
+    if billetera.objects.filter(User = request.user).exists():
         return HttpResponseRedirect('Billetera/recargar')
-    except:
-        pass
     if request.method == "POST":
         form = formBilleteraCrear(request.POST)
         if form.is_valid():
