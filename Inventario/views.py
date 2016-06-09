@@ -26,19 +26,17 @@ def modificarInventario(request):
         # Ofrece tiene unicamente el campo de precio mientras que
         # Los ingredientes se muestran como lista en la otra form
         formPrecio = formOfrece(data = request.POST)
-        formIngredintes = formIngredientes(data= request.POST)
+        listaIngredientes = formIngredientes(data= request.POST)
     
-        if formIngredientes.is_valid():
-            idIngr = formIngredientes.save()
+        if listaIngredientes.is_valid():
+            idIngr = listaIngredientes.save()
             if formPrecio.is_valid():
                 formPrecio.save(idIngr,request.user.proveedor)
 
         #Se crea un arreglo de todas las ofertas disponibles (Ahora con los updates)
         arregloOfertas = getInventarioProveedor(request)
 
-        return render(request,'inventario/modificar.html', {'ListaOferta': arregloOfertas,
-                                                        'formIngredientes': formIngredientes,
-                                                        'formPrecio': formPrecio})
+        return HttpResponseRedirect('/inventario/modificar/')
     else:
         #Se crea un arreglo de todas las ofertas disponibles
         arregloOfertas = getInventarioProveedor(request)
@@ -46,8 +44,8 @@ def modificarInventario(request):
         # Ofrece tiene unicamente el campo de precio mientras que
         # Los ingredientes se muestran como lista en la otra form
         formPrecio = formOfrece()
-        formIngredintes = formIngredientes()
+        listaIngredientes = formIngredientes()
         
         return render(request,'inventario/modificar.html',{'ListaOferta': arregloOfertas,
-                                                            'formIngredientes': formIngredientes,
+                                                            'formIngredientes': listaIngredientes,
                                                             'formPrecio': formPrecio})

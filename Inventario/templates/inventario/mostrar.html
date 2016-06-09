@@ -1,7 +1,7 @@
 {% extends "registro/header.html" %}
 {% block content %}
 <div class>
-	<h2 align="center">Oferta de Inventario</h2>
+	<h2 align="center">Oferta</h2>
 </div>
 <div class="row">
 	{% if error %}
@@ -16,8 +16,8 @@
 			{% if ListaOferta %}
 				{% for x in ListaOferta %}
 				<li class="list-group-item">
-					<span class="label label-default label-pill pull-xs-right">{{x.1}}</span>
 					{{x.0}}
+					<div align = "right"> <span class="label label-default label-pill pull-xs-right"> Precio: {{x.1}} Bs</span> </div>
 				</li>
 				{% endfor %}
 			{% else %}
