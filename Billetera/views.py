@@ -10,7 +10,7 @@ from Registro.models import billetera
 @login_required(login_url='/registro/login/')
 def crearBilletera(request):
     #Check de si tiene una billetera ya.
-    if billetera.objects.filter(User = request.user).exists():
+    if billetera.objects.filter(user = request.user).exists():
         return HttpResponseRedirect('Billetera/recargar')
     if request.method == "POST":
         form = formBilleteraCrear(request.POST)
@@ -18,6 +18,7 @@ def crearBilletera(request):
             form.save(request)
             return HttpResponseRedirect('Billetera/recargar')
         else:
+
             return render(request,'billetera/crear.html', {'form': form})
     else:
         form = formBilleteraCrear()
