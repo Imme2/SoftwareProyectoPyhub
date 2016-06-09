@@ -6,11 +6,14 @@ from Registro.models import ingrediente, ofrece, proveedor
 from django.db import IntegrityError
 
 
-class formIngredientes(forms.ModelForm):
-    class Meta:
-        model = ingrediente
-        exclude = ['idIngr','cantidad']
 
+class formIngredientes(forms.Form):
+    ingredientes = forms.ModelChoiceField(queryset=ingrediente.objects.all().order_by('nombre'))
+
+    def save(self):
+        nombreIngr = self.cleaned_data['ingredientes']
+
+        return ingrediente.objects.get(nombre = nombreIngr)
 
 class formOfrece(forms.ModelForm):
     class Meta:
