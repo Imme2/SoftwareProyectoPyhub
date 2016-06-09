@@ -11,7 +11,7 @@ import pickle
 
 class formMenu(forms.Form):
 
-    nombreMenu = forms.CharField(label = "Nombre de Menu:")
+    nombreMenu = forms.CharField(widget=forms.TextInput(attrs={'type':'text' ,'class':'form-control' ,'id':'inputNombreMenu', 'placeholder':'Nombre Menu',}),label = "Nombre de Menu:")
     platos = forms.ModelMultipleChoiceField(item.objects.all(), required=True, widget=forms.CheckboxSelectMultiple(), label='Selecciona los objetos del menu')
 
     def __init__(self, menuId = None, *args, **kwargs):
