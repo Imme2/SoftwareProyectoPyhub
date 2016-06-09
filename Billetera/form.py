@@ -12,7 +12,7 @@ class formBilleteraCrear(forms.Form):
     repetirClave = forms.CharField(widget=forms.PasswordInput(attrs={'type':"password" ,'class':"form-control", 'id':"repeatInputClave", 'placeholder':"Repetir Clave",}))
 
     def clean(self):
-        cleaned_data = super(billeteraAuth, self).clean()
+        cleaned_data = super(formBilleteraCrear, self).clean()
         clave = cleaned_data.get('clave')
         repeticion = cleaned_data.get('repetirClave')
 
