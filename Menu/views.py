@@ -12,7 +12,9 @@ def editarMenu(request, idMenu = None):
         return HttpResponseRedirect('')
     if (idMenu == None):
         listaMenus = menu.objects.all()
-        return render(request,'menu/escoger.html', {'listaMenu': listaMenus})
+        return render(request,'menu/editar3.html',{'nombreMenu': "Crear un menu",
+                                                 'prefijo' : 'editar',
+                                                 'form': listaMenus})
     else:
         if request.method == "POST":
             formPlatos = formMenu(idMenu, data = request.POST)
@@ -81,13 +83,15 @@ def platoView(request, idPlato = None):
         else:
             formPlat = formPlato(data = request.POST)
         formPose = formPosee(data = request.POST)
-        if formPlat.is_valid() & formPose.is_valid():
+        if formPlat.is_valid():
             e = formPlat.save()
-            formPose.save(e)
+            if formPose.is_valid():
+                formPose.save(e)
             return HttpResponseRedirect('/menu/plato/{}'.format(e.idItem))
         else :
             return HttpResponseRedirect('/menu/plato/')                
     else:
+        print("Entrando")
         if idPlato:
             platoInstance = item.objects.get(idItem = idPlato)
             formPlat = formPlato(instance = platoInstance)
@@ -99,9 +103,28 @@ def platoView(request, idPlato = None):
             formPlat = formPlato()
             form = [formPlat]
             extra = None
+            print("Correcto")
         return render(request,'menu/editar2.html', {'nombreMenu': "Crear plato",
                                                  'form': form,
                                                  'extra': extra})
+
+@login_required(login_url='/registro/login/')
+def platoAllView(request):
+    if (not(request.user.is_staff)):
+        return HttpResponseRedirect('/registro/logout')
+    platos = item.objects.all()
+    return render(request,'menu/editar3.html', {'nombreMenu': "Crear un menu",
+                                                 'prefijo' : 'plato',
+                                                 'form': platos})
+
+@login_required(login_url='/registro/login/')
+def ingredienteAllView(request):
+    if (not(request.user.is_staff)):
+        return HttpResponseRedirect('/registro/logout')
+    ingr = ingrediente.objects.all()
+    return render(request,'menu/editar3.html', {'nombreMenu': "Crear un menu",
+                                                 'prefijo' : 'ingrediente',
+                                                 'form': ingr})
 
 @login_required(login_url='/registro/login/')
 def quitarIngrediente(request):

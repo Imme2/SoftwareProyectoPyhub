@@ -75,6 +75,9 @@ class menu(models.Model):
     nombre = models.CharField(max_length = 50)
     contieneRel = models.ManyToManyField(item,through = 'contiene')
 
+    def __str__(self):
+        return self.nombre
+
 class orden(models.Model):
     nroOrden = models.AutoField(primary_key = True)
     fecha = models.DateField()    
