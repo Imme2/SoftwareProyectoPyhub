@@ -1,11 +1,11 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.http.response import HttpResponseRedirect
-from Registro.models import perfil,proveedor,menu, ingrediente, item, posee
+from Registro.models import perfil,proveedor, parametro, menu, ingrediente, item, posee
 from django.contrib.auth.decorators import login_required
 from Menu.form import formMenu, ingredienteForm, formPlato, formPosee
 from Registro.form import parametrosForm
-
+import datetime
 
 
 @login_required(login_url='/registro/login/')
@@ -57,13 +57,25 @@ def parametrosView(request):
     if (not(request.user.is_staff)):
         return HttpResponseRedirect('/registro/logout')
     if request.method == "POST":
-        formPara = parametrosForm(data = request.POST)
+        print(parametro.objects.get(idParam = 1))
+        formPara = parametrosForm(instance = parametro.objects.get(idParam = 1), data = request.POST)
         if formPara.is_valid():
             formPara.save()
-            return HttpResponseRedirect('/menu/parametros/')                
-        return HttpResponseRedirect('/menu/parametros/')                
+            return HttpResponseRedirect('/menu/parametros/')  
+        else:
+            print(formPara.errors)
+            return render(request, 'menu/editar.html', {'Titulo': "Configurar Parametros",
+                                                    'form' : formPara})
     else:
-        formPara = parametrosForm()
+        query = parametro.objects.filter(idParam = 1)
+        if not query.exists():
+            g = parametro.objects.create(idParam = 1, 
+                                        horarioCierre = datetime.datetime.now().time(), 
+                                        horarioEntrada = datetime.datetime.now().time(),
+                                        cantPuestos = 0)
+        else:
+            g = query[0]
+        formPara = parametrosForm(instance = g)
         return render(request, 'menu/editar.html', {'Titulo': "Configurar Parametros",
                                                     'form' : formPara})
 

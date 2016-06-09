@@ -172,7 +172,7 @@ class perfilForm(forms.ModelForm):
 class parametrosForm(forms.ModelForm):
     class Meta:
         model = parametro
-        fields = '__all__'
+        exclude = ('idParam', )
 
 class proveedorForm(forms.ModelForm):
     nombreEmpr = forms.CharField(widget=forms.TextInput(attrs={'type':'text' ,'class':'form-control' ,'id':'inputNombreEmpresa',}),disabled = True, label = 'Nombre de Empresa')
