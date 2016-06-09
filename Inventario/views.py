@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from Registro.views import esProveedor
 from Inventario.auxfuncs import getInventarioProveedor
+from django.contrib.auth.decorators import login_required
+from django.http.response import HttpResponseRedirect
+
 # Create your views here.
 
-#ESTO NO SIRVE TODAVIA
 @login_required(login_url='/registro/login/')
 def mostrarInventario(request):
     if (not(esProveedor(request))):
@@ -14,7 +16,7 @@ def mostrarInventario(request):
     return render(request,'inventario/mostrar.html', {'ListaIngredientes':arreglo})
 
 
-@login_required
+@login_required(login_url='/registro/login/')
 def modificarInventario(request):
     if (not(esProveedor(request))):
         return HttpResponseRedirect('')
@@ -23,7 +25,7 @@ def modificarInventario(request):
         if formPlatos.is_valid():
             formPlatos.save(idMenu)
             return HttpResponseRedirect('/menu/editar/{}'.format(idMenu))
-        else :
+        else:
             print(formPlatos.data)
             return HttpResponseRedirect('/menu/editar/{}'.format(idMenu))                
     else:

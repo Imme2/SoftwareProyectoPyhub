@@ -1,0 +1,31 @@
+{% extends "registro/header.html" %}
+{% block content %}
+<div class>
+	<h2 align="center">Oferta de Inventario</h2>
+</div>
+<div class="row">
+	{% if error %}
+		{% for e in error %}
+			<div class="alert alert-danger">
+			  {{ e }} 
+			</div>
+		{% endfor %}
+	{% endif %}
+	<div class="container-fluid col-md-3"></div>
+		<ul class="list-group">
+			{% if ListaIngredientes %}
+				{% for x in ListaIngredientes %}
+				<li class="list-group-item">
+					<span class="label label-default label-pill pull-xs-right">{{x.1}}</span>
+					{{x.0}}
+				</li>
+				{% endfor %}
+			{% else %}
+				<li class="list-group-item">
+					No parece haber nada Aqui
+				</li>
+			{% endif %}
+		</ul>
+	<div class="container-fluid col-md-4"></div>
+</div>
+{% endblock %}
