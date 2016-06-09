@@ -138,7 +138,7 @@ def platoView(request, idPlato = None):
             formPlat = formPlato()
             form = [formPlat]
             extra = None
-            return render(request,'menu/editar2.html', {'Titulo': "Crear plato",
+        return render(request,'menu/editar2.html', {'Titulo': "Crear plato",
                                                  'form': form,
                                                  'extra': extra})
 
