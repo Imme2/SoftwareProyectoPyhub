@@ -11,6 +11,18 @@
 			</div>
 		{% endfor %}
 	{% endif %}
+	<div class="container-fluid col-md-2"></div>
+		{% for field in formIngredientes %}
+			<div class="form-group col-xs-5">
+			{{ field.errors }} {{ field.label_tag }} {{ field }}
+		  	</div>
+	 	{% endfor %} 
+	 	{% for field in formPrecio %}
+			<div class="form-group col-xs-6">
+			{{ field.errors }} {{ field.label_tag }} {{ field }}
+		  	</div>
+	 	{% endfor %} 
+
 	<div class="container-fluid col-md-3"></div>
 		<ul class="list-group">
 			{% if ListaOferta %}
@@ -26,6 +38,7 @@
 				</li>
 			{% endif %}
 		</ul>
+	</div>
 	<div class="container-fluid col-md-4"></div>
 </div>
 {% endblock %}
