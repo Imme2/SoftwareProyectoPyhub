@@ -4,6 +4,8 @@
 	<h2 align="center">Oferta</h2>
 </div>
 <div class="row">
+	<form method="post">
+	{% csrf_token %}
 	{% if error %}
 		{% for e in error %}
 			<div class="alert alert-danger">
@@ -11,7 +13,23 @@
 			</div>
 		{% endfor %}
 	{% endif %}
-	<div class="container-fluid col-md-3"></div>
+	<div class="container-fluid col-md-2"></div>
+		{% for field in formIngredientes %}
+			<div class="form-group col-xs-5">
+			{{ field.errors }} {{ field.label_tag }} {{ field }}
+		  	</div>
+	 	{% endfor %} 
+	 	{% for field in formPrecio %}
+			<div class="form-group col-xs-6">
+			{{ field.errors }} {{ field.label_tag }} {{ field }}
+		  	</div>
+	 	{% endfor %} 
+	</div>
+	<div align="center" class="form-group col-md-offset-8">
+    	<button align="center" type="submit" class="btn btn-primary btn-lg">Guardar</button>
+    </div>
+</form>
+	<div class="container-fluid col-md-3">
 		<ul class="list-group">
 			{% if ListaOferta %}
 				{% for x in ListaOferta %}
@@ -26,6 +44,8 @@
 				</li>
 			{% endif %}
 		</ul>
+	</div>
+
 	<div class="container-fluid col-md-4"></div>
 </div>
 {% endblock %}
