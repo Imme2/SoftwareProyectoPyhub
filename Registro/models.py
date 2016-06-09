@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.contrib.auth.hashers import make_password, check_password
-
+    
 
 class perfil(models.Model):
     Sexos = (
@@ -159,4 +159,4 @@ class parametro(models.Model):
     horarioCierre = models.TimeField()
     horarioEntrada = models.TimeField()
     cantPuestos = models.PositiveIntegerField()
-    menuActual = models.OneToOneField('menu', related_name = 'menu')
+    menuActual = models.OneToOneField('menu', related_name = 'menu', null = True)
