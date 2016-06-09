@@ -20,7 +20,7 @@ def esProveedor(request):
 # Vista de registro de usuario, verifica que el usuario no este autenticado primero.
 def registroUsuario(request):
     if request.user.is_authenticated():
-        return HttpResponseRedirect('/registro/login/')
+        return HttpResponseRedirect('/perfil/')
     if request.method == "POST":
         form = formRegistroUsuario(request.POST)
         if form.is_valid():
@@ -33,9 +33,10 @@ def registroUsuario(request):
         return render(request,'registro/cliente.html', {'form': form})
 
 
+
 def registroProveedor(request):
     if request.user.is_authenticated():
-        return HttpResponseRedirect('/registro/login/')
+        return HttpResponseRedirect('/perfil/')
     if request.method == "POST":
         formUser = formRegistroUsuario(request.POST)
         formEmpr = formRegistroProveedor(request.POST)

@@ -14,7 +14,7 @@ def editarMenu(request, idMenu = None):
         return HttpResponseRedirect('/registro/logout')
     if (idMenu == None):
         listaMenus = menu.objects.all()
-        return render(request,'menu/editar3.html',{'nombreMenu': "Crear un menu",
+        return render(request,'menu/editar3.html',{'Titulo': "Menúes",
                                                  'prefijo' : 'editar',
                                                  'form': listaMenus})
     else:
@@ -30,7 +30,7 @@ def editarMenu(request, idMenu = None):
             nombreMenu = menu.objects.get(idMenu = idMenu).nombre
             formPlatos = formMenu(idMenu)
 
-            return render(request,'menu/editar.html', {'nombreMenu': "Editar un menu",
+            return render(request,'menu/editar.html', {'Titulo': "Editar un menu",
                                                     'form': formPlatos})
 
 @login_required(login_url='/registro/login/')
@@ -49,7 +49,8 @@ def crearMenu(request, idMenu = None):
     else:
         nombreMenu = ""
         formPlatos = formMenu()
-        return render(request,'menu/editar.html', {'form': formPlatos})
+        return render(request,'menu/editar.html', { 'Titulo':"Crear Menu",
+                                                    'form': formPlatos})
 
 @login_required(login_url='/registro/login/')
 def parametrosView(request):
@@ -63,7 +64,7 @@ def parametrosView(request):
         return HttpResponseRedirect('/menu/parametros/')                
     else:
         formPara = parametrosForm()
-        return render(request, 'menu/editar.html', {'nombreMenu': "Configurar parametros",
+        return render(request, 'menu/editar.html', {'Titulo': "Configurar Parametros",
                                                     'form' : formPara})
 
 
@@ -86,7 +87,7 @@ def ingredienteView(request, idIngrediente = None):
             form = ingredienteForm(instance = ingrediente.objects.get(idIngr = idIngrediente)) 
         else:   
             form = ingredienteForm()
-        return render(request,'menu/editar.html', {'nombreMenu': "Crear ingrediente",
+        return render(request,'menu/editar.html', {'Titulo': "Crear Ingrediente",
                                                  'form': form})
 
 
@@ -110,7 +111,7 @@ def platoView(request, idPlato = None):
                 formPlat = formPlato(data = request.POST)
                 form = [formPlat]
                 extra = None
-                return render(request,'menu/editar2.html', {'nombreMenu': "Crear plato",
+                return render(request,'menu/editar2.html', {'Titulo': "Crear Plato",
                                                      'form': form,
                                                      'extra': extra})
     else:
@@ -125,7 +126,7 @@ def platoView(request, idPlato = None):
             formPlat = formPlato()
             form = [formPlat]
             extra = None
-        return render(request,'menu/editar2.html', {'nombreMenu': "Crear plato",
+            return render(request,'menu/editar2.html', {'Titulo': "Crear plato",
                                                  'form': form,
                                                  'extra': extra})
 
@@ -134,7 +135,7 @@ def platoAllView(request):
     if (not(request.user.is_staff)):
         return HttpResponseRedirect('/registro/logout')
     platos = item.objects.all()
-    return render(request,'menu/editar3.html', {'nombreMenu': "Crear un menu",
+    return render(request,'menu/editar3.html', {'Titulo': "Platos",
                                                  'prefijo' : 'plato',
                                                  'form': platos})
 
@@ -143,7 +144,7 @@ def ingredienteAllView(request):
     if (not(request.user.is_staff)):
         return HttpResponseRedirect('/registro/logout')
     ingr = ingrediente.objects.all()
-    return render(request,'menu/editar3.html', {'nombreMenu': "Crear un menu",
+    return render(request,'menu/editar3.html', {'Titulo': "Ingredientes",
                                                  'prefijo' : 'ingrediente',
                                                  'form': ingr})
 

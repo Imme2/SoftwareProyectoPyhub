@@ -1,3 +1,4 @@
 from django.test import TestCase
-from models import perfil
+from Registro.models import perfil
+
 # Create your tests here.
