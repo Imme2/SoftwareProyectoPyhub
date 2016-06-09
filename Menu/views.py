@@ -4,6 +4,7 @@ from django.http.response import HttpResponseRedirect
 from Registro.models import perfil,proveedor,menu, ingrediente, item, posee
 from django.contrib.auth.decorators import login_required
 from Menu.form import formMenu, ingredienteForm, formPlato, formPosee
+from Registro.form import parametrosForm
 # Create your views here.
 
 @login_required(login_url='/registro/login/')
@@ -50,6 +51,22 @@ def crearMenu(request, idMenu = None):
         return render(request,'menu/editar.html', {'form': formPlatos})
 
 @login_required(login_url='/registro/login/')
+def parametrosView(request):
+    if (not(request.user.is_staff)):
+        return HttpResponseRedirect('/registro/logout')
+    if request.method == "POST":
+        formPara = parametrosForm(data = request.POST)
+        if formPara.is_valid():
+            formPara.save()
+            return HttpResponseRedirect('/menu/parametros/')                
+        return HttpResponseRedirect('/menu/parametros/')                
+    else:
+        formPara = parametrosForm()
+        return render(request, 'menu/editar.html', {'nombreMenu': "Configurar parametros",
+                                                    'form' : formPara})
+
+
+@login_required(login_url='/registro/login/')
 def ingredienteView(request, idIngrediente = None):
     if (not(request.user.is_staff)):
         return HttpResponseRedirect('/registro/logout')
@@ -88,7 +105,13 @@ def platoView(request, idPlato = None):
                 formPose.save(e)
             return HttpResponseRedirect('/menu/plato/{}'.format(e.idItem))
         else :
-            return HttpResponseRedirect('/menu/plato/')                
+            if not formPlat.is_valid():
+                formPlat = formPlato(data = request.POST)
+                form = [formPlat]
+                extra = None
+                return render(request,'menu/editar2.html', {'nombreMenu': "Crear plato",
+                                                     'form': form,
+                                                     'extra': extra})
     else:
         print("Entrando")
         if idPlato:
