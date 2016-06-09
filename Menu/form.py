@@ -4,9 +4,7 @@ from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User, Permission
 from Registro.models import ingrediente, perfil, proveedor, menu, item,contiene,posee
-from django.db import IntegrityError
 import datetime
-import pickle
 
 
 class formMenu(forms.Form):

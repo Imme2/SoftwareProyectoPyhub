@@ -7,14 +7,20 @@ from django.contrib.contenttypes.models import ContentType
 from Registro.models import perfil, proveedor, parametro
 import datetime
 
+'''
+    Funcion que permite validar las fechas
+'''
 
 def dateValidator(value):
-    if value >= datetime.date.today():
+    if value > datetime.date.today():
         raise ValidationError(
             ('La fecha de Nacimiento no puede ser en el futuro!'),
             params={'value': value},
         )
 
+'''
+    Forma para registrar usuarios.
+'''
 
 class formRegistroUsuario(forms.Form):
     phone_regex = RegexValidator(regex=r'^\+?(58)?\d{11,14}$', message="El numero de telefono debe tener el formato: '+5899999999999'.")
@@ -75,6 +81,10 @@ class formRegistroUsuario(forms.Form):
         p_entry.tlf = tlf
         p_entry.save()
         return entry
+        
+'''
+    Forma para registrar proveedores.
+'''
 
 class formRegistroProveedor(forms.Form):
     rif_regex = RegexValidator(regex=r'^[A-Z][0-9]{6,8}$', message="El RIF debe ser de la forma A12311231.")
@@ -128,12 +138,38 @@ class formRegistroProveedor(forms.Form):
 
 
 #        return m
-    
+'''
+    Forma para identificar a los usuarios
+'''
+
 class loginUsuario(forms.Form):
     username = forms.CharField(widget=forms.TextInput(attrs={'type':'text' ,'class':'form-control' ,'id':'inputNombreUs', 'placeholder':'usuario123',}),label='Nombre de usuario', max_length=40)
     clave = forms.CharField(widget=forms.PasswordInput(attrs={'type':"password" ,'class':"form-control", 'id':"inputClave", 'placeholder':"Clave",}))
     
+
+'''
+    Forma para modificar los parametros del restaurante.
+'''
+
+class parametrosForm(forms.ModelForm):
+    class Meta:
+        model = parametro
+        exclude = ('idParam', )
+
+
+'''
+    ##############################
     
+    Formas para mostrar, con campos deshabilitados.
+
+    ##############################
+'''
+
+
+'''
+    Forma para mostrar al usuario.
+'''
+
 class userForm(forms.ModelForm):
     username = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','id':'inputName',}),disabled = True, label = 'Nombre de usuario')
     first_name = forms.CharField(widget=forms.TextInput(attrs={'type':'text' ,'class':'form-control' ,'id':'inputName',}),disabled = True, label = 'Nombre')
@@ -151,7 +187,10 @@ class userForm(forms.ModelForm):
             m.user.set_password(self.cleaned_data['password'])
         m.save()
         return m
-        
+'''
+    Forma para mostrar el perfil del usuario.
+'''
+
 class perfilForm(forms.ModelForm):
     fechaNac = forms.DateField(widget=forms.TextInput(attrs={'type':"tel", 'class':"form-control",'id':"inputTelf",}),disabled = True, label = 'Fecha de nacimiento')
     tlf = forms.CharField(widget=forms.TextInput(attrs={'type':"tel", 'class':"form-control",'id':"inputTelf",}),label = 'Numero de telefono')
@@ -169,10 +208,9 @@ class perfilForm(forms.ModelForm):
         m.save()
         return m
 
-class parametrosForm(forms.ModelForm):
-    class Meta:
-        model = parametro
-        exclude = ('idParam', )
+'''
+    Forma de proveedor para mostrar en el perfil, donde los campos estan deshabilitados.
+'''
 
 class proveedorForm(forms.ModelForm):
     nombreEmpr = forms.CharField(widget=forms.TextInput(attrs={'type':'text' ,'class':'form-control' ,'id':'inputNombreEmpresa',}),disabled = True, label = 'Nombre de Empresa')
