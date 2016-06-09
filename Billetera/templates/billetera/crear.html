@@ -16,7 +16,7 @@
 	<div class="container-fluid col-md-6">
 		<form method = "post">
 			{% csrf_token %}
-			{% for field in formMenu %}
+			{% for field in form %}
 			<div class="form-group col-xs-6">
 				{{ field.errors }} {{ field.label_tag }} {{ field }}
 		  	</div>
