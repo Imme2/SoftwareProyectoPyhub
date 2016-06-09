@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from Registro.views import esProveedor
+from Inventario.auxfuncs import getInventarioProveedor
 # Create your views here.
 
 #ESTO NO SIRVE TODAVIA
@@ -7,9 +8,13 @@ from Registro.views import esProveedor
 def mostrarInventario(request):
     if (not(esProveedor(request))):
         return HttpResponseRedirect('')
-    
-    return render(request,'inventario/mostrar.html', {})
 
+    arreglo = getInventarioProveedor(request)
+
+    return render(request,'inventario/mostrar.html', {'ListaIngredientes':arreglo})
+
+
+@login_required
 def modificarInventario(request):
     if (not(esProveedor(request))):
         return HttpResponseRedirect('')
