@@ -86,7 +86,7 @@ def ingredienteView(request, idIngrediente = None):
             form = ingredienteForm(instance = ingrediente.objects.get(idIngr = idIngrediente)) 
         else:   
             form = ingredienteForm()
-        return render(request,'menu/editar.html', {'Titulo': "Crear Ingrediente",
+        return render(request,'menu/editar.html', {'Titulo': "Ingrediente",
                                                  'form': form})
 
 
