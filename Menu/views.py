@@ -5,12 +5,13 @@ from Registro.models import perfil,proveedor,menu, ingrediente, item, posee
 from django.contrib.auth.decorators import login_required
 from Menu.form import formMenu, ingredienteForm, formPlato, formPosee
 from Registro.form import parametrosForm
-# Create your views here.
+
+
 
 @login_required(login_url='/registro/login/')
 def editarMenu(request, idMenu = None):
     if (not(request.user.is_staff)):
-        return HttpResponseRedirect('')
+        return HttpResponseRedirect('/registro/logout')
     if (idMenu == None):
         listaMenus = menu.objects.all()
         return render(request,'menu/editar3.html',{'nombreMenu': "Crear un menu",
@@ -113,7 +114,6 @@ def platoView(request, idPlato = None):
                                                      'form': form,
                                                      'extra': extra})
     else:
-        print("Entrando")
         if idPlato:
             platoInstance = item.objects.get(idItem = idPlato)
             formPlat = formPlato(instance = platoInstance)
@@ -125,7 +125,6 @@ def platoView(request, idPlato = None):
             formPlat = formPlato()
             form = [formPlat]
             extra = None
-            print("Correcto")
         return render(request,'menu/editar2.html', {'nombreMenu': "Crear plato",
                                                  'form': form,
                                                  'extra': extra})

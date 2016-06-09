@@ -26,7 +26,7 @@ class formMenu(forms.Form):
         agregar = [x for x in self.cleaned_data['platos'] if x not in actual]
         menuObj = menu.objects.get(idMenu = menuId)
         menuObj.nombre = self.cleaned_data['nombreMenu']
-        menuObj.save()
+        menuObj.saves()
         for x in agregar:
             contiene.objects.create(idMenu = menuObj, idItem = x)
         for x in remover:
@@ -55,12 +55,12 @@ class formPosee(forms.ModelForm):
     def save(self,idItem):
         m = super(formPosee, self).save(commit = False)
         m.idItem = idItem
-        try: 
+        query = posee.objects.filter(idItem = m.idItem, idIngr = m.idIngr)
+        if query.exists():
+            g = query[0]
+            g.cantidad = m.cantidad
+            g.save()
+            return g
+        else: 
             m.save()
-        except IntegrityError as e:
-            if 'UNIQUE' in e.args[0]:
-                g = posee.objects.get(idItem = m.idItem, idIngr = m.idIngr)
-                g.cantidad = m.cantidad
-                g.save()
-                return g
-        return m
+            return m

@@ -16,6 +16,13 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 
+
+'''
+    Permite redireccionar todos los path que comienzan con URL:
+    http://servidor/
+
+'''
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^registro/', include('Registro.urls')),
