@@ -15,6 +15,9 @@ class formIngredientes(forms.Form):
 
         return ingrediente.objects.get(nombre = nombreIngr)
 
+
+#Ofrece los campos de precio de la relacion y guarda los resultados del campo
+#Ademas elimina la instancia de la relacion si el precio es menor que 0.
 class formOfrece(forms.ModelForm):
     class Meta:
         model = ofrece
@@ -25,11 +28,19 @@ class formOfrece(forms.ModelForm):
         m.idIngr = idIngr
         m.usernameP = usernameP
         
+
         query = ofrece.objects.filter(idIngr = idIngr, usernameP = usernameP)
         if query.exists():
-           g = query[0]
-           g.precio = m.precio
-           m = g
+            g = query[0]
+            if m.precio > 0:
+                g.precio = m.precio
+                m = g
+            else:
+                g.delete()
+                return None
+
+        if m.precio <= 0:
+            return None
 
         m.idRest = 1
 
