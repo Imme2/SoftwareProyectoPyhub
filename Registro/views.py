@@ -9,15 +9,20 @@ from Registro.models import perfil,proveedor
 from Registro.form import formRegistroProveedor, formRegistroUsuario, loginUsuario, userForm,\
     perfilForm, proveedorForm
 
+'''
+    Funcion auxiliar para verificar si es proveedor
+'''
 
-#A ser movido proximamente
 def esProveedor(request):
     if request.user.has_perm('auth.proveedor'):
         return True
     else:
         return False
 
-# Vista de registro de usuario, verifica que el usuario no este autenticado primero.
+'''
+    Form para registrar usuarios
+'''
+
 def registroUsuario(request):
     if request.user.is_authenticated():
         return HttpResponseRedirect('/perfil/')
@@ -32,8 +37,10 @@ def registroUsuario(request):
         form = formRegistroUsuario()
         return render(request,'registro/cliente.html', {'form': form})
 
+'''
+    Form para registrar proveedores
+'''
 
-# Vista de registro de proveedor, igual que la de usuario verifica que no se este autenticado
 def registroProveedor(request):
     if request.user.is_authenticated():
         return HttpResponseRedirect('/perfil/')
@@ -54,10 +61,9 @@ def registroProveedor(request):
         return render(request,'registro/proveedor.html', {'formUser': formUser,
                                                                 'formEmpr': formEmpr})
 
-# 
-# 
-# Formulario de logeo para usuarios
-# Captura como argumento de donde viene para volver al sitio.
+'''
+    Form para logear usuarios
+'''
 def logearUsuario(request):
     #Se captura el argumento en caso de haber uno (en caso de no haberlo se coloca el string vacio)
     next = request.GET.get('next','')
@@ -84,14 +90,18 @@ def logearUsuario(request):
             return HttpResponseRedirect('/perfil/')
         else:
             return HttpResponseRedirect(next)  
-
-# pequena funcion de logout, que cierra sesion del usuario actual
+'''
+    Controlador para desloguear un usuario
+'''
+  
 def logOut(request):
     logout(request)
     return HttpResponseRedirect('/')
 
-# funcion que identificar si un usuario es proveedor o no y lo redirecta
-# a la funcion adecuada
+'''
+    Redireccionador auxiliar
+'''
+
 @login_required(login_url='/registro/login/')
 def editarDatos(request):
     if (esProveedor(request)):
@@ -99,9 +109,10 @@ def editarDatos(request):
     else:
         return HttpResponseRedirect('/registro/editar/usuario')
 
+'''
+    Form para editar el perfil del usuario
+'''
 
-#Vista de editar datos de usuario, se verifica que no sea proveedor
-# y se muestran los formularios necesarios.
 @login_required(login_url='/registro/login/')
 def editarUsuario(request):
     if (esProveedor(request)):
@@ -123,9 +134,10 @@ def editarUsuario(request):
                                                       'formPerfil': formPerfil})
 
 
+'''
+    Form para editar el perfil del proveedor
+'''
 
-#Vista de editar datos de proveedor, se verifica en efecto sea proveedor antes
-#de pasar a la vista, y se mandan los formularios.
 @login_required(login_url='/registro/login/')
 def editarProveedor(request):
     if (not(esProveedor(request))):

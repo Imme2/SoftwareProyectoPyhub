@@ -76,7 +76,7 @@
             <li><a href="#">Bollo con carne molida</a></li>
           </ul>
         </li>
-        {% if user.proveedor %}
+        {% if user.proveedor and not user.is_staff %}
           <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Inventario <span class="caret"></span></a>
           <ul class="dropdown-menu">

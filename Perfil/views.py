@@ -4,10 +4,10 @@ from django.http.response import HttpResponseRedirect
 from Registro.models import perfil,proveedor
 from django.contrib.auth.decorators import login_required
 from Registro.views import esProveedor
-# Create your views here.
 
-
-
+'''
+    Controlador para redireccionar la vista de perfil
+'''
 
 @login_required(login_url='/registro/login/')
 def mostrarPerfil(request):
@@ -15,6 +15,10 @@ def mostrarPerfil(request):
         return HttpResponseRedirect('/perfil/proveedor')
     else:
         return HttpResponseRedirect('/perfil/usuario')
+
+'''
+   Controlador que muestra perfil a usuarios
+'''
 
 @login_required(login_url='/registro/login/')
 def mostrarPerfilUsuario(request):
@@ -33,7 +37,9 @@ def mostrarPerfilUsuario(request):
                                                     'FechaDeNacimiento': perfill.fechaNac,
                                                     'Telefono': perfill.tlf})
 
-
+'''
+      Controlador que muestra perfil a proveedores
+'''
 
 @login_required(login_url='/registro/login/')
 def mostrarPerfilProveedor(request):
@@ -57,7 +63,9 @@ def mostrarPerfilProveedor(request):
 
 
 
-
+'''
+      Controlador para mostrar todos los usuarios registrados
+'''
 # Para mostrar todos los usuarios a un admin
 @login_required(login_url='/registro/login/')
 def mostrarUsuarios(request):
