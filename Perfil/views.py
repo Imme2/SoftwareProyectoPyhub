@@ -62,9 +62,10 @@ def mostrarPerfilProveedor(request):
 @login_required(login_url='/registro/login/')
 def mostrarUsuarios(request):
     if (not(request.user.is_staff)):
-        return HttpResponseRedirect('')
+        return HttpResponseRedirect('/')
 
-    listaPerfil = perfil.objects.all()
-    listaPerfil = [[x.user.username, x.user.first_name, x.user.last_name, x.ci] for x in listaPerfil]
+    listaUsuarios = User.objects.all()
+    listaUsuarios = [[x.username, x.first_name, x.last_name, x.perfil, x.has_perm('auth.proveedor')]\
+                     for x in listaPerfil]
 
-    return render(request,'Perfil/mostrarUsuarios.html',{'ListaUsuarios': listaPerfil})
+    return render(request,'Perfil/mostrarUsuarios.html',{'ListaUsuarios': listaUsuarios})
