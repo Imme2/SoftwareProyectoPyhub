@@ -10,7 +10,7 @@ import datetime
 class formMenu(forms.Form):
 
     nombreMenu = forms.CharField(widget=forms.TextInput(attrs={'type':'text' ,'class':'form-control' ,'id':'inputNombreMenu', 'placeholder':'Nombre Menu',}),label = "Nombre de Menu:")
-    platos = forms.ModelMultipleChoiceField(item.objects.all(), required=True, widget=forms.CheckboxSelectMultiple(), label='Selecciona los objetos del menu')
+    platos = forms.ModelMultipleChoiceField(item.objects.all(), required=True, widget=forms.CheckboxSelectMultiple(attrs={'type':"checkbox",}), label='Selecciona los objetos del menu')
 
     def __init__(self, menuId = None, *args, **kwargs):
         super(formMenu, self).__init__(*args, **kwargs)
@@ -39,11 +39,23 @@ class ingredienteForm(forms.ModelForm):
     class Meta:
         model = ingrediente
         exclude = ['idIngr']
+    
+    def __init__(self, *args, **kwargs):
+        super(ingredienteForm, self).__init__(*args, **kwargs)
+        self.fields['nombre'].widget.attrs.update({'type':'text' ,'class':'form-control' ,'id':'inputIngrediente', 'placeholder':'Ingrediente'})
+        self.fields['cantidad'].widget.attrs.update({'type':'number', 'id':'inputNumber' ,'min':'0', 'data-bind':'value:replyNumber'})
 
 class formPlato(forms.ModelForm):
     class Meta:
         model = item
         exclude = ['idItem','poseeRel']
+
+    def __init__(self, *args, **kwargs):
+        super(formPlato, self).__init__(*args, **kwargs)
+        self.fields['nombre'].widget.attrs.update({'type':'text' ,'class':'form-control' ,'id':'inputPlato', 'placeholder':'Plato'})
+        self.fields['tipo'].widget.attrs.update({'type':'text' ,'class':'form-control' ,'id':'inputTipo', 'placeholder':'Tipo'})
+        self.fields['foto'].widget.attrs.update({'type':'text' ,'class':'form-control' ,'id':'inputFoto', 'placeholder':'Foto'})
+        self.fields['descripcion'].widget.attrs.update({'type':'text' ,'class':'form-control' ,'id':'inputDescripcion', 'placeholder':'Descripcion'})
 
 class formPosee(forms.ModelForm):
     class Meta:
