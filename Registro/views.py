@@ -9,15 +9,20 @@ from Registro.models import perfil,proveedor
 from Registro.form import formRegistroProveedor, formRegistroUsuario, loginUsuario, userForm,\
     perfilForm, proveedorForm
 
+'''
+    Funcion auxiliar para verificar si es proveedor
+'''
 
-#A ser movido proximamente
 def esProveedor(request):
     if request.user.has_perm('auth.proveedor'):
         return True
     else:
         return False
 
-# Vista de registro de usuario, verifica que el usuario no este autenticado primero.
+'''
+    Form para registrar usuarios
+'''
+
 def registroUsuario(request):
     if request.user.is_authenticated():
         return HttpResponseRedirect('/perfil/')
@@ -32,7 +37,9 @@ def registroUsuario(request):
         form = formRegistroUsuario()
         return render(request,'registro/cliente.html', {'form': form})
 
-
+'''
+    Form para registrar proveedores
+'''
 
 def registroProveedor(request):
     if request.user.is_authenticated():
@@ -54,9 +61,9 @@ def registroProveedor(request):
         return render(request,'registro/proveedor.html', {'formUser': formUser,
                                                                 'formEmpr': formEmpr})
 
-# 
-# 
-# Formulario de logeo para usuarios
+'''
+    Form para logear usuarios
+'''
 def logearUsuario(request):
     #Se captura el argumento en caso de haber uno (en caso de no haberlo se coloca el string vacio)
     next = request.GET.get('next','')
@@ -83,12 +90,17 @@ def logearUsuario(request):
             return HttpResponseRedirect('/perfil/')
         else:
             return HttpResponseRedirect(next)  
-
+'''
+    Controlador para desloguear un usuario
+'''
   
 def logOut(request):
     logout(request)
     return HttpResponseRedirect('/')
 
+'''
+    Redireccionador auxiliar
+'''
 
 @login_required(login_url='/registro/login/')
 def editarDatos(request):
@@ -97,6 +109,9 @@ def editarDatos(request):
     else:
         return HttpResponseRedirect('/registro/editar/usuario')
 
+'''
+    Form para editar el perfil del usuario
+'''
 
 @login_required(login_url='/registro/login/')
 def editarUsuario(request):
@@ -119,8 +134,10 @@ def editarUsuario(request):
                                                       'formPerfil': formPerfil})
 
 
+'''
+    Form para editar el perfil del proveedor
+'''
 
-#Para el proveedor.
 @login_required(login_url='/registro/login/')
 def editarProveedor(request):
     if (not(esProveedor(request))):
