@@ -23,8 +23,9 @@ class formBilleteraRecargar(forms.Form):
     clave = forms.CharField(widget=forms.PasswordInput(attrs={'type':"password" ,'class':"form-control", 'id':"inputClave", 'placeholder':"Clave",}),label = 'Clave')
     fechaVencimiento = forms.DateField(widget=forms.DateInput(attrs={'type':"date", 'class':"form-control", 'id':"inputF_Nac",}),label='Fecha de Vencimiento',validators= [fechaVencimientoValidator] ,initial=datetime.date.today)
 
-
-
+    def save(self,request,monto):
+        request.user.billetera.balance += monto
+        request.user.billetera.save() 
 
 class formTransaccion(forms.ModelForm):
     class Meta:
