@@ -1,8 +1,8 @@
 {% extends "registro/header.html" %}
 {% block content %}
 <div class>
-	<h2 align="center">Tu Perfil</h2>
-</div>
+	<h2 align="center">Usuarios Reistrados</h2>
+</div><br><br>
 <div class="row">
 	{% if error %}
 		{% for e in error %}
@@ -11,19 +11,24 @@
 			</div>
 		{% endfor %}
 	{% endif %}
-	
-	<div class="container-fluid col-md-3">
-		
-	</div>
-	<div class="container-fluid col-md-6 alert alert-success";>
-		{% for x in ListaUsuarios %}
-
-			{{ x.0 }}
-
-		{% endfor %}
-		<div align="center" class="form-group col-md-offset-8">
-            	<a class="btn btn-primary btn-lg" href="http://127.0.0.1:8000/registro/editar/proveedor" role="button"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
-            </div>
+	<div class="container-fluid col-md-3"></div>
+	<div class="container-fluid col-md-6 jumbotron">
+		<div class="form-group col-md-12 ">
+			<table class="table table-hover">
+				<tr>
+				 	<td><strong>Nombre:</strong></td>
+				 	<td><strong>Apellido:</strong></td>
+				 	<td><strong>Username:</strong></td>
+				 </tr>
+				{% for x in ListaUsuarios %}
+					<tr>
+					 		<td>{{x.1}}</td>
+					 		<td>{{x.2}}</td>
+					 		<td>{{x.0}}</td>
+					</tr>
+				{% endfor %}
+			</table>
+		</div>
 	</div>
 	<div class="container-fluid col-md-4"></div>
 </div>
