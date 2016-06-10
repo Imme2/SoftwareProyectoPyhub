@@ -6,7 +6,9 @@ from django.contrib.auth.models import User, Permission
 from Registro.models import ingrediente, perfil, proveedor, menu, item,contiene,posee
 import datetime
 
-
+'''
+      Forma para crear y editar un menu
+'''
 class formMenu(forms.Form):
 
     nombreMenu = forms.CharField(widget=forms.TextInput(attrs={'type':'text' ,'class':'form-control' ,'id':'inputNombreMenu', 'placeholder':'Nombre Menu',}),label = "Nombre de Menu:")
@@ -34,7 +36,9 @@ class formMenu(forms.Form):
     def create(self):
         return menu.objects.create(nombre = self.cleaned_data['nombreMenu']).idMenu
 
-
+'''
+     Forma para ingredientes
+'''
 class ingredienteForm(forms.ModelForm):
     class Meta:
         model = ingrediente
@@ -45,6 +49,9 @@ class ingredienteForm(forms.ModelForm):
         self.fields['nombre'].widget.attrs.update({'type':'text' ,'class':'form-control' ,'id':'inputIngrediente', 'placeholder':'Ingrediente'})
         self.fields['cantidad'].widget.attrs.update({'type':'number', 'id':'inputNumber' ,'min':'0', 'data-bind':'value:replyNumber'})
 
+'''
+      Forma para platos
+'''
 class formPlato(forms.ModelForm):
     class Meta:
         model = item
@@ -57,6 +64,9 @@ class formPlato(forms.ModelForm):
         self.fields['foto'].widget.attrs.update({'type':'text' ,'class':'form-control' ,'id':'inputFoto', 'placeholder':'Foto'})
         self.fields['descripcion'].widget.attrs.update({'type':'text' ,'class':'form-control' ,'id':'inputDescripcion', 'placeholder':'Descripcion'})
 
+'''
+      Forma para la relacion posee
+'''
 class formPosee(forms.ModelForm):
     class Meta:
         model = posee

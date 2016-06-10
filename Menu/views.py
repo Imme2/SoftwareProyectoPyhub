@@ -7,7 +7,9 @@ from Menu.form import formMenu, ingredienteForm, formPlato, formPosee
 from Registro.form import parametrosForm
 import datetime
 
-
+'''
+      Controlador para editar un menu
+'''
 @login_required(login_url='/registro/login/')
 def editarMenu(request, idMenu = None):
     if (not(request.user.is_staff)):
@@ -33,6 +35,9 @@ def editarMenu(request, idMenu = None):
             return render(request,'menu/editar.html', {'Titulo': "Editar un menu",
                                                     'form': formPlatos})
 
+'''
+      Controlador para crear un Menu
+'''
 @login_required(login_url='/registro/login/')
 def crearMenu(request, idMenu = None):
     if (not(request.user.is_staff)):
@@ -52,6 +57,9 @@ def crearMenu(request, idMenu = None):
         return render(request,'menu/editar.html', { 'Titulo':"Crear Menu",
                                                     'form': formPlatos})
 
+'''
+      Controlador para editar los parametros del restaurante
+'''
 @login_required(login_url='/registro/login/')
 def parametrosView(request):
     if (not(request.user.is_staff)):
@@ -79,7 +87,9 @@ def parametrosView(request):
         return render(request, 'menu/editar.html', {'Titulo': "Configurar Parametros",
                                                     'form' : formPara})
 
-
+'''
+      Controlador para editar y crear ingredientes
+'''
 @login_required(login_url='/registro/login/')
 def ingredienteView(request, idIngrediente = None):
     if (not(request.user.is_staff)):
@@ -102,7 +112,9 @@ def ingredienteView(request, idIngrediente = None):
         return render(request,'menu/editar.html', {'Titulo': "Ingrediente",
                                                  'form': form})
 
-
+'''
+      Controlador para editar y crear platos
+'''
 @login_required(login_url='/registro/login/')
 def platoView(request, idPlato = None):
     if (not(request.user.is_staff)):
@@ -141,7 +153,9 @@ def platoView(request, idPlato = None):
         return render(request,'menu/editar2.html', {'Titulo': "Crear plato",
                                                  'form': form,
                                                  'extra': extra})
-
+'''
+      Controlador que muestra todos los platos
+'''
 @login_required(login_url='/registro/login/')
 def platoAllView(request):
     if (not(request.user.is_staff)):
@@ -152,6 +166,10 @@ def platoAllView(request):
                                                  'eliminar' : 'eliminarPlato',
                                                  'form': platos})
 
+
+'''
+      Controlador que muestra todos los ingredientes
+'''
 @login_required(login_url='/registro/login/')
 def ingredienteAllView(request):
     if (not(request.user.is_staff)):
@@ -161,6 +179,10 @@ def ingredienteAllView(request):
                                                  'prefijo' : 'ingrediente',
                                                  'form': ingr})
 
+
+'''
+      Controlador que permite eliminar platos/menues/ingredientes
+'''
 @login_required(login_url='/registro/login/')
 def eliminar(request):
     redireccion = '/menu/platos/'
@@ -180,6 +202,9 @@ def eliminar(request):
     else:
         return HttpResponseRedirect(request.META.get('HTTP_REFERER')) 
 
+'''
+      Controlador que permite eliminar ingredientes de un plato
+'''
 @login_required(login_url='/registro/login/')
 def quitarIngrediente(request):
     if (not(request.user.is_staff)):
