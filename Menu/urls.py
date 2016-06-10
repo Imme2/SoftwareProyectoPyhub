@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^ingredientes/$', views.ingredienteAllView),
     url(r'^plato/(?P<idPlato>[0-9]+)?$', views.platoView),
     url(r'^platos/$', views.platoAllView),
+    url(r'^eliminar.*', views.eliminar),
     url(r'^plato/eliminarIngr.*', views.quitarIngrediente),
     url(r'^parametros/$', views.parametrosView)
 ]
