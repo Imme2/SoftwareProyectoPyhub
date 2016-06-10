@@ -24,7 +24,10 @@
 			{% for field in form %}
 		  	<tr>
 				<td align="center">
-					<a class ="btn btn-success btn-lg" role="button" data-toggle="tooltip" data-placement="top"  title="Editar" href="/menu/{{prefijo}}/{{field.pk}}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"> {{ field }}</a>
+					<a class ="btn btn-success btn-lg" role="button" data-toggle="tooltip" data-placement="top"  title="Editar" href="/menu/{{prefijo}}/{{field.pk}}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"> {{ field }}
+						{% if field.cantidad %}<span class="badge">{{field.cantidad}}</span>
+						{% endif %}
+					</a>
 				</td>
 				<td align="center"><a class="btn btn-danger btn-lg" href="/menu/eliminar?{{prefijo}}={{field.pk}}" role="button" role="button" data-toggle="tooltip" data-placement="top" data-toggle="tooltip" data-placement="right"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></td>
 			 </tr>
