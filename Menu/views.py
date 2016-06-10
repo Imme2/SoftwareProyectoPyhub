@@ -149,6 +149,7 @@ def platoAllView(request):
     platos = item.objects.all()
     return render(request,'menu/editar3.html', {'Titulo': "Platos",
                                                  'prefijo' : 'plato',
+                                                 'eliminar' : 'eliminarPlato',
                                                  'form': platos})
 
 @login_required(login_url='/registro/login/')
@@ -159,6 +160,25 @@ def ingredienteAllView(request):
     return render(request,'menu/editar3.html', {'Titulo': "Ingredientes",
                                                  'prefijo' : 'ingrediente',
                                                  'form': ingr})
+
+@login_required(login_url='/registro/login/')
+def eliminar(request):
+    redireccion = '/menu/platos/'
+    if (not(request.user.is_staff)):
+        return HttpResponseRedirect('/registro/logout')
+    if request.method == "GET":
+        plato = request.GET.get("plato")
+        ingr = request.GET.get("ingrediente")
+        men = request.GET.get("editar")
+        if plato:
+            item.objects.filter(idItem = plato).delete()
+        if ingr:
+            ingrediente.objects.filter(idIngr = ingr).delete()
+        if men:
+            menu.objects.filter(idMenu = men).delete()
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))        
+    else:
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER')) 
 
 @login_required(login_url='/registro/login/')
 def quitarIngrediente(request):
