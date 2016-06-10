@@ -23,7 +23,13 @@
 			  	</div>
 		  	{% endfor %}
 		  	<div align="center" class="form-group col-md-offset-8">
-            	<button align="center" type="submit" class="btn btn-primary btn-lg">Crear</button>
+            	<button align="center" type="submit" class="btn btn-primary btn-lg">
+            		{% if Titulo == "Crear Menu" %}
+            		Crear
+            		{% else %}
+            		Guardar
+            		{% endif %}
+            	</button>
             </div>
 		</form>
 	</div>
