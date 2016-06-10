@@ -169,13 +169,13 @@ def eliminar(request):
     if request.method == "GET":
         plato = request.GET.get("plato")
         ingr = request.GET.get("ingrediente")
-        menu = request.GET.get("editar")
+        men = request.GET.get("editar")
         if plato:
             item.objects.filter(idItem = plato).delete()
         if ingr:
             ingrediente.objects.filter(idIngr = ingr).delete()
-        if menu:
-            menu.objects.filter(idMenu = menu).delete()
+        if men:
+            menu.objects.filter(idMenu = men).delete()
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))        
     else:
         return HttpResponseRedirect(request.META.get('HTTP_REFERER')) 
