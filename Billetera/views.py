@@ -11,14 +11,13 @@ from Registro.models import billetera
 def crearBilletera(request):
     #Check de si tiene una billetera ya.
     if billetera.objects.filter(user = request.user).exists():
-        return HttpResponseRedirect('Billetera/recargar')
+        return HttpResponseRedirect('/billetera/recargar')
     if request.method == "POST":
         form = formBilleteraCrear(request.POST)
         if form.is_valid():
             form.save(request)
-            return HttpResponseRedirect('Billetera/recargar')
+            return HttpResponseRedirect('billetera/recargar')
         else:
-
             return render(request,'billetera/crear.html', {'form': form})
     else:
         form = formBilleteraCrear()
@@ -26,4 +25,4 @@ def crearBilletera(request):
 
 @login_required(login_url='/registro/login/')
 def recargarBilletera(request):
-    pass
+    return HttpResponseRedirect('/')

@@ -10,4 +10,5 @@ from Billetera import views
 
 urlpatterns = [
      url(r'^crear/$', views.crearBilletera),
+     url(r'^recargar/$', views.recargarBilletera),
 ]

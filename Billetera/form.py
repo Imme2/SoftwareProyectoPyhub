@@ -23,9 +23,17 @@ class formBilleteraCrear(forms.Form):
         return cleaned_data
 
     def save(self,request):
-        password = self.cleaned_data('clave')
+        password = self.cleaned_data.get('clave')
 
-        b_entry = request.user.billetera
+
+        # Se crea la billetera con un password provicional
+        b_entry = billetera.objects.create(user = request.user,password = 1)
+
+        #Se setea correctamente el password de la billetera.
         b_entry.setPassword(password)
+
+        #Se da el valor inicial del balance
         b_entry.balance = 0
+
+        #se salva el objeto
         b_entry.save() 
