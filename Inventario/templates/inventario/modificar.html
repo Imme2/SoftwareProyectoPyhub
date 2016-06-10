@@ -2,50 +2,60 @@
 {% block content %}
 <div class>
 	<h2 align="center">Oferta</h2>
-</div>
-<div class="row">
-	<form method="post">
-	{% csrf_token %}
-	{% if error %}
-		{% for e in error %}
-			<div class="alert alert-danger">
-			  {{ e }} 
-			</div>
-		{% endfor %}
-	{% endif %}
+</div><br><br>
+<!---<div class="row">-->
+
+<form method="post">
 	<div class="container-fluid col-md-2"></div>
-		{% for field in formIngredientes %}
-			<div class="form-group col-xs-5">
-			{{ field.errors }} {{ field.label_tag }} {{ field }}
-		  	</div>
-	 	{% endfor %} 
-	 	{% for field in formPrecio %}
-			<div class="form-group col-xs-6">
-			{{ field.errors }} {{ field.label_tag }} {{ field }}
-		  	</div>
-	 	{% endfor %} 
-	</div>
-	<div align="center" class="form-group col-md-offset-8">
-    	<button align="center" type="submit" class="btn btn-primary btn-lg">Guardar</button>
-    </div>
-</form>
-	<div class="container-fluid col-md-3">
-		<ul class="list-group">
-			{% if ListaOferta %}
-				{% for x in ListaOferta %}
-				<li class="list-group-item">
-					{{x.0}}
-					<div align = "right"> <span class="label label-default label-pill pull-xs-right"> Precio: {{x.1}} Bs</span> </div>
-				</li>
+	<div class = "container-fluid col-md-7 jumbotron" > 
+		<div class="container-fluid col-md-1"></div>
+			{% csrf_token %}
+			{% if error %}
+				{% for e in error %}
+					<div class="alert alert-danger">
+					  {{ e }} 
+					</div>
 				{% endfor %}
-			{% else %}
-				<li class="list-group-item">
-					No parece haber nada Aqui
-				</li>
 			{% endif %}
-		</ul>
+		
+		
+			{% for field in formIngredientes %}
+				<div class="form-group col-xs-5">
+				{{ field.errors }} {{ field.label_tag }} {{ field }}
+				 </div>
+			{% endfor %} 
+			{% for field in formPrecio %}
+				<div class="form-group col-xs-6">
+				{{ field.errors }} {{ field.label_tag }} {{ field }}
+				</div>
+			{% endfor %} 
+		
+		<div align="center" class="form-group col-md-offset-9">
+		    <button align="center" type="submit" class="btn btn-primary btn-lg">Guardar</button>
+		</div>
+	</div>
+</form>
+	<br><br><br><div class="container-fluid col-md-7">
+		<div class="container-fluid col-md-3"></div>
+		<div  class="container-fluid col-md-9">
+			<ul class="list-group">
+				{% if ListaOferta %}
+					{% for x in ListaOferta %}
+					<li class="list-group-item">
+						{{x.0}}
+						<div align = "right"> <span class="label label-default label-pill pull-xs-right"> Precio: {{x.1}} Bs</span> </div>
+					</li>
+					{% endfor %}
+				{% else %}
+					<li class="list-group-item">
+						No parece haber nada Aqui
+					</li>
+				{% endif %}
+			</ul>
+		</div>
 	</div>
 
 	<div class="container-fluid col-md-4"></div>
 </div>
+<!---</div>-->
 {% endblock %}
