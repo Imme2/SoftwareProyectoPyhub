@@ -33,7 +33,7 @@ def registroUsuario(request):
         return render(request,'registro/cliente.html', {'form': form})
 
 
-
+# Vista de registro de proveedor, igual que la de usuario verifica que no se este autenticado
 def registroProveedor(request):
     if request.user.is_authenticated():
         return HttpResponseRedirect('/perfil/')
@@ -57,6 +57,7 @@ def registroProveedor(request):
 # 
 # 
 # Formulario de logeo para usuarios
+# Captura como argumento de donde viene para volver al sitio.
 def logearUsuario(request):
     #Se captura el argumento en caso de haber uno (en caso de no haberlo se coloca el string vacio)
     next = request.GET.get('next','')
@@ -84,12 +85,13 @@ def logearUsuario(request):
         else:
             return HttpResponseRedirect(next)  
 
-  
+# pequena funcion de logout, que cierra sesion del usuario actual
 def logOut(request):
     logout(request)
     return HttpResponseRedirect('/')
 
-
+# funcion que identificar si un usuario es proveedor o no y lo redirecta
+# a la funcion adecuada
 @login_required(login_url='/registro/login/')
 def editarDatos(request):
     if (esProveedor(request)):
@@ -98,6 +100,8 @@ def editarDatos(request):
         return HttpResponseRedirect('/registro/editar/usuario')
 
 
+#Vista de editar datos de usuario, se verifica que no sea proveedor
+# y se muestran los formularios necesarios.
 @login_required(login_url='/registro/login/')
 def editarUsuario(request):
     if (esProveedor(request)):
@@ -120,7 +124,8 @@ def editarUsuario(request):
 
 
 
-#Para el proveedor.
+#Vista de editar datos de proveedor, se verifica en efecto sea proveedor antes
+#de pasar a la vista, y se mandan los formularios.
 @login_required(login_url='/registro/login/')
 def editarProveedor(request):
     if (not(esProveedor(request))):
