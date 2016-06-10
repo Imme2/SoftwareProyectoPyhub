@@ -7,7 +7,9 @@ from django.contrib.contenttypes.models import ContentType
 from Registro.models import billetera,transaccion
 import datetime
 
-
+'''
+ Validador de la fecha de vencimiento de la tarjeta.
+'''
 def fechaVencimientoValidator(value):
     if value < datetime.date.today():
         raise ValidationError(
@@ -15,6 +17,10 @@ def fechaVencimientoValidator(value):
             params={'value': value},
         )
 
+'''
+ Formulario de recarga de billetera que pide la clave y los datos de la tarjeta 
+    ademas, salva el monto nuevo una vez hecha la recarga.
+'''
 class formBilleteraRecargar(forms.Form):
     cardNum_regex = RegexValidator(regex=r'^([0-9]{4} ?){4}$', message="El numero de tarjeta debe tener el formato '1111 2222 3333 4444'")
 
@@ -27,6 +33,11 @@ class formBilleteraRecargar(forms.Form):
         request.user.billetera.balance += monto
         request.user.billetera.save() 
 
+
+'''
+ Formulario de la transaccion, solo pide el monto de la misma y lo retorna,
+    salvara la transaccion en la version final
+'''
 class formTransaccion(forms.ModelForm):
     class Meta:
         model = transaccion
@@ -36,7 +47,10 @@ class formTransaccion(forms.ModelForm):
         m = super(formTransaccion, self).save(commit = False)
         return m.monto
 
-
+'''
+ Formulario de creacion de la billetera, al validar que las claves sean iguales
+    salva el objeto de la billetera.
+'''
 class formBilleteraCrear(forms.Form):
     clave = forms.CharField(widget=forms.PasswordInput(attrs={'type':"password" ,'class':"form-control", 'id':"inputClave", 'placeholder':"Clave",}))
     repetirClave = forms.CharField(widget=forms.PasswordInput(attrs={'type':"password" ,'class':"form-control", 'id':"repeatInputClave", 'placeholder':"Repetir Clave",}))

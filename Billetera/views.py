@@ -6,7 +6,10 @@ from Registro.models import billetera
 
 # Create your views here.
 
-
+'''
+ Vista de crear billetera, se pide una clave que debe ser repetida
+        para ser asociada a la billetera
+'''
 @login_required(login_url='/registro/login/')
 def crearBilletera(request):
     #Check de si tiene una billetera ya.
@@ -23,6 +26,10 @@ def crearBilletera(request):
         form = formBilleteraCrear()
         return render(request,'billetera/crear.html', {'form': form})
 
+'''
+ Vista de recargar billetera, actualmente no funcional, pide datos de una tarjeta
+        y guarda los datos de la transaccion cuando recarga la billetera
+'''
 @login_required(login_url='/registro/login/')
 def recargarBilletera(request):
     return HttpResponseRedirect('/')
