@@ -16,7 +16,7 @@ def crearBilletera(request):
         form = formBilleteraCrear(request.POST)
         if form.is_valid():
             form.save(request)
-            return HttpResponseRedirect('billetera/recargar')
+            return HttpResponseRedirect('/billetera/recargar')
         else:
             return render(request,'billetera/crear.html', {'form': form})
     else:
