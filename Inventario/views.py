@@ -6,6 +6,11 @@ from django.http.response import HttpResponseRedirect
 from Inventario.form import formOfrece, formIngredientes
 # Create your views here.
 
+
+'''
+ Vista simple de mostrar el Inventario. Muestra todas las ofertas que tiene
+    el proveedor actual
+'''
 @login_required(login_url='/registro/login/')
 def mostrarInventario(request):
     if (not(esProveedor(request))):
@@ -16,6 +21,10 @@ def mostrarInventario(request):
     return render(request,'inventario/mostrar.html', {'ListaOferta':arreglo})
 
 
+'''
+ Vista de modificar Inventario. usa fomularios con una lista de ingredientes y un precio.
+    Intentar agregar un elemento con precio 0 solo elimina uno de existirlo.
+'''
 @login_required(login_url='/registro/login/')
 def modificarInventario(request):
     if (not(esProveedor(request))):

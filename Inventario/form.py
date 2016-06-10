@@ -5,8 +5,10 @@ from django.contrib.auth.models import User, Permission
 from Registro.models import ingrediente, ofrece, proveedor
 from django.db import IntegrityError
 
-
-
+'''
+ Formulario de ingredientes, que tiene una forma tipo "dropdown" de todos los
+    ingredientes creados por el administrador del restaurante.
+'''
 class formIngredientes(forms.Form):
     ingredientes = forms.ModelChoiceField(queryset=ingrediente.objects.all().order_by('nombre'))
 
@@ -16,8 +18,10 @@ class formIngredientes(forms.Form):
         return ingrediente.objects.get(nombre = nombreIngr)
 
 
-#Ofrece los campos de precio de la relacion y guarda los resultados del campo
-#Ademas elimina la instancia de la relacion si el precio es menor que 0.
+'''
+ Ofrece los campos de precio de la relacion y guarda los resultados del campo.
+    Ademas elimina la instancia de la relacion si el precio es menor que 0.
+'''
 class formOfrece(forms.ModelForm):
     class Meta:
         model = ofrece
@@ -28,8 +32,10 @@ class formOfrece(forms.ModelForm):
         m.idIngr = idIngr
         m.usernameP = usernameP
         
-
+        # Se verifica que no exista el objeto
         query = ofrece.objects.filter(idIngr = idIngr, usernameP = usernameP)
+
+        #Si existe se debe editar
         if query.exists():
             g = query[0]
             if m.precio > 0:
