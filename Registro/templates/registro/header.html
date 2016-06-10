@@ -87,11 +87,15 @@
         {% endif %}
         {% if user.is_authenticated %}
           <li class="active"><a href="http://127.0.0.1:8000/registro/logout/">{{ user.username }} (logout)<span class="sr-only">(current)</span></a></li>
-        {% if user.billetera %}
-          <li class="active"><a href="http://127.0.0.1:8000/billetera/recargar/">{{ user.billetera.balance }} Bs <span class="sr-only">(current)</span></a></li>
-        {% else %}
-          <li class="active"><a href="http://127.0.0.1:8000/billetera/crear/"> Crear Billetera <span class="sr-only">(current)</span></a></li>
-        {% endif %}
+          {% if user.billetera %}
+            <li class="active"><a href="http://127.0.0.1:8000/billetera/recargar/">{{ user.billetera.balance }} Bs <span class="sr-only">(current)</span></a></li>
+          {% else %}
+            {% if user.proveedor %}
+            {% elif user.is_staff %}
+            {% else %}
+              <li class="active"><a href="http://127.0.0.1:8000/billetera/crear/"> Crear Billetera <span class="sr-only">(current)</span></a></li>
+            {% endif %}
+          {% endif %}
         {% endif %}
 
       </ul>
