@@ -11,5 +11,6 @@ from Perfil import views
 urlpatterns = [
      url(r'^$', views.mostrarPerfil),
      url(r'^proveedor/', views.mostrarPerfilProveedor),
-     url(r'^usuario/', views.mostrarPerfilUsuario)
+     url(r'^usuario/', views.mostrarPerfilUsuario),
+     url(r'^usuarios/', views.mostrarUsuarios)
 ]

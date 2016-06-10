@@ -66,6 +66,6 @@ def mostrarUsuarios(request):
 
     listaUsuarios = User.objects.all()
     listaUsuarios = [[x.username, x.first_name, x.last_name, x.perfil, x.has_perm('auth.proveedor')]\
-                     for x in listaPerfil]
-
+                     for x in listaUsuarios]
+    print(listaUsuarios)
     return render(request,'Perfil/mostrarUsuarios.html',{'ListaUsuarios': listaUsuarios})
