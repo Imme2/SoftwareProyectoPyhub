@@ -101,9 +101,12 @@ def ingredienteView(request, idIngrediente = None):
             ingr = ingredienteForm(data = request.POST)
         if ingr.is_valid():
             e = ingr.save()
-            return HttpResponseRedirect('/menu/ingrediente/{}'.format(e.idIngr))
+            return HttpResponseRedirect('/menu/ingredientes/')
+
+#            return HttpResponseRedirect('/menu/ingrediente/{}'.format(e.idIngr))
         else :
-            return HttpResponseRedirect('/menu/ingrediente/')                
+            return render(request,'menu/editar.html', {'Titulo': "Ingrediente",
+                                                 'form': ingr})
     else:
         if idIngrediente:
             form = ingredienteForm(instance = ingrediente.objects.get(idIngr = idIngrediente)) 

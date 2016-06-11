@@ -40,6 +40,7 @@ class formMenu(forms.Form):
      Forma para ingredientes
 '''
 class ingredienteForm(forms.ModelForm):
+    
     class Meta:
         model = ingrediente
         exclude = ['idIngr']
@@ -47,7 +48,7 @@ class ingredienteForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ingredienteForm, self).__init__(*args, **kwargs)
         self.fields['nombre'].widget.attrs.update({'type':'text' ,'class':'form-control' ,'id':'inputIngrediente', 'placeholder':'Ingrediente'})
-        self.fields['cantidad'].widget.attrs.update({'type':'number', 'id':'inputNumber' ,'min':'0', 'data-bind':'value:replyNumber'})
+        self.fields['cantidad'].widget.attrs.update({'type':'number', 'class':'form-control', 'id':'inputNumber' ,'min':'0', 'data-bind':'value:replyNumber'})
 
 '''
       Forma para platos
@@ -62,12 +63,19 @@ class formPlato(forms.ModelForm):
         self.fields['nombre'].widget.attrs.update({'type':'text' ,'class':'form-control' ,'id':'inputPlato', 'placeholder':'Plato'})
         self.fields['tipo'].widget.attrs.update({'type':'text' ,'class':'form-control' ,'id':'inputTipo', 'placeholder':'Tipo'})
         self.fields['foto'].widget.attrs.update({'type':'text' ,'class':'form-control' ,'id':'inputFoto', 'placeholder':'Foto'})
+        self.fields['precio'].widget.attrs.update({'class':'form-control'})
+
         self.fields['descripcion'].widget.attrs.update({'type':'text' ,'class':'form-control' ,'id':'inputDescripcion', 'placeholder':'Descripcion'})
 
 '''
       Forma para la relacion posee
 '''
 class formPosee(forms.ModelForm):
+    
+    def __init__(self, *args, **kwargs):
+        super(formPosee , self).__init__(*args, **kwargs)
+       # self.fields['cantidad'].widget.attrs.update({'class':'form-control'})
+    
     class Meta:
         model = posee
         exclude = ['idItem']

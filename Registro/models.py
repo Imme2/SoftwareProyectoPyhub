@@ -15,7 +15,7 @@ class perfil(models.Model):
     sexo = models.CharField(max_length = 1, choices = Sexos, blank=True, null=True)
     fechaNac = models.DateField(blank=True, null=True)
     foto = models.CharField(max_length = 300,blank=True, null=True)
-    tlf = models.CharField(max_length = 11,blank=True, null=True)
+    tlf = models.CharField(max_length = 17,blank=True, null=True)
 
     def __str__(self):
         return self.user.first_name + " " + self.user.last_name
@@ -31,7 +31,7 @@ post_save.connect(create_user_profile, sender=User) #Un decorador que implica el
         
 class proveedor(models.Model):
     username = models.OneToOneField(User,related_name = 'proveedor')
-    nombreEmpr = models.CharField(max_length = 20)
+    nombreEmpr = models.CharField(max_length = 40)
     rif = models.CharField(max_length = 10)
     ofreceRel = models.ManyToManyField('ingrediente',through = 'ofrece')
     
@@ -46,8 +46,8 @@ class administrador(models.Model):
       
 class ingrediente(models.Model):
     idIngr = models.AutoField(primary_key = True)
-    cantidad = models.PositiveIntegerField()
     nombre = models.CharField(max_length = 50)
+    cantidad = models.PositiveIntegerField()
     # consultaRel = models.ManyToManyField(proveedor,through = 'consulta')
     def __str__(self):
         return self.nombre

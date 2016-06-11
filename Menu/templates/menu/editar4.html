@@ -17,9 +17,11 @@
 		<form method = "post">
 			{% csrf_token %}
 			{% for field in form %}
-			<div class="form-group col-xs-6">
-				{{ field.errors }} {{ field.label_tag }} {{ field }}
-		  	</div>
+				{% for x in field %}
+				<div class="form-group col-xs-6">
+					{{ x.errors }} {{ x.label_tag }} {{ x }}
+			  	</div>
+			  	{% endfor %}
 		 	{% endfor %}
 		 	{% if extra %}
 		 	<div class="form-group col-xs-6 table-responsive">
@@ -30,15 +32,14 @@
 			 		<td><strong>Cantidad:</strong></td>
 			 		<td><strong></strong></td>
 			 	</tr>
-			 	<div class="form-group col-xs-6 table-responsive">
 			 	{% for x in extra %}
+			 	<div class="form-group col-xs-6 table-responsive">
 			 	<tr>
 			 		<td>{{x.idIngr}}</td>
 			 		<td>{{ x.cantidad }}</td>
 			 		<td><a class="btn btn-danger btn-lg" href="eliminarIngr?plato={{x.idItem.idItem}}&ingr={{x.idIngr.idIngr}}" role="button" role="button" data-toggle="tooltip" data-placement="top" data-toggle="tooltip" data-placement="right"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></td>
 			 	</tr>
 				{% endfor %}
-				</div>
 				</table>
 			</div>
 			{% endif %}
