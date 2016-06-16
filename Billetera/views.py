@@ -35,17 +35,12 @@ def recargarBilletera(request):
     if not(billetera.objects.filter(user = request.user).exists()):
         return HttpResponseRedirect('/billetera/crear')
     if request.method == "POST":
-        form = formBilleteraRecargar(request.POST)
+        form = formBilleteraRecargar(data = request.POST,request=request)
         transaccion = formTransaccion(data = request.POST)
-        if transaccion.is_valid():
+        if transaccion.is_valid() and form.is_valid():
             monto = transaccion.save()
-            if form.is_valid():
-                claveDada = form.cleaned_data.get('clave')
-                if (request.user.billetera.verifyPassword(claveDada)):
-                    form.save()
-                    return HttpResponseRedirect('/')
-                else:
-                    return HttpResponseRedirect('?error=1')
+            form.save(request,monto)
+            return HttpResponseRedirect('/')
         return render(request,'billetera/recargar.html', {'form': form,
                                                     'monto': transaccion,
                                                     'error': None})

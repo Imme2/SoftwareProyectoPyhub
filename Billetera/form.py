@@ -29,6 +29,23 @@ class formBilleteraRecargar(forms.Form):
     fechaVencimiento = forms.DateField(widget=forms.DateInput(attrs={'type':"date", 'class':"form-control", 'id':"inputF_Nac",}),label='Fecha de Vencimiento',validators= [fechaVencimientoValidator] ,initial=datetime.date.today)
     clave = forms.CharField(widget=forms.PasswordInput(attrs={'type':"password" ,'class':"form-control", 'id':"inputClave", 'placeholder':"Clave",}),label = 'Clave Billetera:')
     
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+
+        super(formBilleteraRecargar, self).__init__(*args, **kwargs)
+
+    def clean(self):
+        cleaned_data = super(formBilleteraRecargar,self).clean()
+
+        billeteraUsuario = self.request.user.billetera
+
+        clave = cleaned_data.get('clave')
+
+        if (not(billeteraUsuario.verifyPassword(clave))):
+            msg = "Clave de billetera erronea."
+            self.add_error('clave',msg)
+
+        return cleaned_data
 
     def save(self,request,monto):
         request.user.billetera.balance += monto
@@ -43,6 +60,17 @@ class formTransaccion(forms.ModelForm):
     class Meta:
         model = transaccion
         exclude = ['idTrans','username','fecha']
+
+    def clean(self):
+        cleaned_data = super(formTransaccion,self).clean()
+
+        monto = cleaned_data.get('monto')
+
+        if (monto <= 0):
+            msg = "El monto a recargar debe ser positivo."
+            self.add_error('monto',msg)
+
+        return cleaned_data
 
     def save(self):
         m = super(formTransaccion, self).save(commit = False)
