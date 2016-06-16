@@ -152,9 +152,17 @@ class loginUsuario(forms.Form):
 '''
 
 class parametrosForm(forms.ModelForm):
+
     class Meta:
         model = parametro
         exclude = ('idParam', )
+
+    def __init__(self, *args, **kwargs):
+        super(parametrosForm, self).__init__(*args, **kwargs)
+        self.fields['menuActual'].widget.attrs.update({'class':'form-control'})
+        self.fields['horarioCierre'].widget.attrs.update({'class':'form-control'})
+        self.fields['horarioEntrada'].widget.attrs.update({'class':'form-control'})
+        self.fields['cantPuestos'].widget.attrs.update({'class':'form-control'})
 
 
 '''

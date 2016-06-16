@@ -32,7 +32,7 @@ def editarMenu(request, idMenu = None):
             nombreMenu = menu.objects.get(idMenu = idMenu).nombre
             formPlatos = formMenu(idMenu)
 
-            return render(request,'menu/editar.html', {'Titulo': "Editar un menu",
+            return render(request,'menu/editar.html', {'Titulo': "Editar menu: {}".format(nombreMenu),
                                                     'form': formPlatos})
 
 '''
@@ -109,10 +109,13 @@ def ingredienteView(request, idIngrediente = None):
                                                  'form': ingr})
     else:
         if idIngrediente:
-            form = ingredienteForm(instance = ingrediente.objects.get(idIngr = idIngrediente)) 
+            ingr = ingrediente.objects.get(idIngr = idIngrediente)
+            form = ingredienteForm(instance = ingr)
+            titulo = "Editar ingrediente: {}".format(ingr.nombre) 
         else:   
             form = ingredienteForm()
-        return render(request,'menu/editar.html', {'Titulo': "Ingrediente",
+            titulo = "Crear ingrediente"
+        return render(request,'menu/editar.html', {'Titulo': titulo,
                                                  'form': form})
 
 '''
@@ -149,11 +152,13 @@ def platoView(request, idPlato = None):
             form = [formPlat, formPose]
             extra = None
             extra = posee.objects.all().filter(idItem = platoInstance)
+            titulo = "Editar plato: {}".format(platoInstance.nombre)
         else:   
             formPlat = formPlato()
             form = [formPlat]
             extra = None
-        return render(request,'menu/editar2.html', {'Titulo': "Crear plato",
+            titulo = "Crear plato"
+        return render(request,'menu/editar2.html', {'Titulo': titulo,
                                                  'form': form,
                                                  'extra': extra})
 '''

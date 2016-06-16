@@ -14,7 +14,7 @@ def index(request):
     platos = menuAct.contieneRel.all()
 
 
-    formSetPlatos = modelformset_factory(item, form = formMostrarPlato,extra = 0)
+    formSetPlatos = modelformset_factory(item, fields= ('nombre', 'precio', 'descripcion'), form = formMostrarPlato,extra = 0)
 
     formSet = formSetPlatos(queryset = platos)
 

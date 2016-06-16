@@ -74,7 +74,10 @@ class formPosee(forms.ModelForm):
     
     def __init__(self, *args, **kwargs):
         super(formPosee , self).__init__(*args, **kwargs)
-       # self.fields['cantidad'].widget.attrs.update({'class':'form-control'})
+
+        self.fields['cantidad'].widget.attrs.update({'class':'form-control'})
+        self.fields['idIngr'].widget.attrs.update({'type':'text' ,'class':'form-control'})
+        self.fields['idIngr'].label = "Ingredientes"
     
     class Meta:
         model = posee
