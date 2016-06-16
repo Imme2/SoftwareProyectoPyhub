@@ -3,5 +3,5 @@ from django.http import HttpResponse
 from inicio.controlador import getCurrentMenu
 
 def index(request):
-    menu = getCurrentMenu(request)
+    menu = getCurrentMenu()
     return render(request,'inicio/home.html',{'menu': menu})
