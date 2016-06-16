@@ -25,9 +25,10 @@ class formBilleteraRecargar(forms.Form):
     cardNum_regex = RegexValidator(regex=r'^([0-9]{4} ?){4}$', message="El numero de tarjeta debe tener el formato '1111 2222 3333 4444'")
 
     numeroTarjeta = forms.CharField(widget=forms.TextInput(attrs={'class':"form-control", 'id':"inputCedula", 'placeholder':"1111 2222 3333 4444",}),validators=[cardNum_regex], label='Numero de Tarjeta')
-    codigoSeguridad = forms.CharField(widget=forms.PasswordInput(attrs={'type':"password" ,'class':"form-control", 'id':"inputCodigoSeguridad", 'placeholder':"XXX",}),label = 'Codigo de Seguridad')
-    clave = forms.CharField(widget=forms.PasswordInput(attrs={'type':"password" ,'class':"form-control", 'id':"inputClave", 'placeholder':"Clave",}),label = 'Clave')
+    codigoSeguridad = forms.CharField(widget=forms.PasswordInput(attrs={'type':"password" ,'class':"form-control", 'id':"inputCodigoSeguridad", 'placeholder':"XXXX",}),label = 'Codigo de Seguridad')
     fechaVencimiento = forms.DateField(widget=forms.DateInput(attrs={'type':"date", 'class':"form-control", 'id':"inputF_Nac",}),label='Fecha de Vencimiento',validators= [fechaVencimientoValidator] ,initial=datetime.date.today)
+    clave = forms.CharField(widget=forms.PasswordInput(attrs={'type':"password" ,'class':"form-control", 'id':"inputClave", 'placeholder':"Clave",}),label = 'Clave Billetera:')
+    
 
     def save(self,request,monto):
         request.user.billetera.balance += monto

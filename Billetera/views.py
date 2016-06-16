@@ -32,7 +32,6 @@ def crearBilletera(request):
 '''
 @login_required(login_url='/registro/login/')
 def recargarBilletera(request):
-    return HttpResponseRedirect('/')
     if not(billetera.objects.filter(user = request.user).exists()):
         return HttpResponseRedirect('/billetera/crear')
     if request.method == "POST":
