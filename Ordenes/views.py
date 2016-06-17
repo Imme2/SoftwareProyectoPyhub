@@ -15,7 +15,7 @@ def verOrdenActual(request):
         orden = None  
         return render(request,"ordenes/ordenar.html",{'monto':0})
     platos = tieneActual.objects.filter(orden = orden)
-    monto = sum(x.item.precio*x.cantidad for x in platos)
+    monto = sum(x.item.precio * x.cantidad for x in platos)
 
     platos = [{'precio':x.item.precio,
                 'nombre':x.item.nombre,
