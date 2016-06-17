@@ -1,9 +1,9 @@
 {% extends "registro/header.html" %}
 {% block content %}
-{% if formMenu %}
-<div class>
+<div>
 	<h2 align="center">Menú</h2>
-</div><br>
+</div>
+{% if formMenu %}
 <div class="container-fluid col-md-12">
 	{% if error %}
 		{% for e in error %}
@@ -16,41 +16,39 @@
 	<div class="container-fluid col-md-6 jumbotron">
 		<form method = "post">
 			{% csrf_token %}		
-				<table class="table table-hover table-striped table-condensed">
+			<table class="table table-hover table-striped">
+				<tr>
+				 	<td><strong>Nombre:</strong></td>
+				 	<td><strong>Descripción:</strong></td>
+				 	<td><strong>Precio:</strong></td>
+				 	<td><strong>Cantidad:</strong></td>
+				</tr>
+				{% for plato in formMenu %}
 					<tr>
-					 	<td><strong>Nombre:</strong></td>
-					 	<td><strong>Descripción:</strong></td>
-					 	<td><strong>Precio:</strong></td>
-					 	<td><strong>Cantidad:</strong></td>
-					</tr>
-					{% for plato in formMenu %}
-						<tr>
-						 	<td>{{plato.nombre.value}} {{plato.nombre.as_hidden}}</td>
-						 	<td>{{plato.descripcion.value}} {{plato.descripcion.as_hidden}}</td>
-						 	<td>{{plato.precio.value}}  {{plato.precio.as_hidden}}</td>
-						 	<td>{{plato.cantidad}}</td>
-						{% for hidden in plato.hidden_fields %}
-						    {{ hidden }}
-						{% endfor %}
-						</tr>
+					 	<td>{{plato.nombre.value}} {{plato.nombre.as_hidden}}</td>
+					 	<td>{{plato.descripcion.value}} {{plato.descripcion.as_hidden}}</td>
+					 	<td>{{plato.precio.value}}  {{plato.precio.as_hidden}}</td>
+					 	<td>{{plato.cantidad}}</td>
+					{% for hidden in plato.hidden_fields %}
+					    {{ hidden }}
 					{% endfor %}
+					</tr>
+				{% endfor %}
 
-					{{formMenu.management_form}}
+				{{formMenu.management_form}}
 
-				</table>
-			<div class="form-group col-xs-6">
-            	<button align="center" type="submit" class="btn btn-success btn-lg">Oredenar</button>
-            </div>
-            <div class="form-group col-xs-6">
-            	<button align="center" class="btn btn-success btn-lg">Pagar Orden</button>
-            </div>
+			</table>
+				<div align="center" class="form-group col-xs-6">
+			    	<button align="center" type="submit" class="btn btn-success btn-lg">Oredenar</button>
+			    </div>
+			    <div align="center" class="form-group col-xs-6">
+			    	<button align="center" class="btn btn-success btn-lg">Pagar Orden</button>
+			    </div>
         </form>
-    </div>
+        </div>
+    <div class="container-fluid col-md-3"></div>
 </div>
 {% elif menu %}
-<div class>
-	<h2 align="center">Menú</h2>
-</div><br>
 <div class="container-fluid col-md-12">
 	{% if error %}
 		{% for e in error %}

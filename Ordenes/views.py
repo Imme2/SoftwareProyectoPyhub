@@ -1,12 +1,9 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.http.response import HttpResponseRedirect
-from Registro.models import perfil,proveedor, parametro, menu, ingrediente, item, posee
 from django.contrib.auth.decorators import login_required
-from Menu.form import formMenu, ingredienteForm, formPlato, formPosee
-from Registro.form import parametrosForm
-
-
+from Registro.views import esProveedor
+from Ordenes.form import formBilleteraPagar
 # Create your views here.
 
 @login_required(login_url='/registro/login/')
@@ -24,4 +21,23 @@ def verOrdenActual(request):
 
 @login_required(login_url='/registro/login/')
 def pagarOrdenActual(request):
-    pass
+    if request.user.is_staff or esProveedor(request):
+        return HttpResponseRedirect('/')
+    try:
+        orden = request.user.ordenActual
+    except:
+        orden = None
+        return HttpResponseRedirect('/')
+
+    if request.method == "POST":
+        formPago = formBilleteraPagar(data = request.POST, request = request)
+        if formPago.is_valid():
+            formPago.save()
+            return HttpResponseRedirect('ordenes/Actual')
+        return render(request,"ordenes/pagar.html",{'formPago': formPago})
+    else:
+        platos = orden.tieneRel.all()
+        monto = sum(x.precio for x in platos)
+        formPago = formBilleteraPagar(monto = monto,request = request)
+        return render(request,"ordenes/pagar.html",{'formPago': formPago})
+

@@ -9,7 +9,7 @@ from Registro.models import item, ordenActual
 
 class formMostrarPlato(forms.ModelForm):
 
-    cantidad = forms.IntegerField(min_value = 0,required = True, initial = 0)
+    cantidad = forms.IntegerField(widget=forms.NumberInput(attrs={'class':"form-control"}),min_value = 0,required = True, initial = 0)
 
 
     def __init__(self, *args, **kwargs):
