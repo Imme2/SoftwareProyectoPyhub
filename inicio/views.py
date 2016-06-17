@@ -22,12 +22,13 @@ def index(request):
         if platos is None:
             return render(request,'inicio/home.html',{'menu':None})   #Panic?
         formSetPlatos = modelformset_factory(item, form = formMostrarPlato,extra = 0)
-        formSet = formSetPlatos(request.POST,request.FILES)
+        formSet = formSetPlatos(request.POST,request.FILES,queryset = platos,)
         if formSet.is_valid():
             for form in formSet:
                 form.save(request)
             return HttpResponse('/pedidos/actual/')
         else:
+            print("wur wur")
             return render(request,'inicio/home.html',{'formMenu': formSet}) 
     else:
         platos = getCurrentMenu()
