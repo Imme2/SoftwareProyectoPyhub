@@ -13,11 +13,10 @@
 		{% endfor %}
 	{% endif %}
 	<div class="container-fluid col-md-3"></div>
-	<div class="container-fluid col-md-6">
+	<div class="container-fluid col-md-6 jumbotron">
 		<form method = "post">
-			{% csrf_token %}			
-			<div class="form-group col-6 jumbotron">
-				<table class="table table-hover">
+			{% csrf_token %}		
+				<table class="table table-hover table-striped table-condensed">
 					<tr>
 					 	<td><strong>Nombre:</strong></td>
 					 	<td><strong>Descripción:</strong></td>
@@ -30,19 +29,19 @@
 						 	<td>{{plato.descripcion.value}} {{plato.descripcion.as_hidden}}</td>
 						 	<td>{{plato.precio.value}}  {{plato.precio.as_hidden}}</td>
 						 	<td>{{plato.cantidad}}</td>
-						</tr>
 						{% for hidden in plato.hidden_fields %}
 						    {{ hidden }}
 						{% endfor %}
+						</tr>
 					{% endfor %}
+
 					{{formMenu.management_form}}
 
 				</table>
-			</div>
-			<div align="center" class="form-group col-md-offset-8">
+			<div class="form-group col-xs-6">
             	<button align="center" type="submit" class="btn btn-success btn-lg">Oredenar</button>
             </div>
-            <div align="center" class="form-group col-md-offset-8">
+            <div class="form-group col-xs-6">
             	<button align="center" class="btn btn-success btn-lg">Pagar Orden</button>
             </div>
         </form>
