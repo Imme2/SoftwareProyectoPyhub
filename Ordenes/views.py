@@ -40,6 +40,7 @@ def pagarOrdenActual(request):
         if formPago.is_valid():
             formPago.save()
             return HttpResponseRedirect('/ordenes/actual')
+        print(formPago.errors)
         return render(request,"ordenes/pagar.html",{'formPago': formPago})
     else:
         platos = tieneActual.objects.filter(orden = orden)
