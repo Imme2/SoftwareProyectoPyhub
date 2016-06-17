@@ -11,7 +11,7 @@ def verOrdenActual(request):
     try:
         orden = request.user.ordenActual
     except:
-        orden = None
+        orden = None  
         return render(request,"ordenes/ver.html",{'monto':0})
     platos = orden.tieneRel.all()
     monto = sum(x.precio for x in platos)
@@ -30,14 +30,14 @@ def pagarOrdenActual(request):
         return HttpResponseRedirect('/')
 
     if request.method == "POST":
-        formPago = formBilleteraPagar(data = request.POST, request = request)
+        formPago = formBilleteraPagar(monto = request.POST.get('monto'), data = request.POST, request = request)
         if formPago.is_valid():
             formPago.save()
-            return HttpResponseRedirect('ordenes/Actual')
-        return render(request,"ordenes/pagar.html",{'formPago': formPago})
+            return HttpResponseRedirect('/ordenes/actual')
+        return render(request,"ordenes/ver.html",{'formPago': formPago})
     else:
         platos = orden.tieneRel.all()
         monto = sum(x.precio for x in platos)
         formPago = formBilleteraPagar(monto = monto,request = request)
-        return render(request,"ordenes/pagar.html",{'formPago': formPago})
+        return render(request,"ordenes/ver.html",{'formPago': formPago})
 
