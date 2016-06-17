@@ -4,7 +4,7 @@ from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User, Permission
 from django.contrib.contenttypes.models import ContentType
-from Registro.models import billetera,transaccion
+from Registro.models import billetera,transaccion,orden
 import datetime
 
 '''
@@ -16,14 +16,15 @@ import datetime
 class formBilleteraPagar(forms.Form):
 
     clave = forms.CharField(widget=forms.PasswordInput(attrs={'type':"password" ,'class':"form-control", 'id':"inputClave", 'placeholder':"Clave",}),label = 'Clave de su Billetera:')
-    monto = forms.DecimalField(label = 'Monto a pagar')
+    monto = forms.DecimalField(label = 'Monto a pagar',disabled = True) 
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self,monto = 0, *args, **kwargs):
         self.request = kwargs.pop('request', None)
-        super(formBilleteraRecargar, self).__init__(*args, **kwargs)
+        super(formBilleteraPagar, self).__init__(*args, **kwargs)
+        self.fields['monto'].initial = monto
 
     def clean(self):
-        cleaned_data = super(formBilleteraRecargar,self).clean()
+        cleaned_data = super(formBilleteraPagar,self).clean()
 
         billeteraUsuario = self.request.user.billetera
 
@@ -35,10 +36,22 @@ class formBilleteraPagar(forms.Form):
 
         return cleaned_data
 
-    def save(self,monto):
+    def save(self):
+        monto = self.cleaned_data.get('monto')
 
-        self.request.user.billetera -= monto
-        request.user.OrdenActual.tieneRel.clear()
+        user = self.request.user
 
+        user.billetera -= monto
+        user.billetera.save() 
 
-        request.user.billetera.save() 
+        platos = user.ordenActual.tieneRel.all()
+        
+        nuevaOrden = orden.objects.create(user = user)
+        nuevaOrden.fecha = datetime.today()
+        nuevaOrden.totalPagado = monto
+        for x in platos:
+            nuevaOrden.tieneRel.add(X)
+        nuevaOrden.save()
+
+        user.ordenActual.tieneRel.clear()
+        user.ordenActual.save()
