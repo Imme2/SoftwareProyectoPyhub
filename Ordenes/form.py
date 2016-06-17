@@ -4,7 +4,7 @@ from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User, Permission
 from django.contrib.contenttypes.models import ContentType
-from Registro.models import billetera,transaccion,orden
+from Registro.models import billetera,transaccion,orden,tieneActual,tiene
 import datetime
 
 '''
