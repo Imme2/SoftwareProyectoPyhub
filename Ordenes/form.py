@@ -16,12 +16,13 @@ import datetime
 class formBilleteraPagar(forms.Form):
 
     clave = forms.CharField(widget=forms.PasswordInput(attrs={'type':"password" ,'class':"form-control", 'id':"inputClave", 'placeholder':"Clave",}),label = 'Clave de su Billetera:')
-    monto = forms.DecimalField(label = 'Monto a pagar',disabled = True) 
+    monto = forms.DecimalField(label = 'Monto a pagar') 
 
     def __init__(self,monto = 0, *args, **kwargs):
         self.request = kwargs.pop('request', None)
         super(formBilleteraPagar, self).__init__(*args, **kwargs)
         self.fields['monto'].initial = monto
+        self.fields['monto'].widget.attrs['readonly'] = True
 
     def clean(self):
         cleaned_data = super(formBilleteraPagar,self).clean()
@@ -46,12 +47,13 @@ class formBilleteraPagar(forms.Form):
 
         platos = user.ordenActual.tieneRel.all()
         
-        nuevaOrden = orden.objects.create(user = user)
+        nuevaOrden = orden(user = user)
         nuevaOrden.fecha = datetime.datetime.today()
         nuevaOrden.totalPagado = monto
-        for x in platos:
-            nuevaOrden.tieneRel.add(X)
         nuevaOrden.save()
+        # for x in platos:
+        #     nuevaOrden.tieneRel.add(x)
+        # nuevaOrden.save()
 
         user.ordenActual.tieneRel.clear()
         user.ordenActual.save()

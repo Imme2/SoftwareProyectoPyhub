@@ -1,0 +1,15 @@
+
+<form action="/ordenes/pagar/" method = "post">
+			{% csrf_token %}		
+{% for x in formPago%}
+	{{ x}}
+{% endfor %}
+{% for x in platos%}
+	{{ x}}
+{% endfor %}
+
+El monto
+ {{monto}}
+ <input type="hidden" name="monto" value="{{monto}}">
+ 	<button align="center" type="submit" class="btn btn-success btn-lg">Oredenar</button>
+  </form>
