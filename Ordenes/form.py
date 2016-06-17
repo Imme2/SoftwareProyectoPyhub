@@ -39,10 +39,11 @@ class formBilleteraPagar(forms.Form):
         if(monto > self.request.user.billetera.balance):
             msg = "No tiene suficiente saldo."
             self.add_error('monto',msg)
-            
+
         if(monto == 0):
             msg = "Debe comprar algo."
             self.add_error('monto',msg)
+            
         return cleaned_data
 
     def save(self):

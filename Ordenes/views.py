@@ -43,11 +43,13 @@ def pagarOrdenActual(request):
         return HttpResponseRedirect('/')
 
     if request.method == "POST":
-        formPago = formBilleteraPagar(monto = request.POST.get('monto'), data = request.POST, request = request)
-        if formPago.is_valid():
-            formPago.save()
-            return HttpResponseRedirect('/ordenes/actual')
-        print(formPago.errors)
+        formPago = formBilleteraPagar(monto = request.POST.get('monto'), request = request)
+        if request.META.get('HTTP_REFERER').split("/")[-2] != "actual":
+            formPago = formBilleteraPagar(monto = request.POST.get('monto'), data = request.POST, request = request)
+            if formPago.is_valid():
+                formPago.save()
+                return HttpResponseRedirect('/ordenes/actual')
+        print("Clave")
         return render(request,"ordenes/pagar.html",{'formPago': formPago})
     else:
         platos = tieneActual.objects.filter(orden = orden)
