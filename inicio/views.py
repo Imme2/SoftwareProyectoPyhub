@@ -27,6 +27,8 @@ def index(request):
             for form in formSet:
                 form.save(request)
             return HttpResponse('/pedidos/actual/')
+        else:
+            return render(request,'inicio/home.html',{'formMenu': formSet}) 
     else:
         platos = getCurrentMenu()
         if (platos is None):
