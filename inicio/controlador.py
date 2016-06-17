@@ -6,7 +6,7 @@ def getCurrentMenu():
 	if len(parametros) == 0:
 		return None
 	else:
-		parametrosActuales = parametro[0]
+		parametrosActuales = parametros[0]
 		menuActual = parametrosActuales.menuActual
-		platos = menuActual.ofreceRel.all()
+		platos = menuActual.contieneRel.all()
 		return platos

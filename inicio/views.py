@@ -4,15 +4,25 @@ from inicio.controlador import getCurrentMenu
 from inicio.form import formMostrarPlato
 from django.forms import modelformset_factory
 from Registro.models import parametro,item
+from Registro.views import esProveedor
 
+'''
 
+Muestra el menu principal y permite hacer ordenes.
+
+'''
 
 def index(request):
+    user = request.user
+    if not(user.is_authenticated()) or user.is_staff or esProveedor(request) :
+        return render(request,'inicio/home.html')
     if request.method == "POST":
         platos = getCurrentMenu()
         formSetPlatos = modelformset_factory(item, form = formMostrarPlato,extra = 0)
         formSet = formSetPlatos(queryset = platos, data = request.POST)
-        return render(request,'inicio/home.html',{'menu': formSet})
+        if formSet.is_valid():
+            formSet.save(request)
+            return HttpResponse('/pedidos/actual/')
     else:
         platos = getCurrentMenu()
         if (platos is None):
