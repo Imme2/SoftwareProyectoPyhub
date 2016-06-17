@@ -22,7 +22,6 @@ class formMostrarPlato(forms.ModelForm):
         model = item
         exclude = ('idItem','tipo','poseeRel','foto',)
 
-
     def save(self,request):
         try:
             orden = request.user.ordenActual
