@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'Perfil',
     'Billetera',
     'Inventario',
+    'Ordenes',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
