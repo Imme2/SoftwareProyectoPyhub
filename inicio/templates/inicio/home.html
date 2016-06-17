@@ -25,9 +25,9 @@
 					</tr>
 					{% for plato in formMenu %}
 						<tr>
-						 	<td>{{plato.nombre.value}}</td>
-						 	<td>{{plato.descripcion.value}}</td>
-						 	<td>{{plato.precio.value}}</td>
+						 	<td>{{plato.nombre.value}} {{plato.nombre.as_hidden}}</td>
+						 	<td>{{plato.descripcion.value}} {{plato.descripcion.as_hidden}}</td>
+						 	<td>{{plato.precio.value}}  {{plato.precio.as_hidden}}</td>
 						 	<td>{{plato.cantidad}}</td>
 						{% for hidden in plato.hidden_fields %}
 						    {{ hidden }}
@@ -47,7 +47,7 @@
         </form>
     </div>
 </div>
-{% elif Menu %}
+{% elif menu %}
 <div class>
 	<h2 align="center">Menú</h2>
 </div><br>
