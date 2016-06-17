@@ -78,10 +78,15 @@ class menu(models.Model):
     def __str__(self):
         return self.nombre
 
+class ordenActual(models.Model):
+    user = models.OneToOneField(User,related_name = 'ordenActual')
+    tieneRel = models.ManyToManyField(item)
+
 class orden(models.Model):
     nroOrden = models.AutoField(primary_key = True)
     fecha = models.DateField()    
-    realizaRel = models.ManyToManyField(cliente,through = 'realiza')
+    user = models.ForeignKey(User)
+    totalPagado = models.DecimalField(max_digits = 30, decimal_places = 3, default = 0)
     tieneRel = models.ManyToManyField(item,through = 'tiene')
     
 class billetera(models.Model):
@@ -129,7 +134,7 @@ class realiza(models.Model):
     
     class Meta:
         unique_together = ('username','nroOrden')
-        
+
 class tiene(models.Model):
     nroOrden = models.ForeignKey('orden')
     idItem = models.ForeignKey('item')

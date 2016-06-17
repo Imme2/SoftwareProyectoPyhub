@@ -30,5 +30,6 @@ urlpatterns = [
     url(r'^menu/',include('Menu.urls')),
     url(r'^billetera/',include('Billetera.urls')),
     url(r'^inventario/',include('Inventario.urls')),
+    url(r'^ordenes/',include('Ordenes.urls')),
     url(r'^',include('inicio.urls'))
 ]
