@@ -24,6 +24,7 @@
 					{{formPago.clave.errors }}
 				</div>
 				{% endif %}
+			</div>
 			<div class="form-group col-xs-6">
 				{{ formPago.monto.label_tag }} {{ formPago.monto.value }} {{formPago.monto.as_hidden}}
 				{% if formPago.monto.errors %}
@@ -33,7 +34,6 @@
 				{% endif %}
 		  	</div>
 		 	{% endif %} 
-			{% csrf_token %}
 			{% for field in monto %}
 			<div class="form-group col-xs-6">
 				{{ field.label_tag }} {{ field }}
@@ -49,6 +49,6 @@
             </div>
 		</form>
 	</div>
-	<div class="container-fluid col-md-4"></div>
+	<div class="container-fluid col-md-3"></div>
 </div>
 {% endblock %}

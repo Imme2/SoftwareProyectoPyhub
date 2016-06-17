@@ -30,7 +30,9 @@ class formMostrarPlato(forms.ModelForm):
         orden.save()
         plato = super(formMostrarPlato,self).save(commit=False)
         N = self.cleaned_data.get('cantidad')
-    
+        
+        if N <= 0:
+            return
         try:
             entry = tieneActual.objects.get(orden = orden,item = plato)
             entry.cantidad = N

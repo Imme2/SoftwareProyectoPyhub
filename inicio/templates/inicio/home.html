@@ -18,17 +18,17 @@
 			{% csrf_token %}		
 			<table class="table table-hover table-striped">
 				<tr>
-				 	<td><strong>Nombre:</strong></td>
-				 	<td><strong>Descripción:</strong></td>
-				 	<td><strong>Precio:</strong></td>
-				 	<td><strong>Cantidad:</strong></td>
+				 	<td align="center"><strong>Nombre:</strong></td>
+				 	<td align="center"><strong>Descripción:</strong></td>
+				 	<td align="center"><strong>Precio:</strong></td>
+				 	<td align="center"><strong>Cantidad:</strong></td>
 				</tr>
 				{% for plato in formMenu %}
 					<tr>
 					 	<td>{{plato.nombre.value}} {{plato.nombre.as_hidden}}</td>
 					 	<td>{{plato.descripcion.value}} {{plato.descripcion.as_hidden}}</td>
 					 	<td>{{plato.precio.value}}  {{plato.precio.as_hidden}}</td>
-					 	<td>{{plato.cantidad}}</td>
+					 	<td align="center">{{plato.cantidad}}</td>
 					{% for hidden in plato.hidden_fields %}
 					    {{ hidden }}
 					{% endfor %}
