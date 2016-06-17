@@ -15,7 +15,8 @@ Muestra el menu principal y permite hacer ordenes.
 def index(request):
     user = request.user
     if not(user.is_authenticated()) or user.is_staff or esProveedor(request) :
-        return render(request,'inicio/home.html')
+        menu = getCurrentMenu()
+        return render(request,'inicio/home.html',{'menu':menu})
     if request.method == "POST":
         platos = getCurrentMenu()
         formSetPlatos = modelformset_factory(item, form = formMostrarPlato,extra = 0)
@@ -30,4 +31,4 @@ def index(request):
         else:
             formSetPlatos = modelformset_factory(item, form = formMostrarPlato,extra = 0)
             formSet = formSetPlatos(queryset = platos)
-            return render(request,'inicio/home.html',{'menu': formSet})
+            return render(request,'inicio/home.html',{'formMenu': formSet})
