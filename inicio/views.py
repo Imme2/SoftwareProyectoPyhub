@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from inicio.controlador import getCurrentMenu
 from inicio.form import formMostrarPlato
 from django.forms import modelformset_factory
@@ -26,7 +26,7 @@ def index(request):
         if formSet.is_valid():
             for form in formSet:
                 form.save(request)
-            return HttpResponse('/pedidos/actual/')
+            return HttpResponseRedirect('/pedidos/actual/')
         else:
             return render(request,'inicio/home.html',{'formMenu': formSet}) 
     else:

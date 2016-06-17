@@ -1,6 +1,6 @@
 {% extends "registro/header.html" %}
 {% block content %}
-{% if not user.proveedor and not user.is_staff and user.is_authenticated %}
+{% if formMenu %}
 <div class>
 	<h2 align="center">Menú</h2>
 </div><br>
@@ -31,7 +31,12 @@
 						 	<td>{{plato.precio.value}}</td>
 						 	<td>{{plato.cantidad}}</td>
 						</tr>
+						{% for hidden in plato.hidden_fields %}
+						    {{ hidden }}
+						{% endfor %}
 					{% endfor %}
+					{{formMenu.management_form}}
+
 				</table>
 			</div>
 			<div align="center" class="form-group col-md-offset-8">
@@ -43,7 +48,7 @@
         </form>
     </div>
 </div>
-{% else %}
+{% elif Menu %}
 <div class>
 	<h2 align="center">Menú</h2>
 </div><br>

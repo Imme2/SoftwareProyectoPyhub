@@ -3,7 +3,7 @@ from django import forms
 from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User, Permission
-from Registro.models import ingrediente, perfil, proveedor, menu, item,contiene,posee
+from Registro.models import item, ordenActual
 
 
 
@@ -11,12 +11,31 @@ class formMostrarPlato(forms.ModelForm):
 
     cantidad = forms.IntegerField(min_value = 0,required = True, initial = 0)
 
+
+    def __init__(self, *args, **kwargs):
+        super(formMostrarPlato, self).__init__(*args, **kwargs)
+        self.fields['nombre'].widget.attrs['readonly'] = True
+        self.fields['precio'].widget.attrs['readonly'] = True
+        self.fields['descripcion'].widget.attrs['readonly'] = True
+
     class Meta:
         model = item
         exclude = ('idItem','tipo','poseeRel','foto',)
 
-    def save(request):
-        pass
+
+    def save(self,request):
+        try:
+            orden = request.user.ordenActual
+        except:
+            orden = ordenActual.objects.create(user = request.user)
+        plato = super(formMostrarPlato,self).save(commit=False)
+        N = self.cleaned_data.get('cantidad')
+        while(N > 0):
+            orden.tieneRel.add(plato)
+            N -= 1
+
+        orden.save()
+
 
 '''
 class formMostrarMenu(forms.Form):
