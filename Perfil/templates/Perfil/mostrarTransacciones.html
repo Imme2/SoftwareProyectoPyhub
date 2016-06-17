@@ -1,7 +1,7 @@
 {% extends "registro/header.html" %}
 {% block content %}
 <div class>
-	<h2 align="center">Usuarios Registrados</h2>
+	<h2 align="center">Transacciones del restaurante</h2>
 </div><br><br>
 <div class="container-fluid col-md-12">
 	{% if error %}
@@ -16,15 +16,14 @@
 		<div class="form-group col-md-12 ">
 			<table class="table table-hover">
 				<tr>
-				 	<td><strong>Nombre:</strong></td>
-				 	<td><strong>Apellido:</strong></td>
-				 	<td><strong>Username:</strong></td>
-				 </tr>
-				{% for x in ListaUsuarios %}
-					<tr>
-					 		<td>{{x.1}}</td>
-					 		<td>{{x.2}}</td>
-					 		<td>{{x.0}}</td>
+				 	<td><strong>Fecha:</strong></td>
+				 	<td><strong>Monto:</strong></td>
+				 	<td><strong>Usuario:</strong></td>
+				{% for orden in ordenes %}
+					<tr class="success">
+					 		<td>{{orden.fecha}}</td>
+					 		<td>{{orden.totalPagado}}</td>
+					 		<td>{{orden.user}}</td>
 					</tr>
 				{% endfor %}
 			</table>

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.http.response import HttpResponseRedirect
-from Registro.models import perfil,proveedor
+from Registro.models import perfil,proveedor, orden
 from django.contrib.auth.decorators import login_required
 from Registro.views import esProveedor
 
@@ -83,9 +83,5 @@ def mostrarUsuarios(request):
 def mostrarTransacciones(request):
     if (not(request.user.is_staff)):
         return HttpResponseRedirect('/')
-
-    listaUsuarios = User.objects.all()
-    listaUsuarios = [[x.username, x.first_name, x.last_name, x.perfil, x.has_perm('auth.proveedor')]\
-                     for x in listaUsuarios]
-    print(listaUsuarios)
-    return render(request,'Perfil/mostrarTransacciones.html',{'ListaUsuarios': listaUsuarios})
+    ordenes = orden.objects.all()
+    return render(request,'Perfil/mostrarTransacciones.html',{'ordenes': ordenes})
