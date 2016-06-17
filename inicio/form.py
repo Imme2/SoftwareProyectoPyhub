@@ -13,7 +13,7 @@ class formMostrarPlato(forms.ModelForm):
 
 	class Meta:
 		model = item
-		exclude = ('idItem','tipo','poseeRel','foto')
+		exclude = ('idItem','tipo','poseeRel','foto',)
 
 	def save():
 		pass

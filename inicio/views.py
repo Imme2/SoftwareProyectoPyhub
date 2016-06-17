@@ -15,6 +15,9 @@ def index(request):
         return render(request,'inicio/home.html',{'menu': formSet})
     else:
         platos = getCurrentMenu()
-        formSetPlatos = modelformset_factory(item, form = formMostrarPlato,extra = 0)
-        formSet = formSetPlatos(queryset = platos)
-        return render(request,'inicio/home.html',{'menu': formSet})
+        if (platos is None):
+            return render(request,'inicio/home.html')
+        else:
+            formSetPlatos = modelformset_factory(item, form = formMostrarPlato,extra = 0)
+            formSet = formSetPlatos(queryset = platos)
+            return render(request,'inicio/home.html',{'menu': formSet})

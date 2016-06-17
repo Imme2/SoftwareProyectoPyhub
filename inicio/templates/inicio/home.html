@@ -1,13 +1,14 @@
 {% extends "inicio/header.html" %}
 {% block content %}
-{% for form in menu %}
-	{% for field in form %}
-		{% if field.label == "Cantidad" %}
-			{{field.label}} {{field}}
-		{% else %}
-			{{field.label}} {{field.value}}
-		{% endif %}
-	{% endfor %}
+
+{% for plato in menu %}
+	{{plato.nombre.value}} 
+	{{plato.precio.value}}
+	{{plato.descripcion.value}}
+	{{plato.cantidad}}<br><br>
 {% endfor %}
+<br>
+
+
 <p>Hey! Esto es Python House of Pancakes. </p>
 {% endblock %}
