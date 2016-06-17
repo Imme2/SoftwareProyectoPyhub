@@ -20,17 +20,24 @@ def verOrdenActual(request):
     platos = [{'precio':x.item.precio,
                 'nombre':x.item.nombre,
                 'descripcion':x.item.descripcion,
-                'cantidad':x.cantidad} for x in platos if x.cantidad > 0]
+                'cantidad':x.cantidad} for x in platos]
     return render(request,"ordenes/ordenar.html",{'platos':platos,
                                                 'monto':monto})
 
 
+'''
+
+Funcion para pagar la orden actual, verifica que tengas una orden y una billetera
+   y te da la opcion de cancelar tu orden actual (pagar el balance).
+
+'''
 @login_required(login_url='/registro/login/')
 def pagarOrdenActual(request):
     if request.user.is_staff or esProveedor(request):
         return HttpResponseRedirect('/')
     try:
-        orden = request.user.ordenActual
+        orden = request.user.ordenActual       # Se chequea que tenga una orden abierta.
+        request.user.billetera                 # Se chequea que se tenga una billetera.
     except:
         orden = None
         return HttpResponseRedirect('/')
