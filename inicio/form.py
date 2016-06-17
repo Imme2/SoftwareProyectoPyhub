@@ -31,15 +31,17 @@ class formMostrarPlato(forms.ModelForm):
         plato = super(formMostrarPlato,self).save(commit=False)
         N = self.cleaned_data.get('cantidad')
         
-        if N <= 0:
-            return
         try:
             entry = tieneActual.objects.get(orden = orden,item = plato)
-            entry.cantidad = N
-            entry.save()
+            if N == 0:
+                entry.delete()
+            else:
+                entry.cantidad = N
+                entry.save()
         except:
-            entry = tieneActual.objects.create(orden = orden, item = plato , cantidad = N)
-            entry.save()
+            if N != 0:
+                entry = tieneActual.objects.create(orden = orden, item = plato , cantidad = N)
+                entry.save()
         orden.save()
 
 
