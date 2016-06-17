@@ -14,7 +14,6 @@ Muestra el menu principal y permite hacer ordenes.
 
 def index(request):
     user = request.user
-    print(ordenActual.objects.filter(user = user).exists())
     if not(user.is_authenticated()) or user.is_staff or esProveedor(request) :
         menu = getCurrentMenu()
         return render(request,'inicio/home.html',{'menu':menu})
