@@ -15,8 +15,11 @@ def verOrdenActual(request):
         orden = request.user.OrdenActual
     except:
         orden = None
-        return render()
-
+        return render(request,"ordenes/ver.html",{'monto':0})
+    platos = orden.tieneRel.all()
+    monto = sum(x.precio for x in platos)
+    return render(request,"ordenes/ver.html",{'platos':platos,
+                                                'monto':monto})
 
 
 @login_required(login_url='/registro/login/')
