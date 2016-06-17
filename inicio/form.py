@@ -3,7 +3,7 @@ from django import forms
 from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User, Permission
-from Registro.models import item, ordenActual
+from Registro.models import item, ordenActual,tieneActual
 
 
 
@@ -31,10 +31,14 @@ class formMostrarPlato(forms.ModelForm):
         orden.save()
         plato = super(formMostrarPlato,self).save(commit=False)
         N = self.cleaned_data.get('cantidad')
-        while(N > 0):
-            orden.tieneRel.add(plato)
-            N -= 1
-
+    
+        try:
+            entry = tieneActual.objects.get(orden = orden,item = plato)
+            entry.cantidad += N
+            entry.save()
+        except:
+            entry = tieneActual.objects.create(orden = orden, item = plato , cantidad = N)
+            entry.save()
         orden.save()
 
 

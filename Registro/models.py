@@ -83,8 +83,12 @@ class ordenActual(models.Model):
     tieneRel = models.ManyToManyField(item,through = 'tieneActual')
 
 class tieneActual(models.Model):
-    nroOrden = models.ForeignKey('ordenActual')
-    idItem = models.ForeignKey('item')
+    orden = models.ForeignKey('ordenActual')
+    item = models.ForeignKey('item')
+    cantidad = models.PositiveIntegerField()
+    class Meta:
+        unique_together = ('orden','item')
+
 
 class orden(models.Model):
     nroOrden = models.AutoField(primary_key = True)
@@ -140,11 +144,11 @@ class realiza(models.Model):
         unique_together = ('username','nroOrden')
 
 class tiene(models.Model):
-    nroOrden = models.ForeignKey('orden')
-    idItem = models.ForeignKey('item')
-    
-#    class Meta:
-#        unique_together = ('nroOrden','idItem')
+    orden = models.ForeignKey('orden')
+    item = models.ForeignKey('item')
+    cantidad = models.PositiveIntegerField()    
+    class Meta:
+        unique_together = ('orden','item')
         
 class contiene(models.Model):
     idMenu = models.ForeignKey('MENU')
