@@ -18,7 +18,14 @@
 			{% csrf_token %}
 			{% for field in form %}
 			<div class="form-group col-xs-6">
-				{{ field.errors }} {{ field.label_tag }} {{ field }}
+				{% for f in field %}
+					{% if f.errors %}
+				        		<div class="alert alert-warning" role="alert">
+									{{ f.errors }}
+								</div>
+					{% endif %}
+					{{ f.label_tag }} {{ f }}
+				{% endfor %}
 		  	</div>
 		 	{% endfor %}
 		 	{% if extra %}
