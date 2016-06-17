@@ -45,15 +45,16 @@ class formBilleteraPagar(forms.Form):
         user.billetera.balance -= monto
         user.billetera.save() 
 
-        platos = user.ordenActual.tieneRel.all()
+        platos = tieneActual.objects.filter(orden = user.ordenActual)
         
         nuevaOrden = orden(user = user)
         nuevaOrden.fecha = datetime.datetime.today()
         nuevaOrden.totalPagado = monto
         nuevaOrden.save()
-        # for x in platos:
-        #     nuevaOrden.tieneRel.add(x)
-        # nuevaOrden.save()
+        
+        for x in platos:
+            tiene.objects.create(orden = nuevaOrden, item = x.item, cantidad = x.cantidad)            
+        nuevaOrden.save()
 
         user.ordenActual.tieneRel.clear()
         user.ordenActual.save()
