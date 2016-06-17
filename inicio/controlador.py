@@ -8,5 +8,7 @@ def getCurrentMenu():
 	else:
 		parametrosActuales = parametros[0]
 		menuActual = parametrosActuales.menuActual
+		if menuActual is None:
+			return None
 		platos = menuActual.contieneRel.all()
 		return platos
