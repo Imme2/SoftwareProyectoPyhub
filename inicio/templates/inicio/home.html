@@ -3,7 +3,7 @@
 {% if not user.proveedor and not user.is_staff %}
 <div class>
 	<h2 align="center">Menú</h2>
-</div><br><br>
+</div><br>
 <div class="container-fluid col-md-12">
 	{% if error %}
 		{% for e in error %}
@@ -14,7 +14,8 @@
 	{% endif %}
 	<div class="container-fluid col-md-3"></div>
 	<div class="container-fluid col-md-6">
-		<form method = "post">			
+		<form method = "post">
+			{% csrf_token %}			
 			<div class="form-group col-6 jumbotron">
 				<table class="table table-hover">
 					<tr>
@@ -41,8 +42,8 @@
             </div>
 			{% else %}
 			<br><p>Hey! Esto es Python House of Pancakes. </p>
-			{% endif %}
 		</form>
 	</div>
 </div>
+{% endif %}
 {% endblock %}
