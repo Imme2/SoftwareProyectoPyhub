@@ -26,9 +26,9 @@
 					</tr>
 					{% for plato in formMenu %}
 						<tr>
-						 	<td>{{plato.nombre.value}}</td>
-						 	<td>{{plato.descripcion.value}}</td>
-						 	<td>{{plato.precio.value}}</td>
+						 	<td>{{plato.nombre.value}} {{plato.nombre.as_hidden}}</td>
+						 	<td>{{plato.descripcion.value}} {{plato.descripcion.as_hidden}}</td>
+						 	<td>{{plato.precio.value}}  {{plato.precio.as_hidden}}</td>
 						 	<td>{{plato.cantidad}}</td>
 						</tr>
 						{% for hidden in plato.hidden_fields %}
