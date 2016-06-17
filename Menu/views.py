@@ -26,8 +26,9 @@ def editarMenu(request, idMenu = None):
                 formPlatos.save(idMenu)
                 return HttpResponseRedirect('/menu/editar/{}'.format(idMenu))
             else :
-                print(formPlatos.data)
-                return HttpResponseRedirect('/menu/editar/{}'.format(idMenu))                
+                nombreMenu = menu.objects.get(idMenu = idMenu).nombre
+                return render(request,'menu/editar.html', {'Titulo': "Editar menu: {}".format(nombreMenu),
+                                                    'form': formPlatos})      
         else:
             nombreMenu = menu.objects.get(idMenu = idMenu).nombre
             formPlatos = formMenu(idMenu)
@@ -49,8 +50,8 @@ def crearMenu(request, idMenu = None):
             formPlatos.save(idMenu)
             return HttpResponseRedirect('/menu/editar/{}'.format(idMenu))
         else :
-            print(formPlatos.data)
-            return HttpResponseRedirect('/menu/crear/')                
+           return render(request,'menu/editar.html', { 'Titulo':"Crear Menu",
+                                                    'form': formPlatos})              
     else:
         nombreMenu = ""
         formPlatos = formMenu()
