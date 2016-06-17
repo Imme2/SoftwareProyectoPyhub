@@ -34,7 +34,7 @@ class formMostrarPlato(forms.ModelForm):
     
         try:
             entry = tieneActual.objects.get(orden = orden,item = plato)
-            entry.cantidad += N
+            entry.cantidad = N
             entry.save()
         except:
             entry = tieneActual.objects.create(orden = orden, item = plato , cantidad = N)
