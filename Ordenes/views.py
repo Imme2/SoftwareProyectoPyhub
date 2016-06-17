@@ -12,7 +12,7 @@ from Registro.form import parametrosForm
 @login_required(login_url='/registro/login/')
 def verOrdenActual(request):
     try:
-        orden = request.user.OrdenActual
+        orden = request.user.ordenActual
     except:
         orden = None
         return render(request,"ordenes/ver.html",{'monto':0})
