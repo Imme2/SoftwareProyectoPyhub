@@ -35,6 +35,10 @@ class formBilleteraPagar(forms.Form):
             msg = "Clave de billetera erronea."
             self.add_error('clave',msg)
 
+        monto = cleaned_data.get('monto')
+        if(monto > self.request.user.billetera.balance):
+            msg = "No tiene suficiente saldo."
+            self.add_error('monto',msg)
         return cleaned_data
 
     def save(self):

@@ -37,7 +37,7 @@ def recargarBilletera(request):
     if request.method == "POST":
         form = formBilleteraRecargar(data = request.POST,request=request)
         transaccion = formTransaccion(data = request.POST)
-        if transaccion.is_valid() and form.is_valid():
+        if transaccion.is_valid(request) and form.is_valid():
             monto = transaccion.save()
             form.save(request,monto)
             return HttpResponseRedirect('/')
