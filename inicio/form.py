@@ -22,7 +22,6 @@ class formMostrarPlato(forms.ModelForm):
         model = item
         exclude = ('idItem','tipo','poseeRel','foto',)
 
-
     def save(self,request):
         try:
             orden = request.user.ordenActual
@@ -36,7 +35,7 @@ class formMostrarPlato(forms.ModelForm):
             return
         try:
             entry = tieneActual.objects.get(orden = orden,item = plato)
-            entry.cantidad += N
+            entry.cantidad = N
             entry.save()
         except:
             entry = tieneActual.objects.create(orden = orden, item = plato , cantidad = N)
