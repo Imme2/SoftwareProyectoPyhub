@@ -36,13 +36,10 @@ def pagarOrdenActual(request):
         return HttpResponseRedirect('/')
 
     if request.method == "POST":
-        print(request.POST)
         formPago = formBilleteraPagar(monto = request.POST.get('monto'), data = request.POST, request = request)
         if formPago.is_valid():
             formPago.save()
             return HttpResponseRedirect('/ordenes/actual')
-        print("ERROR")
-        print(formPago.errors)
         return render(request,"ordenes/pagar.html",{'formPago': formPago})
     else:
         platos = tieneActual.objects.filter(orden = orden)
