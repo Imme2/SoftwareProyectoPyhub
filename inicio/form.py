@@ -15,6 +15,9 @@ class formMostrarPlato(forms.ModelForm):
 		model = item
 		exclude = ('idItem','tipo','poseeRel','foto')
 
+	def save():
+		pass
+
 '''
 class formMostrarMenu(forms.Form):
 

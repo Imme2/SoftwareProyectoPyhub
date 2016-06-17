@@ -8,15 +8,13 @@ from Registro.models import parametro,item
 
 
 def index(request):
-    parametros = parametro.objects.all()
-    parametrosActuales = parametros[0]
-    menuAct = parametrosActuales.menuActual
-    platos = menuAct.contieneRel.all()
-
-
-    formSetPlatos = modelformset_factory(item, form = formMostrarPlato,extra = 0)
-
-    formSet = formSetPlatos(queryset = platos)
-
-
-    return render(request,'inicio/home.html',{'menu': formSet})
+    if request.method == "POST":
+        platos = getCurrentMenu()
+        formSetPlatos = modelformset_factory(item, form = formMostrarPlato,extra = 0)
+        formSet = formSetPlatos(queryset = platos, data = request.POST)
+        return render(request,'inicio/home.html',{'menu': formSet})
+    else:
+        platos = getCurrentMenu()
+        formSetPlatos = modelformset_factory(item, form = formMostrarPlato,extra = 0)
+        formSet = formSetPlatos(queryset = platos)
+        return render(request,'inicio/home.html',{'menu': formSet})
