@@ -11,7 +11,7 @@ from Registro.views import esProveedor
 
 @login_required(login_url='/registro/login/')
 def mostrarPerfil(request):
-    if (esProveedor(request)):
+    if (esProveedor(request) and not(request.user.is_staff)):
         return HttpResponseRedirect('/perfil/proveedor')
     else:
         return HttpResponseRedirect('/perfil/usuario')
@@ -22,7 +22,7 @@ def mostrarPerfil(request):
 
 @login_required(login_url='/registro/login/')
 def mostrarPerfilUsuario(request):
-    if (esProveedor(request)):
+    if (esProveedor(request) and not(request.user.is_staff) ):
         return HttpResponseRedirect('/perfil/proveedor')
 
     user = request.user

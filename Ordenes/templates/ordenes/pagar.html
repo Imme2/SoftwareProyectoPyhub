@@ -1,14 +1,54 @@
-
-<form action="/ordenes/pagar/" method = "post">
-			{% csrf_token %}		
-{% for x in formPago%}
-	{{ x}}
-{% endfor %}
-{% for x in platos%}
-	{{ x}}
-{% endfor %}
-
-El monto
- {{monto}}
- 	<button align="center" type="submit" class="btn btn-success btn-lg">Oredenar</button>
-  </form>
+{% extends "registro/header.html" %}
+{% block content %}
+<div class>
+	<h2 align="center">Pagar Orden</h2>
+</div>
+<div class="container-fluid col-md-12">
+	{% if error %}
+		{% for e in error %}
+			<div class="alert alert-danger">
+			  {{ e }} 
+			</div>
+		{% endfor %}
+	{% endif %}
+	
+	<div class="container-fluid col-md-3"></div>
+	<div class="container-fluid col-md-6">		
+		<form method = "post">
+			{% csrf_token %}
+			{% if formPago %}
+			<div class="form-group col-xs-6">
+				{{ formPago.clave.label_tag }} {{ formPago.clave }}
+				{% if formPago.clave.errors %}
+				<div class="alert alert-warning" role="alert">
+					{{formPago.clave.errors }}
+				</div>
+				{% endif %}
+			<div class="form-group col-xs-6">
+				{{ formPago.monto.label_tag }} {{ formPago.monto.value }} {{formPago.monto.as_hidden}}
+				{% if formPago.monto.errors %}
+				<div class="alert alert-warning" role="alert">
+					{{formPago.monto.errors }}
+				</div>
+				{% endif %}
+		  	</div>
+		 	{% endif %} 
+			{% csrf_token %}
+			{% for field in monto %}
+			<div class="form-group col-xs-6">
+				{{ field.label_tag }} {{ field }}
+				{% if field.errors %}
+				<div class="alert alert-warning" role="alert">
+					{{field.errors }}
+				</div>
+				{% endif %}
+		  	</div>
+		 	{% endfor %} 
+		 	<div align="center" class="form-group col-md-offset-6">
+            	<button align="center" type="submit" style="margin-top:20px;" class="btn btn-success btn-lg">Pagar</button>
+            </div>
+		</form>
+	</div>
+	<div class="container-fluid col-md-4"></div>
+</div>
+{% endblock %}
