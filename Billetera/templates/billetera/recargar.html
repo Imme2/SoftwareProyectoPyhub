@@ -18,13 +18,23 @@
 			{% csrf_token %}
 			{% for field in form %}
 			<div class="form-group col-xs-6">
-				{{ field.errors }} {{ field.label_tag }} {{ field }}
+				{{ field.label_tag }} {{ field }}
+				{% if field.errors %}
+				<div class="alert alert-warning" role="alert">
+					{{field.errors }}
+				</div>
+				{% endif %}
 		  	</div>
 		 	{% endfor %} 
 			{% csrf_token %}
 			{% for field in monto %}
 			<div class="form-group col-xs-6">
-				{{ field.errors }} {{ field.label_tag }} {{ field }}
+				{{ field.label_tag }} {{ field }}
+				{% if field.errors %}
+				<div class="alert alert-warning" role="alert">
+					{{field.errors }}
+				</div>
+				{% endif %}
 		  	</div>
 		 	{% endfor %} 
 		 	<div align="center" class="form-group col-md-offset-8">
