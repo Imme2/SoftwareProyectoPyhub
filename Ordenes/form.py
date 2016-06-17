@@ -41,13 +41,13 @@ class formBilleteraPagar(forms.Form):
 
         user = self.request.user
 
-        user.billetera -= monto
+        user.billetera.balance -= monto
         user.billetera.save() 
 
         platos = user.ordenActual.tieneRel.all()
         
         nuevaOrden = orden.objects.create(user = user)
-        nuevaOrden.fecha = datetime.today()
+        nuevaOrden.fecha = datetime.datetime.today()
         nuevaOrden.totalPagado = monto
         for x in platos:
             nuevaOrden.tieneRel.add(X)

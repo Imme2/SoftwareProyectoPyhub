@@ -28,6 +28,7 @@ class formMostrarPlato(forms.ModelForm):
             orden = request.user.ordenActual
         except:
             orden = ordenActual.objects.create(user = request.user)
+        orden.save()
         plato = super(formMostrarPlato,self).save(commit=False)
         N = self.cleaned_data.get('cantidad')
         while(N > 0):

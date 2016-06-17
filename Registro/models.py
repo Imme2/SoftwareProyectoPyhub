@@ -80,7 +80,11 @@ class menu(models.Model):
 
 class ordenActual(models.Model):
     user = models.OneToOneField(User,related_name = 'ordenActual')
-    tieneRel = models.ManyToManyField(item)
+    tieneRel = models.ManyToManyField(item,through = 'tieneActual')
+
+class tieneActual(models.Model):
+    nroOrden = models.ForeignKey('ordenActual')
+    idItem = models.ForeignKey('item')
 
 class orden(models.Model):
     nroOrden = models.AutoField(primary_key = True)
@@ -139,8 +143,8 @@ class tiene(models.Model):
     nroOrden = models.ForeignKey('orden')
     idItem = models.ForeignKey('item')
     
-    class Meta:
-        unique_together = ('nroOrden','idItem')
+#    class Meta:
+#        unique_together = ('nroOrden','idItem')
         
 class contiene(models.Model):
     idMenu = models.ForeignKey('MENU')
