@@ -4,6 +4,7 @@ from django.http.response import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from Registro.views import esProveedor
 from Ordenes.form import formBilleteraPagar
+from Registro.models import tieneActual
 # Create your views here.
 
 @login_required(login_url='/registro/login/')
@@ -13,8 +14,11 @@ def verOrdenActual(request):
     except:
         orden = None  
         return render(request,"ordenes/ordenar.html",{'monto':0})
-    platos = orden.tieneRel.all()
-    monto = sum(x.precio for x in platos)
+    platos = tieneActual.objects.filter(orden = orden)
+    monto = sum(x.item.precio*x.cantidad for x in platos)
+
+    #platos = [{'precio':x.item.precio,
+    #            ''}]
     return render(request,"ordenes/ordenar.html",{'platos':platos,
                                                 'monto':monto})
 
@@ -39,8 +43,8 @@ def pagarOrdenActual(request):
         print(formPago.errors)
         return render(request,"ordenes/pagar.html",{'formPago': formPago})
     else:
-        platos = orden.tieneRel.all()
-        monto = sum(x.precio for x in platos)
+        platos = tieneActual.objects.filter(orden = orden)
+        monto = sum(x.item.precio*x.cantidad for x in platos)
         formPago = formBilleteraPagar(monto = monto,request = request)
         return render(request,"ordenes/pagar.html",{'formPago': formPago})
 
