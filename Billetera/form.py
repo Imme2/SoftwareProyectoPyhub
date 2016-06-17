@@ -57,6 +57,10 @@ class formBilleteraRecargar(forms.Form):
     salvara la transaccion en la version final
 '''
 class formTransaccion(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(formTransaccion, self).__init__(*args, **kwargs)
+        self.fields['monto'].widget.attrs.update({'class':'form-control'})
+
     class Meta:
         model = transaccion
         exclude = ['idTrans','username','fecha']
