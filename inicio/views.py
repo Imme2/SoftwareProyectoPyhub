@@ -26,7 +26,7 @@ def index(request):
         if formSet.is_valid():
             for form in formSet:
                 form.save(request)
-            return HttpResponseRedirect('/pedidos/actual/')
+            return HttpResponseRedirect('/ordenes/actual/')
         else:
             return render(request,'inicio/home.html',{'formMenu': formSet}) 
     else:

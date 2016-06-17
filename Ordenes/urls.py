@@ -9,5 +9,5 @@ from Ordenes import views
 '''
 
 urlpatterns = [
-    url(r'^ver/$',views.verOrdenActual),
+    url(r'^actual/$',views.verOrdenActual),
 ]
