@@ -20,7 +20,7 @@ def verOrdenActual(request):
     platos = [{'precio':x.item.precio,
                 'nombre':x.item.nombre,
                 'descripcion':x.item.descripcion,
-                'cantidad':x.cantidad} for x in platos]
+                'cantidad':x.cantidad} for x in platos if x.cantidad > 0]
     return render(request,"ordenes/ordenar.html",{'platos':platos,
                                                 'monto':monto})
 

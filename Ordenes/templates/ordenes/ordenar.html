@@ -24,14 +24,12 @@
 				 	<td><strong>Cantidad:</strong></td>
 				</tr>
 				{% for plato in platos %}
-				 {% if plato.cantidad > 0 %}
 					<tr>
 					 	<td>{{plato.nombre}}</td>
 					 	<td>{{plato.descripcion}}</td>
 					 	<td>{{plato.precio}}</td>
 					 	<td>{{plato.cantidad}}</td>
 					</tr>
-				  {% endif %}
 				{% endfor %}
 				<tr>
 					<td></td><td></td>
