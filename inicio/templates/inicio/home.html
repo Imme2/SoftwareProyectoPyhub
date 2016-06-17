@@ -1,6 +1,6 @@
 {% extends "inicio/header.html" %}
 {% block content %}
-{% if not user.proveedor and not user.is_staff %}
+{% if not user.proveedor and not user.is_staff and user.is_authenticated %}
 <div class>
 	<h2 align="center">Menú</h2>
 </div><br>
@@ -24,7 +24,7 @@
 					 	<td><strong>Precio:</strong></td>
 					 	<td><strong>Cantidad:</strong></td>
 					</tr>
-					{% for plato in menu %}
+					{% for plato in formMenu %}
 						<tr>
 						 	<td>{{plato.nombre.value}}</td>
 						 	<td>{{plato.descripcion.value}}</td>
@@ -40,9 +40,38 @@
             <div align="center" class="form-group col-md-offset-8">
             	<button align="center" class="btn btn-success btn-lg">Pagar Orden</button>
             </div>
-			{% else %}
-			<br><p>Hey! Esto es Python House of Pancakes. </p>
-		</form>
+        </form>
+    </div>
+</div>
+{% else %}
+<div class>
+	<h2 align="center">Menú</h2>
+</div><br>
+<div class="container-fluid col-md-12">
+	{% if error %}
+		{% for e in error %}
+			<div class="alert alert-danger">
+			  {{ e }} 
+			</div>
+		{% endfor %}
+	{% endif %}
+<div class="container-fluid col-md-3"></div>
+<div class="container-fluid col-md-6">		
+	<div class="form-group col-6 jumbotron">
+		<table class="table table-hover">
+			<tr>
+			 	<td><strong>Nombre:</strong></td>
+			 	<td><strong>Descripción:</strong></td>
+			 	<td><strong>Precio:</strong></td>
+			</tr>
+			{% for plato in menu %}
+				<tr>
+				 	<td>{{plato.nombre}}</td>
+				 	<td>{{plato.descripcion}}</td>
+				 	<td>{{plato.precio}}</td>
+				</tr>
+			{% endfor %}
+		</table>
 	</div>
 </div>
 {% endif %}
