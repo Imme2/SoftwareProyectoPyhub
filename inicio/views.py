@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from inicio.controlador import getCurrentMenu
 from inicio.form import formMostrarPlato
 from django.forms import modelformset_factory
@@ -22,13 +22,12 @@ def index(request):
         if platos is None:
             return render(request,'inicio/home.html',{'menu':None})   #Panic?
         formSetPlatos = modelformset_factory(item, form = formMostrarPlato,extra = 0)
-        formSet = formSetPlatos(request.POST,request.FILES,queryset = platos,)
+        formSet = formSetPlatos(request.POST,request.FILES)
         if formSet.is_valid():
             for form in formSet:
                 form.save(request)
-            return HttpResponse('/pedidos/actual/')
+            return HttpResponseRedirect('/pedidos/actual/')
         else:
-            print("wur wur")
             return render(request,'inicio/home.html',{'formMenu': formSet}) 
     else:
         platos = getCurrentMenu()
