@@ -3,7 +3,7 @@ import datetime
 
 def getCurrentMenu():
 	parametros = parametro.objects.all()
-	if len(parametros) == 0:
+	if not(parametros.exists()):
 		return None
 	else:
 		parametrosActuales = parametros[0]

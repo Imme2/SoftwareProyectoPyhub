@@ -9,6 +9,9 @@
   <script src="{% static 'registroCliente/js/bootstrap.min.js'  %}"></script>
 	<link rel="stylesheet" href="{% static 'registroCliente/css/bootstrap.min.css' %}" type = "text/css"/>
   <link rel="stylesheet" href="{% static 'registroCliente/css/full.css' %}" />
+  {% if request.path == "/" %}
+    <link href="{% static 'inicio/css/full.css' %}" rel="stylesheet"/>
+  {% endif %}
 	<meta name="viewport" content = "width=device-width, initial-scale=1.0">
 	
 	<style type="text/css">
@@ -38,34 +41,38 @@
       <ul class="nav navbar-nav">
         <li class="active"><a href="http://127.0.0.1:8000/">Home<span class="sr-only">(current)</span></a></li>
         {% if user.is_staff %}
-          <li><a href="/menu/parametros/">Parametros<span class="sr-only"></span></a></li>
+          
           <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Menu <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Comida <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="/menu/crear/">Crear</a></li>
-            <li><a href="/menu/editar/">Ver Menues</a></li>
+            <li class="dropdown-header">Menues</li>
+              <li><a href="/menu/crear/">Crear menu</a></li>
+              <li><a href="/menu/editar/">Ver menues</a></li>
+            <li class="divider"></li>
+            <li class="dropdown-header">Ingredientes</li>
+              <li><a href="/menu/ingrediente/">Crear ingrediente</a></li>
+              <li><a href="/menu/ingredientes/">Ver ingredientes</a></li>
+            <li class="divider"></li>
+            <li class="dropdown-header">Platos</li>
+              <li><a href="/menu/plato/">Crear plato</a></li>
+              <li><a href="/menu/platos/">Ver platos</a></li>
           </ul>
           </li>
+
           <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Ingrediente<span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administracion <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="/menu/ingrediente/">Crear</a></li>
-            <li><a href="/menu/ingredientes/">Ver</a></li>
+            <li><a href="/menu/parametros/">Parametros</a></li>
+            <li><a href="/perfil/usuarios">Usuarios</a></li>
+            <li><a href="/perfil/transacciones">Transacciones</a></li>
           </ul>
           </li>
-          <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Plato <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="/menu/plato/">Crear</a></li>
-            <li><a href="/menu/platos/">Ver</a></li>
-          </ul>
-          </li>
-          <li><a href="/perfil/usuarios">Usuarios</a></li>
-          <li><a href="/perfil/transacciones">Transacciones</a></li>
+          
         {% else %}
           <li><a href="#">Menu</a></li>
         {% endif %}
-        <li class="dropdown">
+
+     <!--    <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Platillos <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="/polls">Bebidas</a></li>
@@ -76,7 +83,8 @@
             <li role="separator" class="divider"></li>
             <li><a href="#">Bollo con carne molida</a></li>
           </ul>
-        </li>
+        </li> -->
+
         {% if user.proveedor and not user.is_staff %}
           <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Inventario <span class="caret"></span></a>

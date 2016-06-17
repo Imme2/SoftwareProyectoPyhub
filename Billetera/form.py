@@ -66,6 +66,9 @@ class formTransaccion(forms.ModelForm):
 
         monto = cleaned_data.get('monto')
 
+        if (monto is None):
+            return cleaned_data
+
         if (monto <= 0):
             msg = "El monto a recargar debe ser positivo."
             self.add_error('monto',msg)

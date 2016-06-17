@@ -42,16 +42,12 @@ def recargarBilletera(request):
             form.save(request,monto)
             return HttpResponseRedirect('/')
         return render(request,'billetera/recargar.html', {'form': form,
-                                                    'monto': transaccion,
-                                                    'error': None})
+                                                    'monto': transaccion})
     else:
-        #Este error se refiere a password equivocado
-        error =  request.GET.get('error',None)
 
         #se mandan las formas.
         form = formBilleteraRecargar()
         transaccion = formTransaccion()
 
         return render(request,'billetera/recargar.html', {'form': form,
-                                                            'monto': transaccion,
-                                                            'error':error})
+                                                            'monto': transaccion})
