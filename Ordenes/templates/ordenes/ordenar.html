@@ -4,16 +4,20 @@
 	<h2 align="center">Orden Actual</h2>
 </div>
 <div class="container-fluid col-md-12">
-	{% if error %}
-		{% for e in error %}
-			<div class="alert alert-danger">
-			  {{ e }} 
-			</div>
-		{% endfor %}
-	{% endif %}
+	
 	
 	<div class="container-fluid col-md-3"></div>
-	<div class="container-fluid col-md-6">		
+	<div class="container-fluid col-md-6">
+	{% if error %}
+		<div class="alert alert-danger">
+		Lamentablemente no disponemos de suficientes igredientes para cumplir su orden:
+			<ul>
+				{% for e in error %}
+					 <li> {{ e }} </li>
+				{% endfor %}
+			</ul>
+		</div>
+	{% endif %}
 		<form action="/ordenes/pagar/" method = "post">
 			{% csrf_token %}
 			<table class="table table-hover table-striped table-condensed">

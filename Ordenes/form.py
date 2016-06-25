@@ -4,7 +4,7 @@ from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User, Permission
 from django.contrib.contenttypes.models import ContentType
-from Registro.models import billetera,transaccion,orden,tieneActual,tiene
+from Registro.models import billetera,transaccion,orden,tieneActual,tiene,posee,ingrediente
 import datetime
 
 '''
@@ -48,22 +48,54 @@ class formBilleteraPagar(forms.Form):
 
     def save(self):
         monto = self.cleaned_data.get('monto')
-
         user = self.request.user
-
-        user.billetera.balance -= monto
-        user.billetera.save() 
-
         platos = tieneActual.objects.filter(orden = user.ordenActual)
-        
-        nuevaOrden = orden(user = user)
-        nuevaOrden.fecha = datetime.datetime.today()
-        nuevaOrden.totalPagado = monto
-        nuevaOrden.save()
-        
-        for x in platos:
-            tiene.objects.create(orden = nuevaOrden, item = x.item, cantidad = x.cantidad)            
-        nuevaOrden.save()
+        errores = ingredientesPedido(user)
+        if not (errores):
 
-        user.ordenActual.tieneRel.clear()
-        user.ordenActual.save()
+            user.billetera.balance -= monto
+            user.billetera.save() 
+
+            nuevaOrden = orden(user = user)
+            nuevaOrden.fecha = datetime.datetime.today()
+            nuevaOrden.totalPagado = monto
+            nuevaOrden.save()
+
+            for x in platos:
+                tiene.objects.create(orden = nuevaOrden, item = x.item, cantidad = x.cantidad)            
+            nuevaOrden.save()
+
+            user.ordenActual.tieneRel.clear()
+            user.ordenActual.save()
+
+        else:
+            return errores
+
+
+
+def ingredientesPedido(user):
+    tiene = tieneActual.objects.filter(orden = user.ordenActual)
+    errores = []
+    salvar = []
+    fullfill = True
+    for objeto in tiene:
+        ingredientes = posee.objects.filter(idItem = objeto.item)
+        for x in ingredientes:
+            ingr = x.idIngr
+            descontar = objeto.cantidad * x.cantidad
+            if ingr.cantidad >= descontar:
+                ingr.cantidad -= descontar
+            else: 
+                errores.append(ingr.nombre)
+                fullfill = False
+            salvar.append(ingr)
+
+    if fullfill:
+        for x in salvar:
+            x.save()
+        return False
+    else:
+        print(errores)
+        return errores
+
+
