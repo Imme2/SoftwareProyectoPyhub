@@ -81,6 +81,5 @@ def verReviews(request):
                         "fecha":x.orden.fecha}
                                         for x in todasResenas]
 
-    print(listaResenas)
 
     return render(request,"ordenes/verReviews.html",{'listaResenas': listaResenas})
