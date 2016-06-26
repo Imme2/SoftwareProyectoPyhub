@@ -1,7 +1,7 @@
 {% extends "registro/header.html" %}
 {% block content %}
 <div class>
-	<h2 align="center">Reseña</h2>
+	<h2 align="center">Reseñas</h2>
 </div>
 <div class="container-fluid col-md-12">
 	<div class="container-fluid col-md-6">
@@ -13,8 +13,8 @@
 			</tr>
 			{% for resena in listaResenas %}
 				<tr>
-				 	<td>{{resena.contenido}}</td>
-				 	<td>{{resena.Fecha}}</td>
+				 	<td>{{resena.resena}}</td>
+				 	<td>{{resena.fecha}}</td>
 				 	<td>{{resena.nombre}}</td>
 				</tr>
 			{% endfor %}

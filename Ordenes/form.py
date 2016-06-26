@@ -91,7 +91,7 @@ class formResena(forms.ModelForm):
     def save(self,orden):
         if self.cleaned_data['activarResena']:
             contenido = self.cleaned_data['contenido']
-            if contenido != '':
+            if contenido is not '':
                 entry = resena.objects.create(orden = orden, contenido = contenido)
                 entry.save()
 
