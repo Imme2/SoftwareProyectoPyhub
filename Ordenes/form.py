@@ -4,7 +4,7 @@ from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User, Permission
 from django.contrib.contenttypes.models import ContentType
-from Registro.models import billetera,transaccion,orden,tieneActual,tiene,posee,ingrediente
+from Registro.models import billetera, transaccion, orden, tieneActual, tiene, posee, ingrediente, resena
 import datetime
 
 '''
@@ -67,9 +67,33 @@ class formBilleteraPagar(forms.Form):
 
             user.ordenActual.tieneRel.clear()
             user.ordenActual.save()
+            return ['valid',nuevaOrden]
 
         else:
-            return errores
+            return ['error',errores]
+
+
+class formResena(forms.ModelForm):
+
+    activarResena = forms.BooleanField(required = False) 
+
+    class Meta:
+        model = resena
+        fields = ['contenido']
+    
+    def __init__(self, *args, **kwargs):
+        super(formResena, self).__init__(*args, **kwargs)
+        self.fields['activarResena'].label = "Dejar Reseña"
+        self.fields['contenido'].label = "Reseña"
+        self.fields['contenido'].required = False
+
+
+    def save(self,orden):
+        if self.cleaned_data['activarResena']:
+            contenido = self.cleaned_data['contenido']
+            if contenido != '':
+                entry = resena.objects.create(orden = orden, contenido = contenido)
+                entry.save()
 
 
 

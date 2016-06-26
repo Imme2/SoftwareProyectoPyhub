@@ -16,9 +16,26 @@
 	<div class="container-fluid col-md-6 jumbotron">		
 		<form action="/ordenes/pagar/" method = "post">
 			{% csrf_token %}
-				{% for x in formPago %}
+				<div class="form-group col-xs-6">
+					{{ formPago.clave.label_tag }}<br>{{formPago.clave}}
+					{% if formPago.clave.errors %}
+						<div class="alert alert-warning" role="alert">
+							{{formPago.clave.errors }}
+						</div>
+					{% endif %}
+				</div>
+				<div class="form-group col-xs-6">
+					{{ formPago.monto.label_tag }}<br>{{formPago.monto.value}} {{formPago.monto.as_hidden}}
+					{% if formPago.monto.errors %}
+						<div class="alert alert-warning" role="alert">
+							{{formPago.monto.errors }}
+						</div>
+					{% endif %}
+				</div>
+				<div class="container-fluid col-md-3"></div>
+				{% for field in formResena %}
 					<div class="form-group col-xs-6">
-						{{ x.label_tag }}<br>{{x}}
+						{{ field.label_tag }}<br>{{field}}
 						{% if field.errors %}
 							<div class="alert alert-warning" role="alert">
 								{{field.errors }}
@@ -26,7 +43,6 @@
 						{% endif %}
 					</div>
 				{% endfor %}
-				<div class="container-fluid col-md-3"></div>		
 		        <div class="form-group col-xs-6">
 		        	<br>
 		        	<button align="top" class="btn btn-success btn-lg" >Pagar Orden</button>

@@ -3,9 +3,8 @@ from django.contrib.auth.models import User
 from django.http.response import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from Registro.views import esProveedor
-from Ordenes.form import formBilleteraPagar,ingredientesPedido
+from Ordenes.form import formBilleteraPagar, ingredientesPedido, formResena
 from Registro.models import tieneActual
-# Create your views here.
 
 @login_required(login_url='/registro/login/')
 def verOrdenActual(request, errores = None):
@@ -47,18 +46,24 @@ def pagarOrdenActual(request):
 
     if request.method == "POST":
         formPago = formBilleteraPagar(monto = request.POST.get('monto'), request = request)
+        formReview = formResena(data = request.POST)
         if request.META.get('HTTP_REFERER').split("/")[-2] != "actual":
             formPago = formBilleteraPagar(monto = request.POST.get('monto'), data = request.POST, request = request)
             if formPago.is_valid():
-                errores = formPago.save()
-                if errores: 
-                    return verOrdenActual(request, errores = errores)
-                else:
+                valor = formPago.save()
+                if valor[0] == 'error': 
+                    return verOrdenActual(request, errores = valor[1])
+                elif valor[0] == 'valid':
+                    if formReview.is_valid():
+                        formReview.save(orden = valor[1])
                     return HttpResponseRedirect('/ordenes/actual')
-        return render(request,"ordenes/pagar.html",{'formPago': formPago})
+        return render(request,"ordenes/pagar.html",{'formPago': formPago,
+                                                    'formResena': formReview})
     else:
         platos = tieneActual.objects.filter(orden = orden)
         monto = sum(x.item.precio*x.cantidad for x in platos)
         formPago = formBilleteraPagar(monto = monto,request = request)
-        return render(request,"ordenes/pagar.html",{'formPago': formPago})
+        formReview = formResena()
+        return render(request,"ordenes/pagar.html",{'formPago': formPago,
+                                                    'formResena': formReview})
 

@@ -96,7 +96,12 @@ class orden(models.Model):
     user = models.ForeignKey(User)
     totalPagado = models.DecimalField(max_digits = 30, decimal_places = 3, default = 0)
     tieneRel = models.ManyToManyField(item,through = 'tiene')
-    
+
+
+class resena(models.Model):
+    orden = models.OneToOneField(orden,related_name = 'resena')
+    contenido = models.TextField(max_length = 1000)
+
 class billetera(models.Model):
     idBilletera = models.AutoField(primary_key = True)
     user = models.OneToOneField(User, related_name='billetera')
