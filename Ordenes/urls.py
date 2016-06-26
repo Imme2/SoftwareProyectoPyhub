@@ -10,5 +10,6 @@ from Ordenes import views
 
 urlpatterns = [
     url(r'^actual/$',views.verOrdenActual),
-    url(r'^pagar/$',views.pagarOrdenActual)
+    url(r'^pagar/$',views.pagarOrdenActual),
+    url(r'^reviews/$',views.verReviews),
 ]

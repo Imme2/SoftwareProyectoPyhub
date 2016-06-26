@@ -4,7 +4,7 @@ from django.http.response import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from Registro.views import esProveedor
 from Ordenes.form import formBilleteraPagar, ingredientesPedido, formResena
-from Registro.models import tieneActual
+from Registro.models import tieneActual,resena
 
 @login_required(login_url='/registro/login/')
 def verOrdenActual(request, errores = None):
@@ -67,3 +67,19 @@ def pagarOrdenActual(request):
         return render(request,"ordenes/pagar.html",{'formPago': formPago,
                                                     'formResena': formReview})
 
+@login_required(login_url='/registro/login/')
+def verReviews(request):
+    if not(request.user.is_staff):
+        return HttpResponseRedirect('/')
+    
+
+    todasResenas = resena.objects.all()
+
+    listaResenas = [{"resena":x.contenido,
+                        "nombre":x.orden.user.username,
+                        "orden":x.orden.tieneRel.all(),
+                        "fecha":x.orden.fecha}
+                                        for x in todasResenas]
+
+
+    return render(request,"ordenes/verReviews.html",{'listaResenas': listaResenas})

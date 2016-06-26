@@ -39,7 +39,7 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="http://127.0.0.1:8000/">Inicio<span class="sr-only">(current)</span></a></li>
+        <li class="active"><a href="/">Inicio<span class="sr-only">(current)</span></a></li>
         {% if user.is_staff %}
           
           <li class="dropdown">
@@ -67,7 +67,7 @@
             <li><a href="/perfil/transacciones">Transacciones</a></li>
           </ul>
           </li>
-          
+          <li class="inactive"><a href="/ordenes/reviews">Reseñas<span class="sr-only"></span></a></li>
         {% else %}
          <!--  <li><a href="#">Menu</a></li> -->
         {% endif %}
