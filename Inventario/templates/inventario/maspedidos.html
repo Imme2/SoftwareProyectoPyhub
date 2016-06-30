@@ -1,7 +1,7 @@
 {% extends "registro/header.html" %}
 {% block content %}
 <div class>
-	<h2 align="center">Oferta</h2>
+	<h2 align="center">Ingredientes Mas Pedidos</h2>
 </div><br><br><br>
 	{% if error %}
 		{% for e in error %}
@@ -17,7 +17,7 @@
 				{% for x in ListaMasPedidos %}
 				<li class="list-group-item">
 					{{x.nombre}}
-					<div align = "right"> <span class="label label-default label-pill pull-xs-right"> Precio: {{x.cantidad}} </span> </div>
+					<div align = "right"> <span class="label label-default label-pill pull-xs-right"> Cantidad: {{x.cantidad}} </span> </div>
 				</li>
 				{% endfor %}
 			{% else %}
