@@ -4,7 +4,7 @@ from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User, Permission
 from django.contrib.contenttypes.models import ContentType
-from Registro.models import billetera, transaccion, orden, tieneActual, tiene, posee, ingrediente, resena
+from Registro.models import billetera, transaccion, orden, tieneActual, tiene, posee, ingrediente, resena, ofrece, egreso
 import datetime
 
 '''
@@ -96,7 +96,19 @@ class formResena(forms.ModelForm):
                 entry = resena.objects.create(orden = orden, contenido = contenido)
                 entry.save()
 
+class formOferta(forms.Form):
 
+    id_ofrece = forms.IntegerField(widget=forms.HiddenInput())
+    cantidad = forms.IntegerField(min_value=0) 
+
+    def save(self):
+        oferta = ofrece.objects.get(pk = self.cleaned_data['id_ofrece'])
+        oferta.idIngr.cantidad += self.cleaned_data['cantidad']
+        oferta.idIngr.save()
+        e = egreso(username = oferta.usernameP.username, 
+            monto = -(self.cleaned_data['cantidad'] * oferta.precio), 
+            fecha = datetime.datetime.today())
+        e.save()
 
 def ingredientesPedido(user):
     tiene = tieneActual.objects.filter(orden = user.ordenActual)

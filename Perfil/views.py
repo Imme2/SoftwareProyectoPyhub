@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.http.response import HttpResponseRedirect
-from Registro.models import perfil,proveedor, orden
+from Registro.models import perfil,proveedor, orden, egreso
 from django.contrib.auth.decorators import login_required
 from Registro.views import esProveedor
 
@@ -84,4 +84,5 @@ def mostrarTransacciones(request):
     if (not(request.user.is_staff)):
         return HttpResponseRedirect('/')
     ordenes = orden.objects.all()
-    return render(request,'Perfil/mostrarTransacciones.html',{'ordenes': ordenes})
+    egresos = egreso.objects.all()
+    return render(request,'Perfil/mostrarTransacciones.html',{'ordenes': ordenes, 'egresos' : egresos})

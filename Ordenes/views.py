@@ -3,8 +3,8 @@ from django.contrib.auth.models import User
 from django.http.response import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from Registro.views import esProveedor
-from Ordenes.form import formBilleteraPagar, ingredientesPedido, formResena
-from Registro.models import tieneActual,resena
+from Ordenes.form import formBilleteraPagar, ingredientesPedido, formResena, formOferta
+from Registro.models import tieneActual,resena, ofrece
 
 @login_required(login_url='/registro/login/')
 def verOrdenActual(request, errores = None):
@@ -83,3 +83,42 @@ def verReviews(request):
 
 
     return render(request,"ordenes/verReviews.html",{'listaResenas': listaResenas})
+
+
+@login_required(login_url='/registro/login/')
+def verOfertas(request):
+    if not(request.user.is_staff):
+        return HttpResponseRedirect('/')
+
+    if request.method == "POST":
+        form = formOferta(data = request.POST)
+        if form.is_valid():
+            form.save()
+        print("SAVING")
+        return HttpResponseRedirect('/ordenes/ofertas/')
+    else :
+        pk = request.GET.get("id")
+        if pk:
+            try:
+                oferta = ofrece.objects.get(pk = pk)
+            except ofrece.DoesNotExist:
+                oferta = None
+            if not oferta: 
+                return HttpResponseRedirect('/ordenes/ofertas/')
+            oferta_dic = {"proveedor":oferta.usernameP.username,
+                           "ingrediente":oferta.idIngr.nombre,
+                           "precio":oferta.precio,
+                           "id" : oferta.pk}
+            form = formOferta(initial = {'id_ofrece' : pk})
+            return render(request,"ordenes/ofertar.html",{'oferta': oferta_dic, 'form' : form})
+
+        else:    
+            ofertas = ofrece.objects.all()
+
+            listaOfertas = [{"proveedor":x.usernameP.username,
+                                "ingrediente":x.idIngr.nombre,
+                                "precio":x.precio,
+                                "id" : x.pk}
+                                                for x in ofertas]
+
+            return render(request,"ordenes/verOfertas.html",{'listaOfertas': listaOfertas})
