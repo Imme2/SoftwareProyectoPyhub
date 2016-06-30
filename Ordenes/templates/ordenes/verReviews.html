@@ -1,25 +1,29 @@
 {% extends "registro/header.html" %}
 {% block content %}
 <div class>
-	<h2 align="center">Reseñas</h2>
+	<h2 align="center">Reseñas</h2><br><br>
 </div>
+<div class="container-fluid col-md-4"></div>
 <div class="container-fluid col-md-12">
-	<div class="container-fluid col-md-6">
-		<table class="table table-hover table-striped table-condensed">
-			<tr>
-			 	<td><strong>Reseña:</strong></td>
-			 	<td><strong>Fecha:</strong></td>
-			 	<td><strong>Usuario:</strong></td>
-			</tr>
-			{% for resena in listaResenas %}
+	<div class="container-fluid col-md-3"></div>
+	<div class="container-fluid col-md-6 jumbotron">
+		<div class="form-group col-md-12 ">
+			<table class="table table-hover table-striped">
 				<tr>
-				 	<td>{{resena.resena}}</td>
-				 	<td>{{resena.fecha}}</td>
-				 	<td>{{resena.nombre}}</td>
+				 	<td><strong>Reseña:</strong></td>
+				 	<td><strong>Fecha:</strong></td>
+				 	<td><strong>Usuario:</strong></td>
 				</tr>
-			{% endfor %}
-		</table>
+				{% for resena in listaResenas %}
+					<tr>
+					 	<td>{{resena.resena}}</td>
+					 	<td>{{resena.fecha}}</td>
+					 	<td>{{resena.nombre}}</td>
+					</tr>
+				{% endfor %}
+			</table>
+		</div>
+		<div class="container-fluid col-md-4"></div>
 	</div>
-	<div class="container-fluid col-md-4"></div>
 </div>
 {% endblock %}
