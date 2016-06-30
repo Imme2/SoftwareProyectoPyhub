@@ -16,7 +16,7 @@
 	<div class="container-fluid col-md-6 jumbotron">		
 		<form action="/ordenes/pagar/" method = "post">
 			{% csrf_token %}
-				<div class="form-group col-xs-6">
+				<div class="form-group clearfix col-xs-6">
 					{{ formPago.clave.label_tag }}<br>{{formPago.clave}}
 					{% if formPago.clave.errors %}
 						<div class="alert alert-warning" role="alert">
@@ -24,7 +24,7 @@
 						</div>
 					{% endif %}
 				</div>
-				<div class="form-group col-xs-6">
+				<div class="form-group clearfix col-xs-6">
 					{{ formPago.monto.label_tag }}<br>{{formPago.monto.value}} {{formPago.monto.as_hidden}}
 					{% if formPago.monto.errors %}
 						<div class="alert alert-warning" role="alert">
@@ -32,19 +32,20 @@
 						</div>
 					{% endif %}
 				</div>
-				<div class="container-fluid col-md-8"></div>
-				<div class="container-fluid col-md-8">
-					<div class="container-fluid col-md-8">
-						{{formResena.activarResena}}&nbsp;{{formResena.activarResena.label}}<br><br>
-						{{formResena.contenido.label_tag}}&nbsp;{{formResena.contenido}}
-					</div>
+				<div class="container-fluid clearfix col-xs-6">
+						{{formResena.activarResena}}
+						{{formResena.activarResena.label}}
 				</div>
-		        <div class="form-group col-xs-6">
+				<div class="container-fluid clearfix col-xs-12">
+						{{formResena.contenido.label_tag}}
+						{{formResena.contenido}}
+				</div>
+		        <div align="center" class="container-fluid form-group col-md-offset-1">
 		        	<br><br>
-		        	<button align="top" class="btn btn-success btn-lg" >Pagar Orden</button>
+		        	<button class="btn btn-success btn-lg" >Pagar Orden</button>
 		        </div>
 		</form>
 	</div>
-	<div class="container-fluid col-md-4"></div>
+	<div class="container-fluid col-md-3"></div>
 </div>
 {% endblock %}
