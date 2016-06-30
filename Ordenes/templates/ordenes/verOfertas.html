@@ -1,7 +1,12 @@
 {% extends "registro/header.html" %}
 {% block content %}
+<style>
+.filter-table .quick { margin-left: 0.5em; font-size: 0.8em; text-decoration: none; }
+.fitler-table .quick:hover { text-decoration: underline; }
+td.alt { background-color: #ffc; background-color: rgba(255, 255, 0, 0.2); }
+</style> <!-- or put the styling in your stylesheet -->
 <div class>
-	<h2 align="center">Reseñas</h2><br><br>
+	<h2 align="center">Ofertas</h2><br><br>
 </div>
 <div class="container-fluid col-md-4"></div>
 <div class="container-fluid col-md-12">
@@ -9,12 +14,14 @@
 	<div class="container-fluid col-md-6 jumbotron">
 		<div class="form-group col-md-12 ">
 			<table class="table table-hover table-striped">
+				<thead>
 				<tr>
 				 	<td><strong>Proveedor:</strong></td>
 				 	<td><strong>Ingrediente:</strong></td>
 				 	<td><strong>Precio:</strong></td>
 				 	<td><strong>Comprar:</strong></td>
 				</tr>
+				</thead>
 				{% for oferta in listaOfertas %}
 					<tr>
 					 	<td>{{oferta.proveedor}}</td>
@@ -28,4 +35,7 @@
 		<div class="container-fluid col-md-4"></div>
 	</div>
 </div>
+<script>
+	$('table').filterTable({minRows: 0, label: "Filtro", placeholder: "Busca en la tabla"}); //if this code appears after your tables; otherwise, include it in your document.ready() code.
+</script>
 {% endblock %}
