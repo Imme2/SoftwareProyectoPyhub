@@ -86,6 +86,7 @@ class formResena(forms.ModelForm):
         self.fields['activarResena'].label = "Dejar Reseña"
         self.fields['contenido'].label = "Reseña"
         self.fields['contenido'].required = False
+        self.fields['contenido'].widget.attrs.update({"class":"form-control"})
 
 
     def save(self,orden):
