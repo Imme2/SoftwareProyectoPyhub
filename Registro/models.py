@@ -69,7 +69,13 @@ class transaccion(models.Model):
     username = models.ForeignKey('cliente')
     monto = models.DecimalField(max_digits = 30, decimal_places = 3)
     fecha = models.DateField()
-    
+
+class egreso(models.Model):
+    idTrans = models.AutoField(primary_key = True)
+    username = models.ForeignKey(User)
+    monto = models.DecimalField(max_digits = 30, decimal_places = 3)
+    fecha = models.DateField()
+
 class menu(models.Model):
     idMenu = models.AutoField(primary_key = True)
     nombre = models.CharField(max_length = 50)

@@ -28,6 +28,22 @@
 				{% endfor %}
 			</table>
 		</div>
+
+	<div class="form-group col-md-12 ">
+			<table class="table table-hover">
+				<tr>
+				 	<td><strong>Fecha:</strong></td>
+				 	<td><strong>Monto:</strong></td>
+				 	<td><strong>Usuario:</strong></td>
+				{% for e in egresos %}
+					<tr class="danger">
+					 		<td>{{e.fecha}}</td>
+					 		<td>{{e.monto}}</td>
+					 		<td>{{e.username}}</td>
+					</tr>
+				{% endfor %}
+			</table>
+		</div>
 	</div>
 	<div class="container-fluid col-md-4"></div>
 </div>
