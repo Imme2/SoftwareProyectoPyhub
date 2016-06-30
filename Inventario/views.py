@@ -60,6 +60,11 @@ def modificarInventario(request):
                                                             'formIngredientes': listaIngredientes,
                                                             'formPrecio': formPrecio})
 
+'''
+ Vista de Ver los ingredientes mas pedidos. da los 5 ingredientes mas pedidos
+     de acuerdo a las ordenes del restaurant
+'''
+
 @login_required(login_url='/registro/login/')
 def verIngredientesMasPedidos(request):
     if (not(esProveedor(request))):
