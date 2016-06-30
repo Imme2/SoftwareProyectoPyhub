@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from Registro.views import esProveedor
-from Inventario.auxfuncs import getInventarioProveedor
+from Registro.models import tiene
+from Inventario.controlador import getInventarioProveedor, calcularIngredientesMasPedidos
 from django.contrib.auth.decorators import login_required
 from django.http.response import HttpResponseRedirect
 from Inventario.form import formOfrece, formIngredientes
@@ -58,3 +59,17 @@ def modificarInventario(request):
         return render(request,'inventario/modificar.html',{'ListaOferta': arregloOfertas,
                                                             'formIngredientes': listaIngredientes,
                                                             'formPrecio': formPrecio})
+
+@login_required(login_url='/registro/login/')
+def verIngredientesMasPedidos(request):
+    if (not(esProveedor(request))):
+        return HttpResponseRedirect('/')
+
+    # Se obtienen todos los objetos que estan en ordenes
+    IngrMasPedidos = calcularIngredientesMasPedidos()
+
+    # Se obtienen los 5 mas pedidos
+    IngrMasPedidos[:5]
+
+    #Y se retornan a la vista
+    return render(request, 'inventario/maspedidos.html',{'ListaMasPedidos':IngrMasPedidos})
