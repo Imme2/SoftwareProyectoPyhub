@@ -148,9 +148,9 @@ def editarUsuario(request):
     else:
         formUser = userForm(instance = request.user)
         formPerfil = perfilForm(instance = request.user.perfil)
+
         return render(request,'registro/editarUsuario.html', {'formUser': formUser,
-                                                      'formPerfil': formPerfil,
-                                                      'foto': request.user.perfil.foto})
+                                                      'formPerfil': formPerfil})
 
 
 '''
@@ -176,8 +176,7 @@ def editarProveedor(request):
         else:
             return render(request,'registro/editarProveedor.html', {'formUser': userform,
                                                           'formPerfil': profileform,
-                                                          'formProveedor': provedForm,
-                                                          'foto': request.user.perfil.foto})
+                                                          'formProveedor': provedForm})
     else:
         formUser = userForm(instance = request.user)
         formPerfil = perfilForm(instance = request.user.perfil)
@@ -188,5 +187,4 @@ def editarProveedor(request):
 
         return render(request,'registro/editarProveedor.html', {'formUser': formUser,
                                                                 'formPerfil':formPerfil,
-                                                                'formProveedor':formProveedor,
-                                                                'foto': request.user.perfil.foto})
+                                                                'formProveedor':formProveedor})

@@ -13,5 +13,5 @@ urlpatterns = [
      url(r'^proveedor/', views.mostrarPerfilProveedor),
      url(r'^usuario/', views.mostrarPerfilUsuario),
      url(r'^usuarios/', views.mostrarUsuarios),
-     url(r'^transacciones/', views.mostrarTransacciones)
+     url(r'^transacciones/', views.mostrarTransacciones),
 ]

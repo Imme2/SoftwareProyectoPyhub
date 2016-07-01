@@ -224,18 +224,12 @@ class userForm(forms.ModelForm):
     first_name = forms.CharField(widget=forms.TextInput(attrs={'type':'text' ,'class':'form-control' ,'id':'inputName',}),disabled = True, label = 'Nombre')
     last_name = forms.CharField(widget=forms.TextInput(attrs={'type':'text' ,'class':'form-control' ,'id':'inputApellido',}),disabled = True, label = 'Apellido')
     email = forms.EmailField(widget=forms.EmailInput(attrs={'placeholder': 'ejemplo@ejmpl.com','type':"email", 'class':"form-control", 'id':"inputEmail1", }),disabled = True, label = 'Correo')
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'type':"password" ,'class':"form-control", 'id':"inputClave", 'placeholder':"Clave",}), label = 'Contrasena', required = False)
+#    password = forms.CharField(widget=forms.PasswordInput(attrs={'type':"password" ,'class':"form-control", 'id':"inputClave", 'placeholder':"Clave",}), label = 'Contrasena', required = False)
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'username', 'password', 'email']
+        fields = ['first_name', 'last_name', 'username', 'email']
         
-    def save(self, request):
-        m = super(userForm, self).save(commit = False)
-        m.user = request.user
-        if self.cleaned_data['password']:
-            m.user.set_password(self.cleaned_data['password'])
-        m.save()
-        return m
+   
 '''
     Forma para mostrar el perfil del usuario.
 '''
@@ -255,6 +249,11 @@ class perfilForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(perfilForm, self).__init__(*args, **kwargs)
         self.fields['foto'].widget = forms.FileInput()
+
+    def __init__(self, *args, **kwargs):
+        super(perfilForm, self).__init__(*args, **kwargs)
+        self.fields['foto'].widget = forms.FileInput()
+
 
 #    def save(self,request):
 #        m = super(perfilForm, self).save(commit = False)

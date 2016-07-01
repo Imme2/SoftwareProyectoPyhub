@@ -4,7 +4,7 @@ from django.http.response import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from Registro.views import esProveedor
 from Ordenes.form import formBilleteraPagar, ingredientesPedido, formResena, formOferta
-from Registro.models import tieneActual,resena, ofrece
+from Registro.models import tieneActual,resena, ofrece, orden, tiene
 
 @login_required(login_url='/registro/login/')
 def verOrdenActual(request, errores = None):
@@ -67,6 +67,12 @@ def pagarOrdenActual(request):
         return render(request,"ordenes/pagar.html",{'formPago': formPago,
                                                     'formResena': formReview})
 
+'''
+
+Vista del administrador para ver todas las reviews dadas por los usuarios.
+
+'''
+
 @login_required(login_url='/registro/login/')
 def verReviews(request):
     if not(request.user.is_staff):
@@ -90,13 +96,37 @@ def verOrdenes(request):
     if not(request.user.is_staff):
         return HttpResponseRedirect('/')
 
-    
+
+    listaOrdenes = orden.objects.all()
+
+    mapaOrdenes = [ {"id": x.nroOrden,
+                        "fecha" : x.fecha,
+                        "monto" : x.totalPagado,
+                        "user" : x.user.username} for x in listaOrdenes]
+
+    return render(request,"ordenes/verOrdenes.html",{'listaOrdenes': mapaOrdenes})
 
 
 def verOrden(request):
     if not(request.user.is_staff):
         return HttpResponseRedirect('/')
 
+    nroOrden = request.GET.get('id','')
+
+    ordenVista = orden.objects.filter(nroOrden = nroOrden)
+
+    if not ordenVista.exists():
+        return HttpResponseRedirect('/verOrdenes/')
+
+    ordenVista = ordenVista[0]
+
+    platos = [ {'nombre': x.item.nombre,
+                'descripcion': x.item.descripcion,
+                'precio': x.item.precio,
+                'cantidad': x.cantidad } for x in tiene.objects.filter(orden = ordenVista)]
+
+    return render(request,"ordenes/verOrden.html",{'orden': ordenVista,
+                                                    'platos': platos})
 
 
 @login_required(login_url='/registro/login/')
