@@ -85,6 +85,19 @@ def verReviews(request):
     return render(request,"ordenes/verReviews.html",{'listaResenas': listaResenas})
 
 
+@login_required(login_url='/registro/login/')
+def verOrdenes(request):
+    if not(request.user.is_staff):
+        return HttpResponseRedirect('/')
+
+    
+
+
+def verOrden(request):
+    if not(request.user.is_staff):
+        return HttpResponseRedirect('/')
+
+
 
 @login_required(login_url='/registro/login/')
 def verOfertas(request):
