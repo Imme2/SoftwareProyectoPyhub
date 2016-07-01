@@ -99,7 +99,7 @@ class formResena(forms.ModelForm):
 class formOferta(forms.Form):
 
     id_ofrece = forms.IntegerField(widget=forms.HiddenInput())
-    cantidad = forms.IntegerField(min_value=0) 
+    cantidad = forms.IntegerField(widget=forms.NumberInput(attrs={'class':'form-control'}),min_value=0) 
 
     def save(self):
         oferta = ofrece.objects.get(pk = self.cleaned_data['id_ofrece'])

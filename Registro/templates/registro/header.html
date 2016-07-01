@@ -90,6 +90,8 @@
         </li> -->
 
         {% if user.proveedor and not user.is_staff %}
+          <li><a href="/inventario/maspedidos">Más Demandados</a></li>
+          <li><a href="/inventario/ventas">Ventas</a></li>
           <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Inventario <span class="caret"></span></a>
           <ul class="dropdown-menu">

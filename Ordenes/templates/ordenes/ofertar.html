@@ -1,28 +1,23 @@
 {% extends "registro/header.html" %}
 {% block content %}
 <div class>
-	<h2 align="center">Reseñas</h2><br><br>
+	<h2 align="center">Orden</h2><br><br>
 </div>
-<div class="container-fluid col-md-4"></div>
 <div class="container-fluid col-md-12">
-	<div class="container-fluid col-md-3"></div>
-	<div class="container-fluid col-md-6 jumbotron">
-		<div class="form-group col-md-12 ">
-			<strong>Proveedor:</strong> {{oferta.proveedor}}
-			<strong>Ingrediente:</strong> {{oferta.ingrediente}}
-			<strong>Precio:</strong> {{oferta.precio}}
-					 	Comprar
-		</div>
+<div class="container-fluid col-md-3"></div>
+<div align="center"class="container-fluid col-md-6 jumbotron">
+	<div class="container-fluid col-xs-offset-0">
+			<strong>Proveedor:</strong> <br>{{oferta.proveedor}}<br>
+			<strong>Ingrediente:</strong> <br>{{oferta.ingrediente}}<br>
+			<strong>Precio:</strong> <br>{{oferta.precio}}<br>
 		<form method = "post">
 			{% csrf_token %}
-				{{form}}
-		        <div class="form-group col-xs-6">
-		        	<br><br>
+				<div align="center" class="container-fluid col-xs-ofset-1">{{form}}<br>
 		        	<button align="top" class="btn btn-success btn-lg" >Comprar</button>
 		        </div>
 		</form>
-		
-		<div class="container-fluid col-md-4"></div>
-	</div>
+		</div>
+</div>
+<div class="container-fluid col-md-3"></div>
 </div>
 {% endblock %}
