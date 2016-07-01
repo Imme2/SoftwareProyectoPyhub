@@ -1,7 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
+from django.utils import timezone
 from django.contrib.auth.hashers import make_password, check_password
+import datetime
     
 
 class perfil(models.Model):
@@ -74,7 +76,9 @@ class egreso(models.Model):
     idTrans = models.AutoField(primary_key = True)
     username = models.ForeignKey(User)
     monto = models.DecimalField(max_digits = 30, decimal_places = 3)
-    fecha = models.DateField()
+    fecha = models.DateField(default = datetime.datetime.now)
+    cantidad = models.PositiveIntegerField(default = 0)
+    ingredientes = models.ForeignKey("ingrediente")
 
 class menu(models.Model):
     idMenu = models.AutoField(primary_key = True)

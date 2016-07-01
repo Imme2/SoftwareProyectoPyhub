@@ -107,7 +107,9 @@ class formOferta(forms.Form):
         oferta.idIngr.save()
         e = egreso(username = oferta.usernameP.username, 
             monto = -(self.cleaned_data['cantidad'] * oferta.precio), 
-            fecha = datetime.datetime.today())
+            cantidad = self.cleaned_data['cantidad'],
+            ingredientes = oferta.idIngr
+            )
         e.save()
 
 def ingredientesPedido(user):
