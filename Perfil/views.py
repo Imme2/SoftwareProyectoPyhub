@@ -28,6 +28,8 @@ def mostrarPerfilUsuario(request):
     user = request.user
     perfill = user.perfil
 
+    print(perfill.foto)
+
     return render(request,'Perfil/mostrar.html',{'Username': user.username,
                                                     'Email': user.email,
                                                     'Nombre': user.first_name,
@@ -35,7 +37,8 @@ def mostrarPerfilUsuario(request):
                                                     'CI': perfill.ci,
                                                     'Sexo': perfill.sexo,
                                                     'FechaDeNacimiento': perfill.fechaNac,
-                                                    'Telefono': perfill.tlf})
+                                                    'Telefono': perfill.tlf,
+                                                    'Foto':perfill.foto})
 
 '''
       Controlador que muestra perfil a proveedores
@@ -78,7 +81,7 @@ def mostrarUsuarios(request):
     print(listaUsuarios)
     return render(request,'Perfil/mostrarUsuarios.html',{'ListaUsuarios': listaUsuarios})
 
-# Para mostrar todos los usuarios a un admin
+# Para mostrar todas las transacciones a un admin
 @login_required(login_url='/registro/login/')
 def mostrarTransacciones(request):
     if (not(request.user.is_staff)):

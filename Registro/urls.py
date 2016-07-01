@@ -30,5 +30,6 @@ urlpatterns = [
      url(r'^editar/$',  views.editarDatos),
      url(r'^editar/usuario$',  views.editarUsuario),
      url(r'^editar/proveedor$',  views.editarProveedor),
-     url(r'^proveedor/$', views.registroProveedor)
+     url(r'^proveedor/$', views.registroProveedor),
+     url(r'^editar/clave$', views.cambiarClave),
 ]

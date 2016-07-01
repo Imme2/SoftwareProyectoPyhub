@@ -7,7 +7,7 @@ from django.contrib.auth.models import User, Permission
 from django.contrib.auth import logout
 from Registro.models import perfil,proveedor
 from Registro.form import formRegistroProveedor, formRegistroUsuario, loginUsuario, userForm,\
-    perfilForm, proveedorForm
+    perfilForm, proveedorForm, formCambiarClave
 
 '''
     Funcion auxiliar para verificar si es proveedor
@@ -110,8 +110,26 @@ def editarDatos(request):
         return HttpResponseRedirect('/registro/editar/usuario')
 
 '''
+    Vista de cambiar clave accedida desde ver perfil
+'''
+
+@login_required(login_url='/registro/login/')
+def cambiarClave(request):
+    if request.method == "POST":
+        formClave = formCambiarClave(instance = request.user, data = request.POST)
+        if formClave.is_valid():
+            formClave.save()
+            return HttpResponseRedirect('/registro/login/')
+        else:
+            return render(request,'registro/cambiarClave.html', {'formClave': formClave})
+    else:
+        formClave = formCambiarClave(instance = request.user)
+        return render(request,'registro/cambiarClave.html', {'formClave': formClave})
+
+'''
     Form para editar el perfil del usuario
 '''
+
 
 @login_required(login_url='/registro/login/')
 def editarUsuario(request):

@@ -16,7 +16,7 @@ class perfil(models.Model):
     ci = models.CharField(max_length = 10, blank=True, null=True)
     sexo = models.CharField(max_length = 1, choices = Sexos, blank=True, null=True)
     fechaNac = models.DateField(blank=True, null=True)
-    foto = models.CharField(max_length = 300,blank=True, null=True)
+    foto = models.ImageField(max_length = 300,null = True, blank = True)
     tlf = models.CharField(max_length = 17,blank=True, null=True)
 
     def __str__(self):
@@ -59,7 +59,7 @@ class item(models.Model):
     nombre = models.CharField(max_length = 50)
     tipo = models.CharField(max_length = 1)
     precio = models.DecimalField(max_digits = 30, decimal_places = 3)
-    foto = models.CharField(max_length = 300)
+    foto = models.ImageField(max_length = 300,null = True, blank = True)
     descripcion = models.CharField(max_length = 200)
     poseeRel = models.ManyToManyField(ingrediente,through = 'posee')
 
