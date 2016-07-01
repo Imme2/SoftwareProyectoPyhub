@@ -89,4 +89,6 @@ def mostrarTransacciones(request):
         return HttpResponseRedirect('/')
     ordenes = orden.objects.all()
     egresos = egreso.objects.all()
-    return render(request,'Perfil/mostrarTransacciones.html',{'ordenes': ordenes, 'egresos' : egresos})
+    totalOrdenes = sum([x.totalPagado for x in ordenes])
+    totalEgresos = sum([x.monto for x in egresos])
+    return render(request,'Perfil/mostrarTransacciones.html',{'ordenes': ordenes, 'egresos' : egresos, 'totalOrdenes': totalOrdenes, 'totalEgresos': totalEgresos})

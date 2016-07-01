@@ -69,12 +69,18 @@
 	<div class="form-group col-6 jumbotron">
 		<table class="table table-hover">
 			<tr>
-			 	<td><strong>Nombre:</strong></td>
-			 	<td><strong>Descripción:</strong></td>
-			 	<td><strong>Precio:</strong></td>
+				<td align="center"><strong>Foto:</strong></td>
+			 	<td align="center"><strong>Nombre:</strong></td>
+			 	<td align="center"><strong>Descripción:</strong></td>
+			 	<td align="center"><strong>Precio:</strong></td>
 			</tr>
 			{% for plato in menu %}
 				<tr>
+					<td> 
+						{% if plato.foto %}
+							<img src="{{ plato.foto.url }}" height="100" width="100"/>
+						{% endif %}
+					</td>
 				 	<td>{{plato.nombre}}</td>
 				 	<td>{{plato.descripcion}}</td>
 				 	<td>{{plato.precio}}</td>
