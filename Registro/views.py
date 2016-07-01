@@ -7,7 +7,7 @@ from django.contrib.auth.models import User, Permission
 from django.contrib.auth import logout
 from Registro.models import perfil,proveedor
 from Registro.form import formRegistroProveedor, formRegistroUsuario, loginUsuario, userForm,\
-    perfilForm, proveedorForm, formCambiarClave
+    perfilForm, proveedorForm, formCambiarClave, userAdminForm, adminPerfilForm
 
 '''
     Funcion auxiliar para verificar si es proveedor
@@ -62,6 +62,26 @@ def registroProveedor(request):
                                                                 'formEmpr': formEmpr})
 
 '''
+    Sitio secreto para crear un admin
+'''
+
+def crearAdmin(request):
+    if request.user.is_authenticated():
+        return HttpResponseRedirect('/perfil/')
+    if request.method == "POST":
+        formAdmin = userAdminForm(request.POST)
+        if formAdmin.is_valid():
+            formAdmin.save()
+            return HttpResponseRedirect('/registro/login/')
+        else:
+            return render(request,'registro/crearAdmin.html', {'formAdmin': formAdmin})
+        pass
+    else:
+        formAdmin = userAdminForm()
+        return render(request,'registro/crearAdmin.html', {'formAdmin': formAdmin})
+
+
+'''
     Form para logear usuarios
 '''
 def logearUsuario(request):
@@ -71,6 +91,8 @@ def logearUsuario(request):
         form = loginUsuario(request.POST)
         if form.is_valid():
             user = authenticate(username = form.cleaned_data['username'],password = form.cleaned_data['clave'])
+            print(form.cleaned_data['username'])
+            print(form.cleaned_data['clave'])
             if user is not None:
                 login(request, user)
                 if (next == ''):
@@ -104,7 +126,9 @@ def logOut(request):
 
 @login_required(login_url='/registro/login/')
 def editarDatos(request):
-    if (esProveedor(request)):
+    if (request.user.is_staff):
+        return HttpResponseRedirect('/registro/editar/admin')
+    elif (esProveedor(request)):
         return HttpResponseRedirect('/registro/editar/proveedor')
     else:
         return HttpResponseRedirect('/registro/editar/usuario')
@@ -135,6 +159,9 @@ def cambiarClave(request):
 def editarUsuario(request):
     if (esProveedor(request)):
         return HttpResponseRedirect('/registro/editar/proveedor')
+    if (request.user.is_staff):
+        return HttpResponseRedirect('/registro/editar/admin')
+
     if request.method == "POST":
         userform = userForm(instance = request.user, data = request.POST)
         profileform =  perfilForm(request.POST, request.FILES, instance = request.user.perfil)
@@ -154,6 +181,34 @@ def editarUsuario(request):
                                                       'formPerfil': formPerfil,
                                                       'foto': request.user.perfil.foto})
 
+'''
+    forma para editar Perfil Admin
+
+'''
+
+
+@login_required(login_url='/registro/login/')
+def editarAdmin(request):
+    if (not(request.user.is_staff)):
+        return HttpResponseRedirect('/registro/editar/')
+    if request.method == "POST":
+        userform = userForm(instance = request.user, data = request.POST)
+        profileform =  adminPerfilForm(request.POST, request.FILES, instance = request.user.perfil)
+        if userform.is_valid() and profileform.is_valid():
+            userform.save(request)
+            profileform.save(request)
+            return HttpResponseRedirect('/perfil/')
+        else:
+            return render(request,'registro/editarAdmin.html', {'formUser': userform,
+                                                          'formPerfil': profileform,
+                                                          'foto': request.user.perfil.foto})
+    else:
+        formUser = userForm(instance = request.user)
+        formPerfil = adminPerfilForm(instance = request.user.perfil)
+        return render(request,'registro/editarAdmin.html', {'formUser': formUser,
+                                                                'formPerfil':formPerfil,
+                                                                'foto': request.user.perfil.foto})
+
 
 '''
     Form para editar el perfil del proveedor
@@ -162,7 +217,7 @@ def editarUsuario(request):
 @login_required(login_url='/registro/login/')
 def editarProveedor(request):
     if (not(esProveedor(request))):
-        return HttpResponseRedirect('/registro/editar/Usuario')
+        return HttpResponseRedirect('/registro/editar/')
     if request.method == "POST":
         userform = userForm(instance = request.user, data = request.POST)
         profileform =  perfilForm(request.POST, request.FILES, instance = request.user.perfil)

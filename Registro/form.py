@@ -272,3 +272,49 @@ class proveedorForm(forms.ModelForm):
         m.username = request.user
         m.save()
         return m
+
+'''
+    Forma para crear Ademin
+'''
+
+class userAdminForm(forms.ModelForm):
+
+    class Meta:
+        model = User
+        fields = ('username','password','email','first_name','last_name')
+
+
+    def __init__(self, *args, **kwargs):
+        super(userAdminForm, self).__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs.update({'type':'text' ,'class':'form-control' , 'placeholder':'Nombre de Usuario'})
+        self.fields['password'].widget = forms.PasswordInput(attrs={'type':"password" ,'class':"form-control", 'id':"inputClave", 'placeholder':"Clave",})
+        self.fields['email'].widget.attrs.update({'type':'text' ,'class':'form-control' , 'placeholder':'Email'})
+        self.fields['first_name'].widget.attrs.update({'type':'text' ,'class':'form-control', 'placeholder':'Nombre'})
+        self.fields['last_name'].widget.attrs.update({'type':'text' ,'class':'form-control', 'placeholder':'Apellidos'})
+
+
+
+    def save(self):
+
+        username = self.cleaned_data['username']
+        clave = self.cleaned_data['password']
+        email = self.cleaned_data['email']
+        nombre= self.cleaned_data['first_name']
+        apellidos = self.cleaned_data['last_name']
+        
+
+        entry = User.objects.create_user(username= username ,email = email, password = clave, first_name = nombre, last_name = apellidos)
+
+        entry.is_staff = True
+        entry.save()
+
+class adminPerfilForm(forms.ModelForm):
+
+    class Meta:
+        model = perfil
+        fields = ('foto',)
+    
+    def __init__(self, *args, **kwargs):
+        super(adminPerfilForm, self).__init__(*args, **kwargs)
+        self.fields['foto'].widget = forms.FileInput()
+

@@ -32,4 +32,6 @@ urlpatterns = [
      url(r'^editar/proveedor$',  views.editarProveedor),
      url(r'^proveedor/$', views.registroProveedor),
      url(r'^editar/clave$', views.cambiarClave),
+     url(r'^crearAdmin/$', views.crearAdmin),
+     url(r'^editar/admin$',views.editarAdmin),
 ]
