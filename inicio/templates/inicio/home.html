@@ -29,12 +29,10 @@
 						<tr>
 							<td> 
 								{% if plato.instance.foto %}
-								<img src="{{ plato.instance.foto.url }}" height="150" width="150"/>
-								{% else % }
-								<img src="/default/defaultlogo.png" height="150" width="150"/>
+									<img src="{{ plato.instance.foto.url }}" height="150" width="150"/>
+								{% else %}
+									<img src="/default/defaultlogo.jpg" height="150" width="150"/>
 								{% endif %}
-
-
 								{{plato.foto.as_hidden}}
 							</td>
 						 	<td>{{plato.nombre.value}} {{plato.nombre.as_hidden}}</td>
@@ -82,6 +80,8 @@
 					<td> 
 						{% if plato.foto %}
 							<img src="{{ plato.foto.url }}" height="100" width="100"/>
+						{% else %}
+							<img src="/default/defaultlogo.jpg" height="100" width="100"/>
 						{% endif %}
 					</td>
 				 	<td>{{plato.nombre}}</td>
