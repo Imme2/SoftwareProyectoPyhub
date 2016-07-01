@@ -121,6 +121,8 @@ def verOrden(request):
     ordenVista = ordenVista[0]
 
     platos = [ {'nombre': x.item.nombre,
+                'descripcion': x.item.descripcion,
+                'precio': x.item.precio
                 'cantidad': x.cantidad } for x in tiene.objects.filter(orden = ordenVista)]
 
     return render(request,"ordenes/verOrden.html",{'orden': ordenVista,
