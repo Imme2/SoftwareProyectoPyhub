@@ -16,4 +16,4 @@ Dependiendo de la instalción de pip que haya hecho.
 ###Creacion de Admins para pruebas:
 
 Con el fin de poder crear un usuario admin para prueba. Debe introducir en su explorador el url
-**localhost:8000/registro/crearAdmin**
+*localhost:8000/registro/crearAdmin*
