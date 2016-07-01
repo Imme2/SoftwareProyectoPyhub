@@ -170,7 +170,7 @@ class parametrosForm(forms.ModelForm):
 
 class formCambiarClave(forms.ModelForm):
 
-    claveActual = forms.CharField(widget=forms.PasswordInput(attrs={'type':"password" ,'class':"form-control", 'id':"inputClave", 'placeholder':"Clave Actual",}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'type':"password" ,'class':"form-control", 'id':"inputClave", 'placeholder':"Clave Actual",}))
     nuevaClave = forms.CharField(widget=forms.PasswordInput(attrs={'type':"password" ,'class':"form-control", 'id':"inputClave", 'placeholder':"Nueva Clave",}))
     repetirClave = forms.CharField(widget=forms.PasswordInput(attrs={'type':"password" ,'class':"form-control", 'id':"repeatInputClave", 'placeholder':"Repetir Nueva Clave",}))
     class Meta:
@@ -178,13 +178,20 @@ class formCambiarClave(forms.ModelForm):
         fields = ['password']
 
     def clean(self):
-        cleaned_data = super(formBilleteraCrear, self).clean()
+        cleaned_data = super(formCambiarClave, self).clean()
         clave = cleaned_data.get('nuevaClave')
         repeticion = cleaned_data.get('repetirClave')
+        claveActual = cleaned_data.get('password')
+
+        usuario = self.instance
 
         if (clave != repeticion):
             msg = "Las claves deben ser iguales"
             self.add_error('repetirClave', msg)
+
+        if not usuario.check_password(claveActual):
+            msg = "Clave incorrecta."
+            self.add_error('password',msg)
 
         return cleaned_data
 
@@ -194,7 +201,7 @@ class formCambiarClave(forms.ModelForm):
         clave = self.cleaned_data.get('nuevaClave')
 
         #Se setea correctamente el password de la billetera.
-        m.setPassword(clave)
+        m.set_password(clave)
 
         m.save()
 
