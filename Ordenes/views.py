@@ -113,17 +113,17 @@ def verOrden(request):
 
     nroOrden = request.GET.get('id','')
 
-    orden = orden.objects.filter(nroOrden = nroOrden)
+    ordenVista = orden.objects.filter(nroOrden = nroOrden)
 
-    if not orden.exists():
+    if not ordenVista.exists():
         return HttpResponseRedirect('/verOrdenes/')
 
-    orden = orden[0]
+    ordenVista = ordenVista[0]
 
     platos = [ {'nombre': x.item.nombre,
-                'cantidad': x.cantidad } for x in orden.tieneRel.all()]
+                'cantidad': x.cantidad } for x in ordenVista.tieneRel.all()]
 
-    return render(request,"ordenes/verOrden.html",{'orden': orden,
+    return render(request,"ordenes/verOrden.html",{'orden': ordenVista,
                                                     'platos': platos})
 
 
