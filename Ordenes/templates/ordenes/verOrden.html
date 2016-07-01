@@ -13,15 +13,19 @@
 			<table class="table table-hover table-striped table-condensed">
 				<tr>
 				 	<td><strong>Nombre:</strong></td>
+				 	<td><strong>Descripción:</strong></td>
+				 	<td><strong>Precio:</strong></td>
 				 	<td><strong>Cantidad:</strong></td>
 				</tr>
 				{% for plato in platos %}
 					<tr>
 					 	<td>{{plato.nombre}}</td>
+					 	<td>{{plato.descripcion}}</td>
+					 	<td>{{plato.precio}}</td>
 					 	<td>{{plato.cantidad}}</td>
 					</tr>
 				{% endfor %}
-			</table>
+				<tr>
 		</form>
 	</div>
 	<div class="container-fluid col-md-4"></div>
