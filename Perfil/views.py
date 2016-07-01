@@ -61,6 +61,7 @@ def mostrarPerfilProveedor(request):
                                                     'Sexo': perfil.sexo,
                                                     'FechaDeNacimiento': perfil.fechaNac,
                                                     'Telefono': perfil.tlf,
+                                                    'Foto':perfil.foto,
                                                     'RIF': prov.rif,
                                                     'NombreDeEmpresa': prov.nombreEmpr})
 
