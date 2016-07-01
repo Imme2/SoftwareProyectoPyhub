@@ -62,7 +62,7 @@ class formPlato(forms.ModelForm):
         super(formPlato, self).__init__(*args, **kwargs)
         self.fields['nombre'].widget.attrs.update({'type':'text' ,'class':'form-control' , 'placeholder':'Plato'})
         self.fields['tipo'].widget.attrs.update({'type':'text' ,'class':'form-control' , 'placeholder':'Tipo'})
-        self.fields['foto'].widget.attrs.update({'type':'text' ,'class':'form-control',  'placeholder':'Foto'})
+        self.fields['foto'].widget = forms.FileInput()
         self.fields['precio'].widget.attrs.update({'class':'form-control'})
         self.fields['descripcion'].widget.attrs.update({'type':'text' ,'class':'form-control', 'placeholder':'Descripcion'})
 
