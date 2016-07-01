@@ -7,8 +7,10 @@
 	{% load staticfiles %}
 	<script src="{% static 'registroCliente/js/jquery.min.js'  %}"></script>
   <script src="{% static 'registroCliente/js/bootstrap.min.js'  %}"></script>
+  <script src="{% static 'registroCliente/js/jquery.filtertable.js'  %}"></script>
 	<link rel="stylesheet" href="{% static 'registroCliente/css/bootstrap.min.css' %}" type = "text/css"/>
   <link rel="stylesheet" href="{% static 'registroCliente/css/full.css' %}" />
+  
   {% if request.path == "/" %}
     <link href="{% static 'inicio/css/full.css' %}" rel="stylesheet"/>
   {% endif %}
@@ -68,6 +70,7 @@
           </ul>
           </li>
           <li class="inactive"><a href="/ordenes/reviews">Reseñas<span class="sr-only"></span></a></li>
+          <li class="inactive"><a href="/ordenes/ofertas">Comprar<span class="sr-only"></span></a></li>
         {% else %}
          <!--  <li><a href="#">Menu</a></li> -->
         {% endif %}
