@@ -25,9 +25,9 @@ def index(request):
         return render(request,'inicio/home.html',{'menu':menu})
     if request.method == "POST":
         platos = getCurrentMenu()
-        platosResena = list(map(expandir,platos))
         if platos is None:
             return render(request,'inicio/home.html',{'menu':None})   #Panic?
+        platosResena = list(map(expandir,platos))
         formSetPlatos = modelformset_factory(item, form = formMostrarPlato,extra = 0)
         formSet = formSetPlatos(request.POST,request.FILES)
         if formSet.is_valid():
@@ -38,10 +38,10 @@ def index(request):
             return render(request,'inicio/home.html',{'formMenu': formSet, 'platos': platosResena}) 
     else:
         platos = getCurrentMenu()
-        platosResena = list(map(expandir,platos))
         if (platos is None):
             return render(request,'inicio/home.html')
         else:
+             platosResena = list(map(expandir,platos))
             formSetPlatos = modelformset_factory(item, form = formMostrarPlato,extra = 0)
             formSet = formSetPlatos(queryset = platos)
             return render(request,'inicio/home.html',{'formMenu': formSet, 'platos': platosResena})
