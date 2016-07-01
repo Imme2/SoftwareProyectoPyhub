@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.http.response import HttpResponseRedirect
-from Registro.models import perfil,proveedor, orden, egreso
+from Registro.models import perfil,proveedor, orden, egreso, tiene
 from django.contrib.auth.decorators import login_required
 from Registro.views import esProveedor
 
@@ -82,6 +82,10 @@ def mostrarUsuarios(request):
     print(listaUsuarios)
     return render(request,'Perfil/mostrarUsuarios.html',{'ListaUsuarios': listaUsuarios})
 
+
+def expandir(orden):
+    orden.relaciones = tiene.objects.filter(orden = orden)
+    return orden
 # Para mostrar todas las transacciones a un admin
 @login_required(login_url='/registro/login/')
 def mostrarTransacciones(request):
@@ -89,6 +93,7 @@ def mostrarTransacciones(request):
         return HttpResponseRedirect('/')
     ordenes = orden.objects.all()
     egresos = egreso.objects.all()
+    ordenes = list(map(expandir, ordenes))
     totalOrdenes = sum([x.totalPagado for x in ordenes])
     totalEgresos = sum([x.monto for x in egresos])
     return render(request,'Perfil/mostrarTransacciones.html',{'ordenes': ordenes, 'egresos' : egresos, 'totalOrdenes': totalOrdenes, 'totalEgresos': totalEgresos})
