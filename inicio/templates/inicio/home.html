@@ -29,9 +29,9 @@
 						<tr>
 							<td> 
 								{% if plato.instance.foto %}
-									<img src="{{ plato.instance.foto.url }}" height="150" width="150"/>
+									<img src="{{ plato.instance.foto.url }}" height="100" width="100"/>
 								{% else %}
-									<img src="/default/defaultlogo.jpg" height="150" width="150"/>
+									<img src="/default/defaultlogo.jpg" height="100" width="100"/>
 								{% endif %}
 								{{plato.foto.as_hidden}}
 							</td>
@@ -70,7 +70,7 @@
 	<div class="form-group col-6 jumbotron">
 		<table class="table table-hover">
 			<tr>
-				<td align="center"><strong>Foto:</strong></td>
+				<td align="center"><strong></strong></td>
 			 	<td align="center"><strong>Nombre:</strong></td>
 			 	<td align="center"><strong>Descripción:</strong></td>
 			 	<td align="center"><strong>Precio:</strong></td>
