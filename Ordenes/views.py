@@ -107,6 +107,7 @@ def verOrdenes(request):
     return render(request,"ordenes/verOrdenes.html",{'listaOrdenes': mapaOrdenes})
 
 
+@login_required(login_url='/registro/login/')
 def verOrden(request):
     if not(request.user.is_staff):
         return HttpResponseRedirect('/')
