@@ -16,9 +16,9 @@ class perfil(models.Model):
     ci = models.CharField(max_length = 10, blank=True, null=True)
     sexo = models.CharField(max_length = 1, choices = Sexos, blank=True, null=True)
     fechaNac = models.DateField(blank=True, null=True)
-    foto = models.ImageField(max_length = 300,null = True, blank = True)
     tlf = models.CharField(max_length = 17,blank=True, null=True)
-
+    foto = models.ImageField(max_length = 300,null = True, blank = True)
+    
     def __str__(self):
         return self.user.first_name + " " + self.user.last_name
     
