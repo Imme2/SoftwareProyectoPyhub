@@ -126,7 +126,8 @@ def verOrden(request):
                 'cantidad': x.cantidad } for x in tiene.objects.filter(orden = ordenVista)]
 
     return render(request,"ordenes/verOrden.html",{'orden': ordenVista,
-                                                    'platos': platos})
+                                                    'platos': platos,
+                                                    'id':nroOrden})
 
 
 @login_required(login_url='/registro/login/')
