@@ -35,6 +35,9 @@ INSTALLED_APPS = [
     'inicio',
     'Menu',
     'Perfil',
+    'Billetera',
+    'Inventario',
+    'Ordenes',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -68,6 +71,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
             ],
         },
     },
@@ -123,4 +127,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
-STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "default"),
+]
+
+STATIC_URL = '/default/'
+
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'ImagenesSubidas')
+MEDIA_URL = '/ImagenesSubidas/'

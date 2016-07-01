@@ -5,11 +5,15 @@
 	<title>PyHop's</title>
 	<meta charset="utf-8" />
 	{% load staticfiles %}
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-	<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+	<script src="{% static 'registroCliente/js/jquery.min.js'  %}"></script>
+  <script src="{% static 'registroCliente/js/bootstrap.min.js'  %}"></script>
+  <script src="{% static 'registroCliente/js/jquery.filtertable.js'  %}"></script>
 	<link rel="stylesheet" href="{% static 'registroCliente/css/bootstrap.min.css' %}" type = "text/css"/>
-  <link href="{% static 'registroCliente/css/full.css' %}" rel="stylesheet"/>
+  <link rel="stylesheet" href="{% static 'registroCliente/css/full.css' %}" />
+  
+  {% if request.path == "/" %}
+    <link href="{% static 'inicio/css/full.css' %}" rel="stylesheet"/>
+  {% endif %}
 	<meta name="viewport" content = "width=device-width, initial-scale=1.0">
 	
 	<style type="text/css">
@@ -21,7 +25,7 @@
 </head>
 
 <body class="body full" style="background-color:#f6f6f6">
-<nav class="navbar navbar-inverse ">
+<nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -37,15 +41,42 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="http://127.0.0.1:8000/">Home<span class="sr-only">(current)</span></a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Menu <span class="caret"></span></a>
+        <li class="active"><a href="/">Inicio<span class="sr-only">(current)</span></a></li>
+        {% if user.is_staff %}
+          
+          <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Comida <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="/menu/crear/">Crear</a></li>
-            <li><a href="/menu/editar/">Editar</a></li>
+            <li class="dropdown-header">Menues</li>
+              <li><a href="/menu/crear/">Crear menu</a></li>
+              <li><a href="/menu/editar/">Ver menues</a></li>
+            <li class="divider"></li>
+            <li class="dropdown-header">Ingredientes</li>
+              <li><a href="/menu/ingrediente/">Crear ingrediente</a></li>
+              <li><a href="/menu/ingredientes/">Ver ingredientes</a></li>
+            <li class="divider"></li>
+            <li class="dropdown-header">Platos</li>
+              <li><a href="/menu/plato/">Crear plato</a></li>
+              <li><a href="/menu/platos/">Ver platos</a></li>
           </ul>
-        </li>
-        <li class="dropdown">
+          </li>
+
+          <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administracion <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="/menu/parametros/">Parametros</a></li>
+            <li><a href="/perfil/usuarios">Usuarios</a></li>
+            <li><a href="/perfil/transacciones">Transacciones</a></li>
+            <li><a href="/ordenes/verOrdenes">Ver Ordenes</a></li>
+          </ul>
+          </li>
+          <li class="inactive"><a href="/ordenes/reviews">Reseñas<span class="sr-only"></span></a></li>
+          <li class="inactive"><a href="/ordenes/ofertas">Comprar<span class="sr-only"></span></a></li>
+        {% else %}
+         <!--  <li><a href="#">Menu</a></li> -->
+        {% endif %}
+
+     <!--    <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Platillos <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="/polls">Bebidas</a></li>
@@ -56,9 +87,42 @@
             <li role="separator" class="divider"></li>
             <li><a href="#">Bollo con carne molida</a></li>
           </ul>
-        </li>
+        </li> -->
+
+        {% if user.proveedor and not user.is_staff %}
+          <li><a href="/inventario/maspedidos">Más Demandados</a></li>
+          <li><a href="/inventario/ventas">Ventas</a></li>
+          <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Inventario <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="/inventario/mostrar/"> Ver </a></li>
+            <li><a href="/inventario/modificar/"> Modificar</a></li>
+          </ul>
+          </li>
+        {% endif %}
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
         {% if user.is_authenticated %}
-        <li class="active"><a href="http://127.0.0.1:8000/registro/logout/">{{ user.username }} (logout)<span class="sr-only">(current)</span></a></li>
+        <li><a href="/perfil">Ver Perfil</a></li>
+          <li><a href="http://127.0.0.1:8000/registro/logout/" data-toggle="tooltip" data-placement="bottom" title="Log-Out">{{ user.username }} <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span><span class="sr-only"></span></a></li>
+          {% if user.billetera %}
+            <li class="active"><a href="http://127.0.0.1:8000/billetera/recargar/">{{ user.billetera.balance }} Bs</a></li>
+          {% else %}
+            {% if user.proveedor %}
+            {% elif user.is_staff %}
+            {% else %}
+              <li class="active"><a href="http://127.0.0.1:8000/billetera/crear/"> Crear Billetera</a></li>
+            {% endif %}
+          {% endif %}
+          {% else %}
+          <li><a href="/registro/login"data-toggle="tooltip" data-placement="bottom" title="Log-In">Log-in <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span><span class="sr-only"></span></a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Registro<span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="/registro/usuario">Cliente</a></li>
+                <li><a href="/registro/proveedor">Proveedor</a></li>
+              </ul>
+            </li>
         {% endif %}
       </ul>
     </div><!-- /.navbar-collapse -->

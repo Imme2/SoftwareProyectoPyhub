@@ -1,70 +1,99 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.http.response import HttpResponseRedirect
-from Registro.models import perfil,proveedor
+from Registro.models import perfil,proveedor, orden, egreso, tiene
 from django.contrib.auth.decorators import login_required
 from Registro.views import esProveedor
-# Create your views here.
 
-
-
+'''
+    Controlador para redireccionar la vista de perfil
+'''
 
 @login_required(login_url='/registro/login/')
 def mostrarPerfil(request):
-    if (esProveedor(request)):
+    if (esProveedor(request) and not(request.user.is_staff)):
         return HttpResponseRedirect('/perfil/proveedor')
     else:
         return HttpResponseRedirect('/perfil/usuario')
 
+'''
+   Controlador que muestra perfil a usuarios
+'''
+
 @login_required(login_url='/registro/login/')
 def mostrarPerfilUsuario(request):
-    if (esProveedor(request)):
+    if (esProveedor(request) and not(request.user.is_staff) ):
         return HttpResponseRedirect('/perfil/proveedor')
 
     user = request.user
-    perfil = perfil.objects.get(username = user.username)
+    perfill = user.perfil
 
-    return render(request,'/perfil/mostrar.html',{'Username': user.username,
+    print(perfill.foto)
+
+    return render(request,'Perfil/mostrar.html',{'Username': user.username,
                                                     'Email': user.email,
                                                     'Nombre': user.first_name,
                                                     'Apellido': user.last_name,
-                                                    'CI': perfil.ci,
-                                                    'Sexo': perfil.sexo,
-                                                    'Fecha de Nacimiento': perfil.f_nac,
-                                                    'Telefono': perfil.tlf})
+                                                    'CI': perfill.ci,
+                                                    'Sexo': perfill.sexo,
+                                                    'FechaDeNacimiento': perfill.fechaNac,
+                                                    'Telefono': perfill.tlf,
+                                                    'Foto':perfill.foto})
 
-
+'''
+      Controlador que muestra perfil a proveedores
+'''
 
 @login_required(login_url='/registro/login/')
 def mostrarPerfilProveedor(request):
     if (not(esProveedor(request))):
         return HttpResponseRedirect('/perfil/usuario')
 
-    user = request.user
-    perfil = perfil.objects.get(user = user.username)
-    prov = proveedor.objects.get(username = user.username)
 
-    return render(request,'/perfil/mostrar.html',{'Username': user.username,
+    user = request.user
+    perfill = user.perfil
+    prov = user.proveedor
+    return render(request,'Perfil/mostrarProveedor.html',{'Username': user.username,
                                                     'Email': user.email,
                                                     'Nombre': user.first_name,
                                                     'Apellido': user.last_name,
-                                                    'CI': perfil.ci,
-                                                    'Sexo': perfil.sexo,
-                                                    'Fecha de Nacimiento': perfil.f_nac,
-                                                    'Telefono': perfil.tlf,
+                                                    'CI': perfill.ci,
+                                                    'Sexo': perfill.sexo,
+                                                    'FechaDeNacimiento': perfill.fechaNac,
+                                                    'Telefono': perfill.tlf,
+                                                    'Foto':perfill.foto,
                                                     'RIF': prov.rif,
-                                                    'Nombre de Empresa': prov.nombreEmpr})
+                                                    'NombreDeEmpresa': prov.nombreEmpr})
 
 
 
-
+'''
+      Controlador para mostrar todos los usuarios registrados
+'''
 # Para mostrar todos los usuarios a un admin
 @login_required(login_url='/registro/login/')
 def mostrarUsuarios(request):
     if (not(request.user.is_staff)):
-        return HttpResponseRedirect('')
+        return HttpResponseRedirect('/')
 
-    listaPerfil = perfil.objects.all()
-    listaPerfil = [[x.user.username, x.user.first_name, x.user.last_name, x.ci]]
+    listaUsuarios = User.objects.all()
+    listaUsuarios = [[x.username, x.first_name, x.last_name, x.perfil, x.has_perm('auth.proveedor')]\
+                     for x in listaUsuarios]
+    print(listaUsuarios)
+    return render(request,'Perfil/mostrarUsuarios.html',{'ListaUsuarios': listaUsuarios})
 
-    return render(request,'/perfil/mostrarUsuarios.html',{'ListaUsuarios': listaPerfil})
+
+def expandir(orden):
+    orden.relaciones = tiene.objects.filter(orden = orden)
+    return orden
+# Para mostrar todas las transacciones a un admin
+@login_required(login_url='/registro/login/')
+def mostrarTransacciones(request):
+    if (not(request.user.is_staff)):
+        return HttpResponseRedirect('/')
+    ordenes = orden.objects.all()
+    egresos = egreso.objects.all()
+    ordenes = list(map(expandir, ordenes))
+    totalOrdenes = sum([x.totalPagado for x in ordenes])
+    totalEgresos = sum([x.monto for x in egresos])
+    return render(request,'Perfil/mostrarTransacciones.html',{'ordenes': ordenes, 'egresos' : egresos, 'totalOrdenes': totalOrdenes, 'totalEgresos': totalEgresos})

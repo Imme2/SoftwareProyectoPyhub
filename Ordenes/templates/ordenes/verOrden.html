@@ -1,0 +1,38 @@
+{% extends "registro/header.html" %}
+{% block content %}
+<div class>
+	<h2 align="center">Orden Numero {{id}}<br><br></h2>
+</div>
+<div class="container-fluid col-md-12">
+	
+	
+	<div class="container-fluid col-md-3"></div>
+	<div class="container-fluid col-md-6 jumbotron ">
+			<div class="container-fluid col-xs-6">
+				<strong> Usuario: </strong> {{orden.user}}</div>
+				<div class="container-fluid col-xs-6">
+				<strong> Fecha: </strong> {{orden.fecha}}</div>
+				<div class="container-fluid col-xs-6">
+				<strong> Monto Total: </strong> {{orden.totalPagado}}	
+			</div>
+			<table class="table table-hover table-striped table-condensed">
+				<tr>
+				 	<td><strong>Nombre:</strong></td>
+				 	<td><strong>Descripción:</strong></td>
+				 	<td><strong>Precio:</strong></td>
+				 	<td><strong>Cantidad:</strong></td>
+				</tr>
+				{% for plato in platos %}
+					<tr>
+					 	<td>{{plato.nombre}}</td>
+					 	<td>{{plato.descripcion}}</td>
+					 	<td>{{plato.precio}}</td>
+					 	<td>{{plato.cantidad}}</td>
+					</tr>
+				{% endfor %}
+				<tr>
+		</form>
+	</div>
+	<div class="container-fluid col-md-4"></div>
+</div>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "registro/header.html" %}
+{% block content %}
+<div class>
+	<h2 align="center">{{Titulo}}</h2>
+</div>
+<div class="container-fluid col-md-12">
+	{% if error %}
+		{% for e in error %}
+			<div class="alert alert-danger">
+			  {{ e }} 
+			</div>
+		{% endfor %}
+	{% endif %}
+	
+	<div class="container-fluid col-md-3"></div>
+	<div class="container-fluid col-md-6 jumbotron">
+		<form enctype="multipart/form-data" method="post">
+			{% csrf_token %}
+			{% for field in form %}
+				{% for x in field %}
+				<div class="form-group col-xs-6">
+					{{ x.errors }} {{ x.label_tag }} {{ x }}
+			  	</div>
+			  	{% endfor %}
+		 	{% endfor %}
+		 	{% if extra %}
+		 	<div class="form-group col-xs-6 table-responsive">
+			 	<label>Ingredientes:</label><br>
+			 	<table class="table table-hover table-striped table-condensed">
+			 	<tr>
+			 		<td><strong>Nombre:</strong></td>
+			 		<td><strong>Cantidad:</strong></td>
+			 		<td><strong></strong></td>
+			 	</tr>
+			 	{% for x in extra %}
+			 	<div class="form-group col-xs-6 table-responsive">
+			 	<tr>
+			 		<td>{{x.idIngr}}</td>
+			 		<td>{{ x.cantidad }}</td>
+			 		<td><a class="btn btn-danger btn-lg" href="eliminarIngr?plato={{x.idItem.idItem}}&ingr={{x.idIngr.idIngr}}" role="button" role="button" data-toggle="tooltip" data-placement="top" data-toggle="tooltip" data-placement="right"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></td>
+			 	</tr>
+				{% endfor %}
+				</table>
+			</div>
+			{% endif %}
+		  	<div align="center" class="form-group col-md-offset-8">
+            	<button align="center" type="submit" class="btn btn-primary btn-lg">Guardar</button>
+            </div>
+		</form>
+	</div>
+	<div class="container-fluid col-md-4"></div>
+</div>
+{% endblock %}

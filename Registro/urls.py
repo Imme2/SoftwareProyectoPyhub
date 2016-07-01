@@ -13,8 +13,15 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+
 from django.conf.urls import url
 from Registro import views
+
+'''
+    Permite redireccionar todos los path que comienzan con URL:
+    http://servidor/
+
+'''
 
 urlpatterns = [
      url(r'^usuario/$', views.registroUsuario),
@@ -23,5 +30,8 @@ urlpatterns = [
      url(r'^editar/$',  views.editarDatos),
      url(r'^editar/usuario$',  views.editarUsuario),
      url(r'^editar/proveedor$',  views.editarProveedor),
-     url(r'^proveedor/$', views.registroProveedor)
+     url(r'^proveedor/$', views.registroProveedor),
+     url(r'^editar/clave$', views.cambiarClave),
+     url(r'^crearAdmin/$', views.crearAdmin),
+     url(r'^editar/admin$',views.editarAdmin),
 ]

@@ -8,10 +8,21 @@
 /* Header Image Background - Change the URL below to your image path (example: ../images/background.jpg) */
 
 .full {
-    background: url('../img/pancackes.jpg') no-repeat center center fixed;
+    background: url('../img/good-morning-coffee-wallpapers-32.jpeg') no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
     -o-background-size: cover;
-    label{font-color:black;}
 }
+
+.rial {
+	background: url('../img/save-money-icon-png--32.png') no-repeat center center fixed;
+    -webkit-background-size: 50%;
+    -moz-background-size: 50%;
+    background-size: 50%;
+    -o-background-size: 50%;
+}
+
+/*label{
+	color:black;
+}*/

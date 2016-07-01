@@ -1,0 +1,76 @@
+{% extends "registro/header.html" %}
+{% block content %}
+<style>
+	.hiddenRow {
+	    padding: 0 !important;
+	}
+</style>
+<div class>
+	<h2 align="center">Transacciones del restaurante</h2>
+</div><br><br>
+<div class="container-fluid col-md-12">
+	{% if error %}
+		{% for e in error %}
+			<div class="alert alert-danger">
+			  {{ e }} 
+			</div>
+		{% endfor %}
+	{% endif %}
+	<div class="container-fluid col-md-3"></div>
+	<div class="container-fluid col-md-6 jumbotron">
+		<div class="form-group col-md-12 ">
+			<table class="table table-hover">
+				<tr>
+				 	<td><strong>Fecha:</strong></td>
+				 	<td><strong>Monto:</strong></td>
+				 	<td><strong>Usuario:</strong></td>
+				{% for orden in ordenes %}
+					{% if orden.relaciones %}
+						<tr class="success accordion-toggle" data-toggle="collapse" data-target="#demo{{ forloop.counter }}">
+					{% else %}
+						<tr class="success">
+					{% endif %}
+					 		<td>{{orden.fecha}}</td>
+					 		<td>{{orden.totalPagado}}</td>
+					 		<td>{{orden.user}}</td>
+					</tr>
+					<tr >
+			            <td colspan="6" class="hiddenRow">
+			            	<div class="accordian-body collapse" id="demo{{ forloop.counter}}"> 
+			            		Pedido:<br>
+			            		{% for item in orden.relaciones %}
+			            			{{item.item.nombre}} x{{item.cantidad}}<br>
+			            		{% endfor %}
+			            	</div> 
+			            </td>
+		       		</tr>
+				{% endfor %}
+			</table>
+			
+			Total : {{totalOrdenes}}
+		</div>
+
+	<div class="form-group col-md-12 ">
+			<table class="table table-hover">
+				<tr>
+				 	<td><strong>Fecha:</strong></td>
+				 	<td><strong>Ingrediente:</strong></td>
+				 	<td><strong>Cantidad:</strong></td>
+				 	<td><strong>Monto:</strong></td>
+				 	<td><strong>Usuario:</strong></td>
+				{% for e in egresos %}
+					<tr class="danger">
+					 		<td>{{e.fecha}}</td>
+					 		<td>{{e.ingredientes}}</td>
+							<td>{{e.cantidad}}</td>
+					 		<td>{{e.monto}}</td>
+					 		<td>{{e.username}}</td>
+					</tr>
+				{% endfor %}
+			</table>
+			Total : {{totalEgresos}}
+		</div>
+	</div>
+	<div class="container-fluid col-md-4"></div>
+</div>
+{% endblock %}

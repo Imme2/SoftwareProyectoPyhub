@@ -15,11 +15,24 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.conf.urls.static import static
+from django.conf import settings
+
+'''
+    Permite redireccionar todos los path que comienzan con URL:
+    http://servidor/
+
+'''
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^registro/', include('Registro.urls')),
     url(r'^perfil/',include('Perfil.urls')),
     url(r'^menu/',include('Menu.urls')),
+    url(r'^billetera/',include('Billetera.urls')),
+    url(r'^inventario/',include('Inventario.urls')),
+    url(r'^ordenes/',include('Ordenes.urls')),
     url(r'^',include('inicio.urls'))
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

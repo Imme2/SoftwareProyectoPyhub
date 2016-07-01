@@ -1,6 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
+from django.utils import timezone
+from django.contrib.auth.hashers import make_password, check_password
+import datetime
+    
 
 class perfil(models.Model):
     Sexos = (
@@ -12,9 +16,9 @@ class perfil(models.Model):
     ci = models.CharField(max_length = 10, blank=True, null=True)
     sexo = models.CharField(max_length = 1, choices = Sexos, blank=True, null=True)
     fechaNac = models.DateField(blank=True, null=True)
-    foto = models.CharField(max_length = 300,blank=True, null=True)
-    tlf = models.CharField(max_length = 11,blank=True, null=True)
-
+    tlf = models.CharField(max_length = 17,blank=True, null=True)
+    foto = models.ImageField(max_length = 300,null = True, blank = True)
+    
     def __str__(self):
         return self.user.first_name + " " + self.user.last_name
     
@@ -26,70 +30,100 @@ def create_user_profile(sender, instance, created, **kwargs):
         perfil.objects.create(user=instance)
 post_save.connect(create_user_profile, sender=User) #Un decorador que implica el trigger (No indentar)
 
-class parametro(models.Model):
-    idParam = models.PositiveIntegerField()
-    horarioCierre = models.TimeField()
-    horarioEntrada = models.TimeField()
-    cantPuestos = models.PositiveIntegerField()
         
 class proveedor(models.Model):
-    username = models.ForeignKey(User,primary_key = True)
-    nombreEmpr = models.CharField(max_length = 20)
+    username = models.OneToOneField(User,related_name = 'proveedor')
+    nombreEmpr = models.CharField(max_length = 40)
     rif = models.CharField(max_length = 10)
     ofreceRel = models.ManyToManyField('ingrediente',through = 'ofrece')
     
 class cliente(models.Model):
-    username = models.ForeignKey(User,primary_key = True)
+    username = models.OneToOneField(User,related_name = 'cliente')
     idMenu = models.ForeignKey('menu')
     
 class administrador(models.Model):
-    username = models.ForeignKey(User,primary_key = True)
-    idParam = models.ForeignKey('PARAMETRO')
-    usernameP = models.ForeignKey('PROVEEDOR')
+    username = models.OneToOneField(User,related_name = 'administrador')
+    idParam = models.ForeignKey('parametro')
+    usernameP = models.ForeignKey('proveedor')
       
 class ingrediente(models.Model):
     idIngr = models.AutoField(primary_key = True)
-    cantidad = models.PositiveIntegerField()
     nombre = models.CharField(max_length = 50)
-
-    consultaRel = models.ManyToManyField(proveedor,through = 'consulta')
+    cantidad = models.PositiveIntegerField()
+    # consultaRel = models.ManyToManyField(proveedor,through = 'consulta')
+    def __str__(self):
+        return self.nombre
 
 class item(models.Model):
     idItem = models.AutoField(primary_key = True)
     nombre = models.CharField(max_length = 50)
     tipo = models.CharField(max_length = 1)
-    precio = models.PositiveIntegerField()
-    foto = models.CharField(max_length = 300)
+    precio = models.DecimalField(max_digits = 30, decimal_places = 3)
+    foto = models.ImageField(max_length = 300,null = True, blank = True)
     descripcion = models.CharField(max_length = 200)
-
     poseeRel = models.ManyToManyField(ingrediente,through = 'posee')
 
     def __str__(self):
-        return self.nombre
+         return self.nombre
 
 class transaccion(models.Model):
     idTrans = models.AutoField(primary_key = True)
     username = models.ForeignKey('cliente')
-    monto = models.PositiveIntegerField()
+    monto = models.DecimalField(max_digits = 30, decimal_places = 3)
     fecha = models.DateField()
-    
+
+class egreso(models.Model):
+    idTrans = models.AutoField(primary_key = True)
+    username = models.ForeignKey(User)
+    monto = models.DecimalField(max_digits = 30, decimal_places = 3)
+    fecha = models.DateField(default = datetime.datetime.now)
+    cantidad = models.PositiveIntegerField(default = 0)
+    ingredientes = models.ForeignKey("ingrediente")
+
 class menu(models.Model):
     idMenu = models.AutoField(primary_key = True)
     nombre = models.CharField(max_length = 50)
-
     contieneRel = models.ManyToManyField(item,through = 'contiene')
+
+    def __str__(self):
+        return self.nombre
+
+class ordenActual(models.Model):
+    user = models.OneToOneField(User,related_name = 'ordenActual')
+    tieneRel = models.ManyToManyField(item,through = 'tieneActual')
+
+class tieneActual(models.Model):
+    orden = models.ForeignKey('ordenActual')
+    item = models.ForeignKey('item')
+    cantidad = models.PositiveIntegerField()
+    class Meta:
+        unique_together = ('orden','item')
+
 
 class orden(models.Model):
     nroOrden = models.AutoField(primary_key = True)
-    fecha = models.DateField()
-    
-    realizaRel = models.ManyToManyField(cliente,through = 'realiza')
+    fecha = models.DateField()    
+    user = models.ForeignKey(User)
+    totalPagado = models.DecimalField(max_digits = 30, decimal_places = 3, default = 0)
     tieneRel = models.ManyToManyField(item,through = 'tiene')
-    
+
+
+class resena(models.Model):
+    orden = models.OneToOneField(orden,related_name = 'resena')
+    contenido = models.TextField(max_length = 1000)
+
 class billetera(models.Model):
     idBilletera = models.AutoField(primary_key = True)
-    username = models.ForeignKey('cliente')
-    nombre = models.CharField(max_length = 20)
+    user = models.OneToOneField(User, related_name='billetera')
+    password = models.CharField(max_length = 50, default = None)
+    balance = models.DecimalField(max_digits = 30, decimal_places = 3,default = 0)
+
+    def setPassword(self, raw_password):
+        self.password = make_password(raw_password)
+
+    def verifyPassword(self, rawIntento):
+        return check_password(rawIntento,self.password)
+
 
 class consulta(models.Model):
     username = models.ForeignKey('proveedor')
@@ -123,16 +157,16 @@ class realiza(models.Model):
     
     class Meta:
         unique_together = ('username','nroOrden')
-        
+
 class tiene(models.Model):
-    nroOrden = models.ForeignKey('orden')
-    idItem = models.ForeignKey('item')
-    
+    orden = models.ForeignKey('orden')
+    item = models.ForeignKey('item')
+    cantidad = models.PositiveIntegerField()    
     class Meta:
-        unique_together = ('nroOrden','idItem')
+        unique_together = ('orden','item')
         
 class contiene(models.Model):
-    idMenu = models.ForeignKey('menu')
+    idMenu = models.ForeignKey('MENU')
     idItem = models.ForeignKey('item')
     
     class Meta:
@@ -141,7 +175,16 @@ class contiene(models.Model):
 class posee(models.Model):
     idItem = models.ForeignKey('item')
     idIngr = models.ForeignKey('ingrediente')
-
+    cantidad = models.PositiveIntegerField()
     class Meta:
         unique_together = ('idItem','idIngr')
 
+    def __str__(self):
+        return "{} - {}".format(self.idItem.nombre, self.idIngr.nombre)
+
+class parametro(models.Model):
+    idParam = models.PositiveIntegerField()
+    horarioCierre = models.TimeField()
+    horarioEntrada = models.TimeField()
+    cantPuestos = models.PositiveIntegerField()
+    menuActual = models.OneToOneField('menu', related_name = 'menu', null = True)

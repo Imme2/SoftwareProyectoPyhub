@@ -1,9 +1,9 @@
 {% extends "registro/header.html" %}
 {% block content %}
 <div class>
-	<h2 align="center">{{nombreMenu}}</h2>
+	<h2 align="center">{{Titulo}}</h2>
 </div>
-<div class="row">
+<div class="container-fluid col-md-12">
 	{% if error %}
 		{% for e in error %}
 			<div class="alert alert-danger">
@@ -13,20 +13,33 @@
 	{% endif %}
 	
 	<div class="container-fluid col-md-3"></div>
-	<div class="container-fluid col-md-6">
-		<form method = "post">
+	<div class="container-fluid col-md-6 jumbotron">
+		<form enctype="multipart/form-data" method="post">
 			{% csrf_token %}
-			{% for field in form %}
-			<div class="form-group col-xs-6">
-				{{ field.errors }} {{ field.label_tag }} {{ field }}
-		  	</div>
-		 	{% endfor %} -->
-		 	
+			{% for field in form%}
+
+				<div class="form-group col-xs-6">
+						{% if field.errors %}
+			        		<div class="alert alert-warning" role="alert">
+								{{ field.errors }}
+							</div>
+						{% endif %}
+	  					{{ field.label_tag }}
+	  					{{ field }}
+				</div>
+
+		  	{% endfor %}
 		  	<div align="center" class="form-group col-md-offset-8">
-            	<button align="center" type="submit" class="btn btn-success btn-lg">{{nombreMenu}}</button>
+            	<button align="center" type="submit" class="btn btn-primary btn-lg">
+            		{% if Titulo == "Crear Menu" %}
+            		Crear
+            		{% else %}
+            		Guardar
+            		{% endif %}
+            	</button>
             </div>
 		</form>
 	</div>
-	<div class="container-fluid col-md-4"></div>
+	<div class="container-fluid col-md-3"></div>
 </div>
 {% endblock %}
