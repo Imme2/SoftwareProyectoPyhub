@@ -21,6 +21,8 @@ def index(request):
     user = request.user
     if not(user.is_authenticated()) or user.is_staff or esProveedor(request) :
         menu = getCurrentMenu()
+        if menu is None:
+            return render(request,'inicio/home.html',{'menu':None})   #Panic?
         menu = list(map(expandir,menu))
         return render(request,'inicio/home.html',{'menu':menu})
     if request.method == "POST":
