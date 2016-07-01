@@ -41,7 +41,7 @@ def index(request):
         if (platos is None):
             return render(request,'inicio/home.html')
         else:
-             platosResena = list(map(expandir,platos))
+            platosResena = list(map(expandir,platos))
             formSetPlatos = modelformset_factory(item, form = formMostrarPlato,extra = 0)
             formSet = formSetPlatos(queryset = platos)
             return render(request,'inicio/home.html',{'formMenu': formSet, 'platos': platosResena})
