@@ -1,7 +1,10 @@
 # Aplicación Para gestion de Restaurant con Drones
 
 Este es el repositorio del equipo PyHop para la aplicacion de gestion de resstauran.
-## Importante:
+Para correr el servidor hacer el comando `python3 manage.py runserver` desde el directorio base.
+
+
+## IMPORTANTE:
 Para poder correr bien el servidor debe instalar el plu-gin de `pip` "Pillow" con el siguiente comando:
 
 `sudo pip3 install Pillow`
