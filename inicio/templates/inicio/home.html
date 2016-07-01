@@ -30,7 +30,10 @@
 							<td> 
 								{% if plato.instance.foto %}
 								<img src="{{ plato.instance.foto.url }}" height="150" width="150"/>
+								{% else % }
+								<img src="/default/defaultlogo.png" height="150" width="150"/>
 								{% endif %}
+
 
 								{{plato.foto.as_hidden}}
 							</td>
