@@ -114,6 +114,21 @@ def editarDatos(request):
 '''
 
 @login_required(login_url='/registro/login/')
+def cambiarClave(request):
+    if request.method == "POST":
+        userform = userForm(instance = request.user, data = request.POST)
+        if userform.is_valid() and profileform.is_valid():
+            userform.save(request)
+            profileform.save(request)
+            return HttpResponseRedirect('/login/')
+        else:
+            return render(request,'registro/editarUsuario.html', {'formUser': userform,
+                                                          'formPerfil': profileform})
+    else:
+        formUser = userForm(instance = request.user)
+        return render(request,'registro/editarUsuario.html', {'formUser': formUser}
+
+@login_required(login_url='/registro/login/')
 def editarUsuario(request):
     if (esProveedor(request)):
         return HttpResponseRedirect('/registro/editar/proveedor')

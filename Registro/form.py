@@ -164,6 +164,40 @@ class parametrosForm(forms.ModelForm):
         self.fields['horarioEntrada'].widget.attrs.update({'class':'form-control'})
         self.fields['cantPuestos'].widget.attrs.update({'class':'form-control'})
 
+'''
+    Formulario para cambiar la clave de un usuario.
+'''
+
+class formCambiarClave(forms.ModelForm):
+
+    claveActual = forms.CharField(widget=forms.PasswordInput(attrs={'type':"password" ,'class':"form-control", 'id':"inputClave", 'placeholder':"Clave Actual",}))
+    nuevaClave = forms.CharField(widget=forms.PasswordInput(attrs={'type':"password" ,'class':"form-control", 'id':"inputClave", 'placeholder':"Nueva Clave",}))
+    repetirClave = forms.CharField(widget=forms.PasswordInput(attrs={'type':"password" ,'class':"form-control", 'id':"repeatInputClave", 'placeholder':"Repetir Nueva Clave",}))
+    class Meta:
+        model = User
+        fields = ['password']
+
+    def clean(self):
+        cleaned_data = super(formBilleteraCrear, self).clean()
+        clave = cleaned_data.get('nuevaClave')
+        repeticion = cleaned_data.get('repetirClave')
+
+        if (clave != repeticion):
+            msg = "Las claves deben ser iguales"
+            self.add_error('repetirClave', msg)
+
+        return cleaned_data
+
+    def save(self):
+        m = super(formCambiarClave, self).save(commit = False)
+
+        clave = self.cleaned_data.get('nuevaClave')
+
+        #Se setea correctamente el password de la billetera.
+        m.setPassword(clave)
+
+        m.save()
+
 
 '''
     ##############################
@@ -204,18 +238,18 @@ class perfilForm(forms.ModelForm):
     tlf = forms.CharField(widget=forms.TextInput(attrs={'type':"tel", 'class':"form-control",'id':"inputTelf",}),label = 'Numero de telefono')
     ci = forms.CharField(widget=forms.TextInput(attrs={'class':"form-control", 'id':"inputCedula",}),disabled = True, label = 'CI')
     sexo = forms.ChoiceField(widget=forms.Select(attrs={ 'class':"form-control",}),choices = perfil.Sexos, disabled = True)
-    foto = forms.CharField(widget=forms.TextInput(attrs={'type':"text", 'class':"form-control",'id':"inputTelf",}),label = 'Foto')
+#    foto = forms.CharField(widget=forms.TextInput(attrs={'type':"text", 'class':"form-control",'id':"inputTelf",}),label = 'Foto')
 
 
     class Meta:
         model = perfil
         exclude = ('user',) 
 
-    def save(self,request):
-        m = super(perfilForm, self).save(commit = False)
-        m.user = request.user
-        m.save()
-        return m
+#    def save(self,request):
+#        m = super(perfilForm, self).save(commit = False)
+#        m.user = request.user
+#        m.save()
+#        return m
 
 '''
     Forma de proveedor para mostrar en el perfil, donde los campos estan deshabilitados.
