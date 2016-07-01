@@ -144,13 +144,15 @@ def editarUsuario(request):
             return HttpResponseRedirect('/perfil/usuario')
         else:
             return render(request,'registro/editarUsuario.html', {'formUser': userform,
-                                                          'formPerfil': profileform})
+                                                          'formPerfil': profileform,
+                                                          'foto': request.user.perfil.foto})
     else:
         formUser = userForm(instance = request.user)
         formPerfil = perfilForm(instance = request.user.perfil)
 
         return render(request,'registro/editarUsuario.html', {'formUser': formUser,
-                                                      'formPerfil': formPerfil})
+                                                      'formPerfil': formPerfil,
+                                                      'foto': request.user.perfil.foto})
 
 
 '''
@@ -176,7 +178,8 @@ def editarProveedor(request):
         else:
             return render(request,'registro/editarProveedor.html', {'formUser': userform,
                                                           'formPerfil': profileform,
-                                                          'formProveedor': provedForm})
+                                                          'formProveedor': provedForm,
+                                                          'foto': request.user.perfil.foto})
     else:
         formUser = userForm(instance = request.user)
         formPerfil = perfilForm(instance = request.user.perfil)
@@ -187,4 +190,5 @@ def editarProveedor(request):
 
         return render(request,'registro/editarProveedor.html', {'formUser': formUser,
                                                                 'formPerfil':formPerfil,
-                                                                'formProveedor':formProveedor})
+                                                                'formProveedor':formProveedor,
+                                                                'foto': request.user.perfil.foto})
