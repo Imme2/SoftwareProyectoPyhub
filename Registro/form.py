@@ -246,6 +246,11 @@ class perfilForm(forms.ModelForm):
         model = perfil
         exclude = ('user',) 
 
+    def __init__(self, *args, **kwargs):
+        super(perfilForm, self).__init__(*args, **kwargs)
+        self.fields['foto'].widget = forms.FileInput()
+
+
 #    def save(self,request):
 #        m = super(perfilForm, self).save(commit = False)
 #        m.user = request.user

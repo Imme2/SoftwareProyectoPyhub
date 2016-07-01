@@ -1,7 +1,7 @@
 {% extends "registro/header.html" %}
 {% block content %}
 <div class>
-	<h2 align="center">Reseñas</h2><br><br>
+	<h2 align="center">Ordenes</h2><br><br>
 </div>
 <div class="container-fluid col-md-4"></div>
 <div class="container-fluid col-md-12">
@@ -10,21 +10,17 @@
 		<div class="form-group col-md-12 ">
 			<table class="table table-hover table-striped">
 				<tr>
-				 	<td><strong>Reseña</strong></td>
 				 	<td><strong>Fecha</strong></td>
 				 	<td><strong>Usuario</strong></td>
-				 	<td><strong>Orden</strong></td>
+				 	<td><strong>Monto</strong></td>
+				 	<td><strong>Ver</strong></td>
 				</tr>
-				{% for resena in listaResenas %}
+				{% for orden in listaOrdenes %}
 					<tr>
-					 	<td>{{resena.resena}}</td>
-					 	<td>{{resena.fecha}}</td>
-					 	<td>{{resena.nombre}}</td>
-					 	<td>
-					 		{% for x in resena.orden %}
-					 			<li>{{ x }}</li>
-					 		{% endfor %}
-					 	</td>
+					 	<td>{{orden.fecha}}</td>
+					 	<td>{{orden.user}}</td>
+					 	<td>{{orden.monto}}</td>
+					 	<td><a href = "/ordenes/verOrden/?id={{orden.id}}">Ver </a></td>
 					</tr>
 				{% endfor %}
 			</table>
