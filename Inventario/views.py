@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from Registro.views import esProveedor
-from Registro.models import tiene
+from Registro.models import tiene, egreso
 from Inventario.controlador import getInventarioProveedor, calcularIngredientesMasPedidos
 from django.contrib.auth.decorators import login_required
 from django.http.response import HttpResponseRedirect
@@ -21,6 +21,20 @@ def mostrarInventario(request):
 
     return render(request,'inventario/mostrar.html', {'ListaOferta':arreglo})
 
+def positivo(egreso):
+    print(egreso.monto)
+    egreso.monto = -egreso.monto
+    return egreso
+    print(egreso.monto)
+
+@login_required(login_url='/registro/login/')
+def mostrarVentas(request):
+    if (not(esProveedor(request))):
+        return HttpResponseRedirect('/')
+
+    arreglo = egreso.objects.filter(username = request.user)
+    arreglo = list(map(positivo, arreglo))
+    return render(request,'inventario/mostrarVentas.html', {'ordenes':arreglo})
 
 '''
  Vista de modificar Inventario. usa fomularios con una lista de ingredientes y un precio.
