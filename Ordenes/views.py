@@ -4,7 +4,7 @@ from django.http.response import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from Registro.views import esProveedor
 from Ordenes.form import formBilleteraPagar, ingredientesPedido, formResena, formOferta
-from Registro.models import tieneActual,resena, ofrece
+from Registro.models import tieneActual,resena, ofrece, orden
 
 @login_required(login_url='/registro/login/')
 def verOrdenActual(request, errores = None):
@@ -67,6 +67,12 @@ def pagarOrdenActual(request):
         return render(request,"ordenes/pagar.html",{'formPago': formPago,
                                                     'formResena': formReview})
 
+'''
+
+Vista del administrador para ver todas las reviews dadas por los usuarios.
+
+'''
+
 @login_required(login_url='/registro/login/')
 def verReviews(request):
     if not(request.user.is_staff):
@@ -90,13 +96,35 @@ def verOrdenes(request):
     if not(request.user.is_staff):
         return HttpResponseRedirect('/')
 
-    
+
+    listaOrdenes = orden.objects.all()
+
+    mapaOrdenes = [ {"id": x.nroOrden,
+                        "fecha" : x.fecha,
+                        "monto" : x.totalPagado,
+                        "user" : x.user.username} for x in listaOrdenes]
+
+    return render(request,"ordenes/verOrdenes.html",{'listaOrdenes': mapaOrdenes})
 
 
 def verOrden(request):
     if not(request.user.is_staff):
         return HttpResponseRedirect('/')
 
+    nroOrden = request.GET.get('id','')
+
+    orden = orden.objects.filter(nroOrden = nroOrden)
+
+    if not orden.exists():
+        return HttpResponseRedirect('/verOrdenes/')
+
+    orden = orden[0]
+
+    platos = [ {'nombre': x.item.nombre,
+                'cantidad': x.cantidad } for x in orden.tieneRel.all()]
+
+    return render(request,"ordenes/verOrden.html",{'orden': orden,
+                                                    'platos': platos})
 
 
 @login_required(login_url='/registro/login/')

@@ -12,5 +12,7 @@ urlpatterns = [
     url(r'^actual/$',views.verOrdenActual),
     url(r'^pagar/$',views.pagarOrdenActual),
     url(r'^reviews/$',views.verReviews),
-    url(r'^ofertas/$',views.verOfertas)
+    url(r'^ofertas/$',views.verOfertas),
+    url(r'^verOrdenes/$', views.verOrdenes),
+    url(r'^verOrden/$', views.verOrden),
 ]
