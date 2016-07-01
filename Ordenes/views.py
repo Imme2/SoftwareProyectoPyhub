@@ -14,7 +14,6 @@ def verOrdenActual(request, errores = None):
         orden = None  
         return render(request,"ordenes/ordenar.html",{'monto':0})
 
-    errores = ingredientesPedido(request.user)
     platos = tieneActual.objects.filter(orden = orden)
     monto = sum(x.item.precio * x.cantidad for x in platos)
 
