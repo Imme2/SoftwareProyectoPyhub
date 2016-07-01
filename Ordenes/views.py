@@ -56,7 +56,7 @@ def pagarOrdenActual(request):
                 elif valor[0] == 'valid':
                     if formReview.is_valid():
                         formReview.save(orden = valor[1])
-                    return HttpResponseRedirect('/ordenes/actual')
+                    return HttpResponseRedirect('/')
         return render(request,"ordenes/pagar.html",{'formPago': formPago,
                                                     'formResena': formReview})
     else:
@@ -140,7 +140,6 @@ def verOfertas(request):
         form = formOferta(data = request.POST)
         if form.is_valid():
             form.save()
-        print("SAVING")
         return HttpResponseRedirect('/ordenes/ofertas/')
     else :
         pk = request.GET.get("id")
