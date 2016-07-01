@@ -4,7 +4,7 @@ from django.http.response import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from Registro.views import esProveedor
 from Ordenes.form import formBilleteraPagar, ingredientesPedido, formResena, formOferta
-from Registro.models import tieneActual,resena, ofrece, orden
+from Registro.models import tieneActual,resena, ofrece, orden, tiene
 
 @login_required(login_url='/registro/login/')
 def verOrdenActual(request, errores = None):
@@ -121,7 +121,7 @@ def verOrden(request):
     ordenVista = ordenVista[0]
 
     platos = [ {'nombre': x.item.nombre,
-                'cantidad': x.cantidad } for x in ordenVista.tieneRel.all()]
+                'cantidad': x.cantidad } for x in tiene.objects.filter(orden = ordenVista)]
 
     return render(request,"ordenes/verOrden.html",{'orden': ordenVista,
                                                     'platos': platos})
