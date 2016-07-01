@@ -1,5 +1,11 @@
 {% extends "registro/header.html" %}
+{% load random %}
 {% block content %}
+<style>
+	.hiddenRow {
+	    padding: 0 !important;
+	}
+</style>
 <div>
 	<h2 align="center">Menú</h2>
 </div>
@@ -25,7 +31,12 @@
 				 	<td align="center"><strong>Cantidad:</strong></td>
 				</tr>
 				{% for plato in formMenu %}
-					<tr>
+				{% with x=forloop.counter|add:"-1" %} 
+					 {% if platos|get_by_index:x %}
+			    	<tr class="accordion-toggle" data-toggle="collapse" data-target="#demo{{ x }}">
+				    {% else %}
+						<tr>
+					{% endif %}
 						<td> 
 							{% if plato.instance.foto %}
 							<img src="{{ plato.instance.foto.url }}" height="100" width="100"/>
@@ -41,6 +52,19 @@
 					    {{ hidden }}
 					{% endfor %}
 					</tr>
+					<tr >
+			            <td colspan="6" class="hiddenRow">
+			            	<div class="accordian-body collapse" id="demo{{ x}}"> 
+			            		Comentarios:<br>
+			            		<ul>
+			            		{% for item in platos|get_by_index:x %}
+			            			<li>{{item}}</li>
+			            		{% endfor %}
+			            		</ul>
+			            	</div> 
+			            </td>
+		       		</tr>
+					{% endwith %}
 				{% endfor %}
 
 				{{formMenu.management_form}}
@@ -73,7 +97,11 @@
 			 	<td align="center"><strong>Precio:</strong></td>
 			</tr>
 			{% for plato in menu %}
-				<tr>
+			    {% if plato.resena %}
+			    	<tr class="accordion-toggle" data-toggle="collapse" data-target="#demo{{ forloop.counter }}">
+			    {% else %}
+					<tr>
+				{% endif %}
 					<td> 
 						{% if plato.foto %}
 							<img src="{{ plato.foto.url }}" height="100" width="100"/>
@@ -83,6 +111,18 @@
 				 	<td>{{plato.descripcion}}</td>
 				 	<td>{{plato.precio}}</td>
 				</tr>
+				<tr >
+			            <td colspan="6" class="hiddenRow">
+			            	<div class="accordian-body collapse" id="demo{{ forloop.counter}}"> 
+			            		Comentarios:<br>
+			            		<ul>
+			            		{% for item in plato.resena %}
+			            			<li>{{item}}</li>
+			            		{% endfor %}
+			            		</ul>
+			            	</div> 
+			            </td>
+		       		</tr>
 			{% endfor %}
 		</table>
 	</div>

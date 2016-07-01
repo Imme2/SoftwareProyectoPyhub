@@ -13,7 +13,6 @@ def getCurrentMenu():
 		platos = menuActual.contieneRel.all()
 		filtro = [x.idItem for x in list(filter(disponible, platos))]
 		platos = platos.filter(idItem__in = filtro)
-		#platos = {k:v for (k,v) in platos.items() if disponible(v.idItem)}
 		return platos
 
 
