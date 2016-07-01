@@ -20,7 +20,7 @@ class formMostrarPlato(forms.ModelForm):
 
     class Meta:
         model = item
-        exclude = ('idItem','tipo','poseeRel','foto',)
+        exclude = ('idItem','tipo','poseeRel',)
 
     def save(self,request):
         try:

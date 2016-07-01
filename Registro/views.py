@@ -165,7 +165,7 @@ def editarProveedor(request):
         return HttpResponseRedirect('/registro/editar/Usuario')
     if request.method == "POST":
         userform = userForm(instance = request.user, data = request.POST)
-        profileform = perfilForm(instance = request.user.perfil, data = request.POST)
+        profileform =  perfilForm(request.POST, request.FILES, instance = request.user.perfil)
         try:
             provedForm = proveedorForm(instance = request.user.proveedor, data=request.POST)
         except:
