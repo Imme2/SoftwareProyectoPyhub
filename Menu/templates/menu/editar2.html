@@ -19,12 +19,13 @@
 			{% for field in form %}
 			<div class="form-group col-xs-6">
 				{% for f in field %}
-					{% if f.errors %}
-				        		<div class="alert alert-warning" role="alert">
-									{{ f.errors }}
-								</div>
-					{% endif %}
 					{{ f.label_tag }} {{ f }}
+					{% if f.errors %}
+			        		<div class="alert alert-warning" role="alert">
+								{{ f.errors }}
+							</div>
+					{% endif %}
+
 				{% endfor %}
 		  	</div>
 		 	{% endfor %}

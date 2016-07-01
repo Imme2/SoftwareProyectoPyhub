@@ -66,6 +66,16 @@ class formPlato(forms.ModelForm):
         self.fields['precio'].widget.attrs.update({'class':'form-control'})
         self.fields['descripcion'].widget.attrs.update({'type':'text' ,'class':'form-control', 'placeholder':'Descripcion'})
 
+    def clean(self):
+        cleaned_data = super(formPlato, self).clean()
+
+        precio = cleaned_data.get('precio')
+
+        if precio < 0:
+            msg = "El precio de un plato no puede ser negativo!."
+            self.add_error('precio',msg)
+
+        return cleaned_data
 '''
       Forma para la relacion posee
 '''
