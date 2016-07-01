@@ -32,12 +32,12 @@
 				</tr>
 				{% for plato in formMenu %}
 				{% with x=forloop.counter|add:"-1" %} 
-					 {% if platos|get_by_index:x %}
-			    	<tr class="accordion-toggle" data-toggle="collapse" data-target="#demo{{ x }}">
+					<tr>
+					{% if platos|get_by_index:x %}
+			    	<td class="accordion-toggle" data-toggle="collapse" data-target="#demo{{ x }}">
 				    {% else %}
-						<tr>
+						<td>
 					{% endif %}
-						<td> 
 							{% if plato.instance.foto %}
 							<img src="{{ plato.instance.foto.url }}" height="100" width="100"/>
 							{% endif %}
