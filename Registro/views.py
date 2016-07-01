@@ -137,7 +137,7 @@ def editarUsuario(request):
         return HttpResponseRedirect('/registro/editar/proveedor')
     if request.method == "POST":
         userform = userForm(instance = request.user, data = request.POST)
-        profileform =  perfilForm(instance = request.user.perfil, data = request.POST)
+        profileform =  perfilForm(request.POST, request.FILES, instance = request.user.perfil)
         if userform.is_valid() and profileform.is_valid():
             userform.save(request)
             profileform.save(request)
