@@ -26,11 +26,28 @@
 			{% endfor %}
 			{% for field in formPerfil %}
 			<div class="form-group clearfix col-xs-6">
-				{{ field.label_tag }}{{ field }}
-		    	{% if field.errors %}
-				<div class="alert alert-warning" role="alert">
-					{{field.errors }}
-				</div>
+				{% if field.label == 'Foto' %}
+						<div class="form-group clearfix col-md-8">
+								<span class="glyphicon glyphicon-img" aria-hidden="true"></span>
+							<span class="sr-only"></span>
+							{% if foto.url != "" %}
+							<img src="{{ foto.url }}" height="100" width="100"/>
+							{% endif %}
+							{{ field.label_tag }}
+							{{ field }}
+		        			{% if field.errors %}
+		        				<div class="alert alert-warning" role="alert">
+									{{field.errors }}
+								</div>
+							{% endif %}
+					  	</div>
+		  		{% else %}
+					{{ field.label_tag }}{{ field }}
+			    	{% if field.errors %}
+					<div class="alert alert-warning" role="alert">
+						{{field.errors }}
+					</div>
+					{% endif %}
 				{% endif %}
 			</div>
 			{% endfor %}
