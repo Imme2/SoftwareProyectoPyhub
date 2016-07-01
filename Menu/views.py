@@ -128,9 +128,9 @@ def platoView(request, idPlato = None):
         return HttpResponseRedirect('/registro/logout')
     if request.method == "POST":
         if idPlato:
-            formPlat = formPlato(data = request.POST, instance = item.objects.get(idItem = idPlato))
+            formPlat = formPlato(request.POST, request.FILES, instance = item.objects.get(idItem = idPlato))
         else:
-            formPlat = formPlato(data = request.POST)
+            formPlat = formPlato(request.POST, request.FILES)
         formPose = formPosee(data = request.POST)
         if formPlat.is_valid():
             e = formPlat.save()
@@ -139,7 +139,7 @@ def platoView(request, idPlato = None):
             return HttpResponseRedirect('/menu/plato/{}'.format(e.idItem))
         else :
             if not formPlat.is_valid():
-                formPlat = formPlato(data = request.POST)
+                formPlat = formPlato(request.POST , request.FILES)
                 form = [formPlat]
                 extra = None
                 return render(request,'menu/editar2.html', {'Titulo': "Crear Plato",

@@ -250,11 +250,6 @@ class perfilForm(forms.ModelForm):
         super(perfilForm, self).__init__(*args, **kwargs)
         self.fields['foto'].widget = forms.FileInput()
 
-    def __init__(self, *args, **kwargs):
-        super(perfilForm, self).__init__(*args, **kwargs)
-        self.fields['foto'].widget = forms.FileInput()
-
-
 #    def save(self,request):
 #        m = super(perfilForm, self).save(commit = False)
 #        m.user = request.user
