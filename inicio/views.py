@@ -7,7 +7,8 @@ from Registro.models import parametro,item,ordenActual, orden, resena
 from Registro.views import esProveedor
 
 def expandir(item):
-    item.resena = [x.contenido for x in resena.objects.all() if item in x.orden.tieneRel.all()][:3]
+    item.resena = [x.contenido for x in resena.objects.all() if item in x.orden.tieneRel.all()]
+    item.resena = item.resena[-3:]
     return item
 
 '''
